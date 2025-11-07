@@ -29,19 +29,13 @@ h2 {
 }
 
 .IntroButton {
-  background-image: url(Images/EnterButton.png);
-  background-size: cover;
-  background-repeat: no-repeat;
-  background-position: center;
-
   position: fixed;
-  top: 50%;                   /* vertical center */
-  right: 5%;                  /* a bit away from right edge */
+  top: 62%;                   /* vertical center */
+  right: 13%;                  /* a bit away from right edge */
   transform: translateY(-50%);/* perfect vertical centering */
-
   display: block;
-  width:260px;               /* consistent size */
-  height: 200px;              /* match your image’s proportions */
+  width: 25%;         
+  height: 10%;    
   border: none;
   text-decoration: none;      /* remove underline */
   cursor: pointer;
@@ -49,7 +43,11 @@ h2 {
   z-index: 10;
 }
 
-
+.IntroImage {
+  width: 100%;               /* fill the anchor */
+  height: auto;              /* preserve aspect ratio */
+  display: block;
+}
 
 .IntroButton:hover {
   transform: translateY(-50%) scale(1.05);
