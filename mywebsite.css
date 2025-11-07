@@ -26,6 +26,22 @@ body:not(.index) {
 }
 
 
+
+.youtube-icon {
+  color: red;
+  font-size: 36px;
+  text-decoration: none;
+  display: inline-block;
+  margin-top: 5px;
+  transition: transform 0.2s ease, color 0.2s ease;
+}
+
+.youtube-icon:hover {
+  color: #ff4b4b;
+  transform: scale(1.3);
+}
+
+
 *,
 *::before,
 *::after {
@@ -39,7 +55,7 @@ main {
 }
 
 h1 {
-  font-size: 90px;
+  font-size: 70px;
   margin-top: 0;
   margin-bottom: 10px;
   padding: 10px;
@@ -112,69 +128,103 @@ body.intro-page {
 
 .contents{
   background-color: black;
-  border: 2px double;
   border-radius: 25px;
-  font-size: 40px;
-  text-align:center;
+  font-size: clamp(20px, 2.3vw, 25px);
+  text-align: center;
   opacity: 0.90;
+  color: white;
+
   display: inline-block;
-  width:300px;
-  height: 250px;
   padding: 40px;
+
+  /* 🔒 More stable positioning across screens */
   position: fixed;
-  top: 600px;
-  left: 200px;
+  top: 50%;              /* relative to viewport height */
+  left: 4%;             /* relative to viewport width */
+  transform: translateY(-50%);  /* vertical centering around that top */
+
+  /* 🔓 Let box grow with links/text */
+  width: 20%;
+  min-width: 180px;      /* don’t get too tiny on small screens */
+  max-width: 260px;
+  height: auto;
+
+  box-sizing: border-box;
+  word-wrap: break-word;
 }
+
+
 
 .contentsmb{
   background-color: black;
-  border: 2px double;
   border-radius: 25px;
-  font-size: 40px;
-  text-align:center;
+  font-size: clamp(20px, 2.3vw, 32px);
+  text-align: center;
   opacity: 0.90;
+  color: white;
+
   display: inline-block;
-  width:300px;
-  height: 100px;
   padding: 40px;
+
+  /* 🔒 More stable positioning across screens */
   position: fixed;
-  top: 685px;
-  left: 200px;
+  top: 50%;              /* relative to viewport height */
+  left: 8%;             /* relative to viewport width */
+  transform: translateY(-50%);  /* vertical centering around that top */
+
+  /* 🔓 Let box grow with links/text */
+  width: 20%;
+  min-width: 180px;      /* don’t get too tiny on small screens */
+  max-width: 260px;
+  height: auto;
+
+  box-sizing: border-box;
+  word-wrap: break-word;
 }
 
-.explanation{
+.explanation {
   background-color: black;
-  border: 2px double;
   border-radius: 25px;
-  font-size: 35px;
-  text-align:left;
+  font-size: clamp(20px, 2.3vw, 20px);
+  text-align: left;
   opacity: 0.90;
   display: inline-block;
-  width:1000px;
-  height: 900px;
+  width: 50%;
   padding: 40px;
   position: absolute;
-  top: 45%;
+  top: 50%;
   left: 55%;
   transform: translate(-50%, -50%);
+  box-sizing: border-box;
+  font-weight: normal;
+  overflow: hidden; /* optional: hides overflowing elements if you want */
+  height: auto; /* let the box expand with content */
+  max-width: 90vw; /* keep it responsive on smaller screens */
+  max-height: none; /* no fixed height */
+  word-wrap: break-word; /* break long words if necessary */
 }
+
 
 .memorybox{
   background-color: black;
-  border: 2px double;
   border-radius: 25px;
-  font-size: 35px;
-  text-align:center;
+  font-size: clamp(20px, 2.3vw, 20px);
+  text-align: center;
   opacity: 0.90;
   display: inline-block;
-  width:1000px;
-  height: 900px;
+  width: 50%;
   padding: 40px;
   position: absolute;
-  top: 45%;
+  top: 50%;
   left: 55%;
   transform: translate(-50%, -50%);
-  font-weight: bold;
+  box-sizing: border-box;
+  font-weight: normal;
+  overflow: hidden; /* optional: hides overflowing elements if you want */
+  height: auto; /* let the box expand with content */
+  max-width: 90vw; /* keep it responsive on smaller screens */
+  max-height: none; /* no fixed height */
+  word-wrap: break-word; /* break long words if necessary */
 }
 
 a {
@@ -199,20 +249,27 @@ a:active {
   background-color: black;
   border: 2px double;
   border-radius: 25px;
-  width: 1700px;
-  min-height: 1000px;
-  margin: 100px 100px 100px 800px;     
-  padding: 40px;            
   box-sizing: border-box;
-  /*display: flex;
-  flex-direction: column;
-  align-items: center;  
-  text-align: center; 
-  overflow: visible;*/       
+  padding: 40px;
+
+  /* ✅ Responsive width & position */
+  width: 60vw;                       /* photos box is 60% of screen width */
+  margin: 100px 5vw 100px 28vw;      /* top, right, bottom, left */
+
+  min-height: 0;                     /* let height grow with content */
 }
 
+
+.images h1 {
+  font-size: 50px;  /* smaller title */
+}
+
+.images h2 {
+  font-size: 28px;  /* smaller subtitle */
+}
 .images h1, 
 .images h2 {
+
   text-align: center;
   width: 100%;
   margin-top: 0;
@@ -234,23 +291,8 @@ a:active {
 
 .images figcaption{
   margin-top: 8px;
-  font-size: 30px;
+  font-size: 15px;
   color: white;
   opacity: 0.85;
 }
 
-
-
-.youtube-icon {
-  color: red;
-  font-size: 36px;
-  text-decoration: none;
-  display: inline-block;
-  margin-top: 5px;
-  transition: transform 0.2s ease, color 0.2s ease;
-}
-
-.youtube-icon:hover {
-  color: #ff4b4b;
-  transform: scale(1.3);
-}
