@@ -2,12 +2,18 @@ body {
   background-image: url(Images/BackgroundImage.JPG);
   background-repeat: no-repeat;
   background-size: cover;
-  background-position: 100% 68%;
+  background-position: 90% 65%;
   background-attachment: fixed;
   margin: 0; 
   font-family: monospace;
   color: white;
   margin: 0;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
 }
 
 main { padding-top: 32px; } 
@@ -24,28 +30,31 @@ h2 {
 
 .IntroButton {
   background-image: url(Images/EnterButton.png);
-  background-size: contain;
+  background-size: cover;
   background-repeat: no-repeat;
   background-position: center;
 
-  position: fixed;        /* makes it stay at bottom of screen */
-  left: 50%;                /* center horizontally */
-  top: 64%;                 /* <<— move it up/down with this */
-  transform: translateX(-50%); /* perfect centering */
+  position: fixed;
+  top: 50%;                   /* vertical center */
+  right: 5%;                  /* a bit away from right edge */
+  transform: translateY(-50%);/* perfect vertical centering */
 
   display: block;
+  width:260px;               /* consistent size */
+  height: 200px;              /* match your image’s proportions */
   border: none;
-  border-radius: 20px;
-  cursor:pointer;
-  transition: transform 0.9s ease;
-   
-  width: 1000px;   /* optional: set width for consistency */
-  height: 900px;  /* adjust height so the image fits */
+  text-decoration: none;      /* remove underline */
+  cursor: pointer;
+  transition: transform 0.3s ease;
+  z-index: 10;
 }
 
+
+
 .IntroButton:hover {
-  transform: translateX(-50%) scale(1.05);
+  transform: translateY(-50%) scale(1.05);
 }
+
 
 .introduction {
   background-color: black;
@@ -56,7 +65,7 @@ h2 {
   opacity: 0.90;
   display: inline-block;
   width:1000px;
-  height: 900;
+  height: 900px;
   padding: 40px;
   position: absolute;
   top: 50%;
@@ -109,7 +118,7 @@ h2 {
   opacity: 0.90;
   display: inline-block;
   width:1000px;
-  height: 900;
+  height: 900px;
   padding: 40px;
   position: absolute;
   top: 45%;
@@ -126,7 +135,7 @@ h2 {
   opacity: 0.90;
   display: inline-block;
   width:1000px;
-  height: 900;
+  height: 900px;
   padding: 40px;
   position: absolute;
   top: 45%;
@@ -169,7 +178,8 @@ a:active {
   overflow: visible;*/       
 }
 
-.images h1, h2 {
+.images h1, 
+.images h2 {
   text-align: center;
   width: 100%;
   margin-top: 0;
