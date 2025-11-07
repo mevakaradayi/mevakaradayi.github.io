@@ -7,9 +7,59 @@
     <link href="/mywebsite.css" rel="stylesheet" type="text/css" media="all">
   </head>
   <body>
-    <a href="Introduction.html" class="IntroButton">
-       <img src="Images/EnterButton.png" alt="Enter" class="IntroImage">
-    </a>
+  <!-- 1) This MUST exist -->
+   <img src="Images/scroll.png" class="ScrollImage">
+  <div class="background"></div>
+
+  <!-- 2) Your existing content goes inside <main> -->
+    <main>
+      <a href="Introduction.html" class="IntroButton">
+        <img src="Images/EnterButton.png" alt="Enter" class="IntroImage">
+      </a>
+
+    <!-- all your other boxes: .introduction, .contents, .images, etc -->
+    </main>
+
+    <script>
+      const bg = document.querySelector('.background');
+      const introButton = document.querySelector('.IntroButton');
+
+      const maxScale = 1.4;  // zoomed in at top
+      const minScale = 1.0;  // zoomed out at bottom
+      const startPosY = 30;  // focus around top text
+      const endPosY = 80;    // scroll down to see bottom text
+
+      function updateBackgroundZoom() {
+        const doc = document.documentElement;
+        const scrollTop = window.scrollY;
+        const maxScroll = doc.scrollHeight - window.innerHeight;
+        const t = maxScroll > 0 ? Math.min(scrollTop / maxScroll, 1) : 0;
+
+        // zoom out
+        const scale = maxScale - (maxScale - minScale) * t;
+        bg.style.transform = `scale(${scale})`;
+
+        // pan background down
+        const currentPosY = startPosY + (endPosY - startPosY) * t;
+        bg.style.backgroundPosition = `center ${currentPosY}%`;
+
+        // show IntroButton only when user scrolls a bit
+        if (scrollTop > window.innerHeight * 0.2) {
+          introButton.style.opacity = 1;
+          introButton.style.pointerEvents = "auto";
+        } else {
+          introButton.style.opacity = 0;
+          introButton.style.pointerEvents = "none";
+        }
+      }
+
+      window.addEventListener('scroll', updateBackgroundZoom);
+      window.addEventListener('load', updateBackgroundZoom);
+      window.addEventListener('resize', updateBackgroundZoom);
+    </script>
+
+
   </body>
+
 </html>
 

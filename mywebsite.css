@@ -1,14 +1,30 @@
 body {
+  height: 100%;
+  margin: 0; 
+  padding: 0;
+  overflow-x: hidden;
+  font-family: monospace;
+  color: white;
+}
+body:not(.index) {
   background-image: url(Images/BackgroundImage.JPG);
   background-repeat: no-repeat;
   background-size: cover;
-  background-position: 90% 65%;
+  background-position: center 30%;
   background-attachment: fixed;
-  margin: 0; 
-  font-family: monospace;
-  color: white;
-  margin: 0;
 }
+.background {
+  position: fixed;
+  inset: 0;
+  background-image: url(Images/BackgroundImage.JPG);
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center 30%;  /* starting focus near the top text */
+  transform-origin: center 30%;
+  z-index: -1;
+  transition: transform 0.25s ease-out;
+}
+
 
 *,
 *::before,
@@ -16,7 +32,11 @@ body {
   box-sizing: border-box;
 }
 
-main { padding-top: 32px; } 
+main {
+  min-height: 250vh;  /* gives enough scroll space */
+  position: relative;
+  z-index: 1;         /* ensures content above background */
+}
 
 h1 {
   font-size: 90px;
@@ -30,45 +50,60 @@ h2 {
 
 .IntroButton {
   position: fixed;
-  top: 62%;                   /* vertical center */
-  right: 13%;                  /* a bit away from right edge */
-  transform: translateY(-50%);/* perfect vertical centering */
+  top: 62%;
+  right: 13%;
+  transform: translateY(-50%);
   display: block;
-  width: 25%;         
-  height: 10%;    
+  width: 25%;
+  height: 10%;
   border: none;
-  text-decoration: none;      /* remove underline */
+  text-decoration: none;
   cursor: pointer;
-  transition: transform 0.3s ease;
+  transition: transform 0.3s ease, opacity 0.6s ease;
   z-index: 10;
+  opacity: 0; /* start hidden */
+  pointer-events: none; /* not clickable when hidden */
 }
 
 .IntroImage {
-  width: 100%;               /* fill the anchor */
-  height: auto;              /* preserve aspect ratio */
+  width: 100%;
+  height: auto;
   display: block;
+}
+
+.ScrollImage{
+  width: 40%;
+  height: auto;
+  display: block;
+
 }
 
 .IntroButton:hover {
   transform: translateY(-50%) scale(1.05);
 }
 
+body.intro-page {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column; /* ensures the content stays stacked vertically */
+  text-align: center;
+}
 
 .introduction {
-  background-color: black;
-  border: 2px double;
+  background-color: rgba(0, 0, 0, 0.9);
   border-radius: 25px;
-  font-size: 35px;
-  text-align:center;
-  opacity: 0.90;
-  display: inline-block;
-  width:1000px;
-  height: 900px;
-  padding: 40px;
-  position: absolute;
+  text-align: center;
+  box-sizing: border-box;
+
+  width: min(90vw, 700px);          /* responsive width */
+
   top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+  right: 50%;
+
+  padding: clamp(1.5rem, 4vw, 3rem);
+  font-size: clamp(1rem, 2.2vw, 1.3rem);
 }
 
 .introduction a {
