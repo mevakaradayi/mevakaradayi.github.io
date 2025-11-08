@@ -8,7 +8,7 @@
   </head>
   <body>
   <!-- 1) This MUST exist -->
-   <img src="Images/scroll.png" class="ScrollImage">
+   <img src="Images/arrow.png" class="ScrollImage">
   <div class="background"></div>
 
   <!-- 2) Your existing content goes inside <main> -->
@@ -23,8 +23,9 @@
     <script>
       const bg = document.querySelector('.background');
       const introButton = document.querySelector('.IntroButton');
+      const scrollImage = document.querySelector('.ScrollImage');
 
-      const maxScale = 1.4;  // zoomed in at top
+      const maxScale = 1.3;  // zoomed in at top
       const minScale = 1.0;  // zoomed out at bottom
       const startPosY = 30;  // focus around top text
       const endPosY = 80;    // scroll down to see bottom text
@@ -51,6 +52,15 @@
           introButton.style.opacity = 0;
           introButton.style.pointerEvents = "none";
         }
+        // hide the scroll arrow once user starts scrolling
+        if (scrollTop > window.innerHeight * 0.05) {
+          scrollImage.style.opacity = 0;
+          scrollImage.style.pointerEvents = "none";
+        } else {
+          scrollImage.style.opacity = 1;
+          scrollImage.style.pointerEvents = "auto";
+        }
+
       }
 
       window.addEventListener('scroll', updateBackgroundZoom);
