@@ -1,10 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+
   <meta charset="UTF-8">
   <title>My Memory Box</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link href="https://fonts.googleapis.com/css2?family=Griffy&display=swap" rel="stylesheet">
+  
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -23,7 +25,7 @@
       position: relative;
       text-align: center;
       cursor: pointer;
-      padding: 40px 60px;
+      padding: 0px 60px;
       border-radius: 24px;
       z-index: 10;
       transition: transform 0.3s ease;
@@ -48,10 +50,10 @@
     }
 
     .memory-box-image {
-      width: 600px;
+      width: 400px;
       max-width: 70vw;
       display: block;
-      margin: 0 auto 18px;
+      margin: 0 auto 10px;
       transition: transform 0.25s ease;
     }
 
@@ -63,7 +65,7 @@
       font-size: 24px;
       letter-spacing: 0.08em;
       text-transform: uppercase;
-      margin-bottom: 6px;
+      margin-bottom: 3px;
     }
 
     .memory-subtitle {
@@ -90,11 +92,13 @@
     .memory-photo {
       position: absolute;
       /* …your existing styles… */
+      opacity: 0;  
       pointer-events: none;   /* default */
     }
 
     /* when box is open (.active), only the images accept clicks */
     .memory-photos.active .memory-photo {
+      opacity: 1; 
       pointer-events: auto;
     }
     /* when the box is open, let clicks pass through it */
@@ -165,7 +169,27 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+    overflow: hidden;          /* keep it neat, scroll only inside images area */
   }
+  .photo-modal-images {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    justify-content: center;
+    align-items: center;
+    max-height: 60vh;          /* limit height */
+    overflow-y: auto;          /* <-- THIS enables scrolling */
+    margin-top: 4px;
+    padding-right: 4px;        /* small padding so scrollbar doesn't hug images */
+  }
+
+  .photo-modal-images img {
+    max-width: min(48%, 260px);  /* two per row on big screens */
+    max-height: 40vh;
+    border-radius: 16px;
+    display: block;
+  }
+
 
   /* Close button inside modal */
   .photo-modal-close {
@@ -205,17 +229,17 @@
   </div>
 
   <div class="memory-photos" id="memoryPhotos">
-    <img src="Images/Abigail.jpg" alt="" class="memory-photo">
-    <img src="Images/AbigailArka.jpg" alt="" class="memory-photo">
+    <img src="Images/Abigail.jpg" alt="" class="memory-photo" data-group="Abigail">
+    <img src="Images/AbigailArka.jpg" alt="" class="memory-photo" data-group="Abigail">
     <img src="Images/ArzuNisan.jpg" alt="" class="memory-photo">
     <img src="Images/Bagel.jpg" alt="" class="memory-photo">
     <img src="Images/DC.jpg" alt="" class="memory-photo">
     <img src="Images/GLLSRetreat.jpg" alt="" class="memory-photo">
-    <img src="Images/Jeong.jpg" alt="" class="memory-photo">
-    <img src="Images/Jeong2.jpg" alt="" class="memory-photo">
+    <img src="Images/Jeong.jpg" alt="" class="memory-photo" data-group="Jeong">
+    <img src="Images/Jeong2.jpg" alt="" class="memory-photo" data-group="Jeong">
     <img src="Images/Kart1.jpg" alt="" class="memory-photo">
-    <img src="Images/Kart2.jpg" alt="" class="memory-photo">
-    <img src="Images/Kart2Arka.jpg" alt="" class="memory-photo">
+    <img src="Images/Kart2.jpg" alt="" class="memory-photo" data-group="Kart2">
+    <img src="Images/Kart2Arka.jpg" alt="" class="memory-photo" data-group="Kart2">
     <img src="Images/Kart3.jpg" alt="" class="memory-photo">
     <img src="Images/Kart5.jpg" alt="" class="memory-photo">
     <img src="Images/Kart6.jpg" alt="" class="memory-photo">
@@ -228,8 +252,8 @@
     <img src="Images/Kart13.jpg" alt="" class="memory-photo">
     <img src="Images/Kart14.jpg" alt="" class="memory-photo">
     <img src="Images/KocMentor.jpg" alt="" class="memory-photo">
-    <img src="Images/Liege.jpg" alt="" class="memory-photo">
-    <img src="Images/LiegeArka.jpg" alt="" class="memory-photo">
+    <img src="Images/Liege.jpg" alt="" class="memory-photo" data-group="Liege">
+    <img src="Images/LiegeArka.jpg" alt="" class="memory-photo" data-group="Liege">
     <img src="Images/MET.jpg" alt="" class="memory-photo">
     <img src="Images/MootCourt.jpg" alt="" class="memory-photo">
     <img src="Images/NYC copy.jpg" alt="" class="memory-photo">
@@ -240,21 +264,25 @@
     <img src="Images/SFNapkin.jpg" alt="" class="memory-photo">
     <img src="Images/SivasFlight.jpg" alt="" class="memory-photo">
     <img src="Images/StarKoc.jpg" alt="" class="memory-photo">
-    <img src="Images/TeaShop.jpg" alt="" class="memory-photo">
-    <img src="Images/TeaShop2.jpg" alt="" class="memory-photo">
+    <img src="Images/TeaShop.jpg" alt="" class="memory-photo" data-group="TeaShop">
+    <img src="Images/TeaShop2.jpg" alt="" class="memory-photo" data-group="TeaShop">
     <img src="Images/Texas.jpg" alt="" class="memory-photo">
   </div>
 
   <!-- Close Box Button -->
   <button id="closeButton">✕ Close Box</button>
 <!-- Clicked Photo Modal -->
-  <div id="photoModal" class="photo-modal-backdrop">
-    <div class="photo-modal">
-      <button id="photoModalClose" class="photo-modal-close">✕</button>
-      <img id="photoModalImage" src="" alt="">
-      <p id="photoModalCaption"></p>
-    </div>
+ <div id="photoModal" class="photo-modal-backdrop">
+  <div class="photo-modal">
+    <button id="photoModalClose" class="photo-modal-close">✕</button>
+
+    <!-- container for one or more images -->
+    <div id="photoModalImages" class="photo-modal-images"></div>
+
+    <p id="photoModalCaption"></p>
   </div>
+</div>
+
 
 
 <script>
@@ -262,33 +290,76 @@
     const boxWrapper = document.getElementById("memoryBox");
     const boxImage   = document.getElementById("memoryBoxImage");
     const clickText  = document.getElementById("clickText");
-    const photos     = document.querySelectorAll(".memory-photo");
+    const photos     = Array.from(document.querySelectorAll(".memory-photo"));
+    const groups = {};
+    const photoUnits = [];  // each unit = { photos: [img, img, ...] }
+
+    photos.forEach((photo) => {
+      const groupId = photo.dataset.group;
+      if (groupId) {
+        if (!groups[groupId]) {
+          groups[groupId] = [];
+        }
+        groups[groupId].push(photo);
+      } else {
+        // single, ungrouped photo
+        photoUnits.push({ photos: [photo] });
+      }
+    });
+
+    // add grouped sets as units too
+    Object.values(groups).forEach((arr) => {
+      photoUnits.push({ photos: arr });
+    });
     const closeBtn   = document.getElementById("closeButton");
     const photosContainer = document.getElementById("memoryPhotos");
 
     const modal      = document.getElementById("photoModal");
-    const modalImg   = document.getElementById("photoModalImage");
+    const modalImagesContainer = document.getElementById("photoModalImages");
     const modalCap   = document.getElementById("photoModalCaption");
     const modalClose = document.getElementById("photoModalClose");
+
 
     // state
     let isOpen = false;
 
     // ---- PHOTO MODAL ----
-    photos.forEach(function (photo) {
-      photo.addEventListener("click", function () {
-        if (!isOpen) return; // only when box is open
+   photos.forEach(function (photo) {
+    photo.addEventListener("click", function () {
+      if (!isOpen) return; // only when box is open
 
-        const src = photo.getAttribute("src");
-        const alt = photo.getAttribute("alt") || "";
+      // determine which photos are in the same group as the clicked one
+      const groupId = photo.dataset.group;
+      let clickedSet;
 
-        modalImg.src = src;
-        modalImg.alt = alt;
-        modalCap.textContent = alt;
+      if (groupId && groups[groupId]) {
+        clickedSet = groups[groupId];      // all photos with same data-group
+      } else {
+        clickedSet = [photo];              // just this one
+      }
 
-        modal.classList.add("visible");
+      // clear old images
+      modalImagesContainer.innerHTML = "";
+
+      // add all photos in the set to the modal
+      const captions = [];
+      clickedSet.forEach((p) => {
+        const big = document.createElement("img");
+        big.src = p.getAttribute("src");
+        const alt = p.getAttribute("alt") || "";
+        big.alt = alt;
+        if (alt) captions.push(alt);
+        modalImagesContainer.appendChild(big);
       });
+
+      // caption is combined alts, if you want
+      modalCap.textContent = captions.join(" · ");
+
+      modal.classList.add("visible");
     });
+  });
+
+
 
     function closePhotoModal() {
       modal.classList.remove("visible");
@@ -357,9 +428,9 @@
       const minR = Math.max(rect.width, rect.height) * 0.9;
       const maxR = Math.min(vw, vh) * 0.7;
 
-      photos.forEach(function (photo, index) {
-        const baseT = index / photos.length;
-        const jitter = (Math.random() - 0.5) * (1 / photos.length);
+      photoUnits.forEach(function (unit, unitIndex) {
+        const baseT = unitIndex / photoUnits.length;
+        const jitter = (Math.random() - 0.5) * (1 / photoUnits.length);
         const t = baseT + jitter;
         const angle = t * Math.PI * 2;
 
@@ -371,33 +442,43 @@
         targetX = Math.min(vw - margin, Math.max(margin, targetX));
         targetY = Math.min(vh - margin, Math.max(margin, targetY));
 
-        const rotation = randomBetween(-25, 25);
-        const delay = index * 90;
+        const baseRotation = randomBetween(-25, 25);
+        const delay = unitIndex * 90;
 
-        // start at box center
-        photo.style.left = centerX + "px";
-        photo.style.top  = centerY + "px";
-        photo.style.transition = "none";
-        photo.style.opacity = 0;
-        photo.style.transform = "translate(-50%, -50%) scale(0.2)";
+        // spread photos within the same unit slightly around the shared center
+        const spread = 30; // px
 
-        requestAnimationFrame(function () {
+        unit.photos.forEach(function (photo, idx) {
+          const offsetAngle = (idx - (unit.photos.length - 1) / 2) * 0.25;
+          const offsetX = Math.cos(offsetAngle) * spread * idx;
+          const offsetY = Math.sin(offsetAngle) * spread * idx;
+
+          // start at box center
+          photo.style.left = centerX + "px";
+          photo.style.top  = centerY + "px";
+          photo.style.transition = "none";
+          photo.style.opacity = 0;
+          photo.style.transform = "translate(-50%, -50%) scale(0.2)";
+
           requestAnimationFrame(function () {
-            photo.style.transition =
-              "left 0.9s ease-out " + delay + "ms, " +
-              "top 0.9s ease-out " + delay + "ms, " +
-              "transform 0.9s ease-out " + delay + "ms, " +
-              "opacity 0.9s ease-out " + delay + "ms";
+            requestAnimationFrame(function () {
+              photo.style.transition =
+                "left 0.9s ease-out " + delay + "ms, " +
+                "top 0.9s ease-out " + delay + "ms, " +
+                "transform 0.9s ease-out " + delay + "ms, " +
+                "opacity 0.9s ease-out " + delay + "ms";
 
-            photo.style.left = targetX + "px";
-            photo.style.top  = targetY + "px";
-            photo.style.opacity = 1;
-            photo.style.transform =
-              "translate(-50%, -50%) scale(1) rotate(" + rotation + "deg)";
+              photo.style.left = (targetX + offsetX) + "px";
+              photo.style.top  = (targetY + offsetY) + "px";
+              photo.style.opacity = 1;
+              photo.style.transform =
+                "translate(-50%, -50%) scale(1) rotate(" + baseRotation + "deg)";
+            });
           });
         });
       });
     }
+
 
     function randomBetween(min, max) {
       return Math.random() * (max - min) + min;
