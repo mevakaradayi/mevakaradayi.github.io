@@ -32,7 +32,7 @@
     .memory-box-wrapper::before {
       content: "";
       position: absolute;
-      inset: -60px;
+      inset: -5px;
       background: radial-gradient(circle, rgba(255, 215, 160, 0.9) 0%, rgba(255, 215, 160, 0) 55%);
       opacity: 0;
       filter: blur(28px);
@@ -83,19 +83,23 @@
     .memory-photos {
       position: fixed;
       inset: 0;
-      pointer-events: none;
+      pointer-events: none;   /* container never blocks anything */
       z-index: 5;
     }
 
     .memory-photo {
       position: absolute;
-      width: 130px;
-      max-width: 30vw;
-      border-radius: 14px;
-      box-shadow: 0 16px 30px rgba(0, 0, 0, 0.45),
-                  0 0 0 1px rgba(255, 255, 255, 0.05);
-      opacity: 0;
-      transform: translate(-50%, -50%) scale(0.2);
+      /* …your existing styles… */
+      pointer-events: none;   /* default */
+    }
+
+    /* when box is open (.active), only the images accept clicks */
+    .memory-photos.active .memory-photo {
+      pointer-events: auto;
+    }
+    /* when the box is open, let clicks pass through it */
+    .memory-box-wrapper.open {
+      pointer-events: none;
     }
 
     @media (min-width: 900px) {
@@ -130,6 +134,66 @@
       background: rgba(255, 255, 255, 0.25);
       transform: scale(1.05);
     }
+    .photo-modal-backdrop {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.65);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 40;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.25s ease;
+  }
+
+  /* visible state */
+  .photo-modal-backdrop.visible {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  /* Modal card */
+  .photo-modal {
+    background: rgba(0, 0, 0, 0.92);
+    border-radius: 24px;
+    padding: 22px 24px 18px;
+    max-width: min(80vw, 600px);
+    max-height: 80vh;
+    box-shadow: 0 18px 40px rgba(0, 0, 0, 0.7);
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  /* Close button inside modal */
+  .photo-modal-close {
+    position: absolute;
+    top: 10px;
+    right: 12px;
+    border: none;
+    background: transparent;
+    color: #fdf6e3;
+    font-size: 20px;
+    cursor: pointer;
+  }
+
+  /* Big version of image */
+  .photo-modal img {
+    max-width: 100%;
+    max-height: 60vh;
+    border-radius: 16px;
+    display: block;
+  }
+
+  /* Caption text (from alt) */
+  #photoModalCaption {
+    margin-top: 10px;
+    font-size: 14px;
+    opacity: 0.9;
+    text-align: center;
+}
   </style>
 </head>
 <body>
@@ -183,153 +247,164 @@
 
   <!-- Close Box Button -->
   <button id="closeButton">✕ Close Box</button>
+<!-- Clicked Photo Modal -->
+  <div id="photoModal" class="photo-modal-backdrop">
+    <div class="photo-modal">
+      <button id="photoModalClose" class="photo-modal-close">✕</button>
+      <img id="photoModalImage" src="" alt="">
+      <p id="photoModalCaption"></p>
+    </div>
+  </div>
 
-  <script>
-  const boxWrapper = document.getElementById("memoryBox");
-  const boxImage   = document.getElementById("memoryBoxImage");
-  const clickText  = document.getElementById("clickText");
-  const photos     = document.querySelectorAll(".memory-photo");
-  const closeBtn   = document.getElementById("closeButton");
 
-  let isOpen = false;
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const boxWrapper = document.getElementById("memoryBox");
+    const boxImage   = document.getElementById("memoryBoxImage");
+    const clickText  = document.getElementById("clickText");
+    const photos     = document.querySelectorAll(".memory-photo");
+    const closeBtn   = document.getElementById("closeButton");
+    const photosContainer = document.getElementById("memoryPhotos");
 
-  boxWrapper.addEventListener("click", () => {
-    if (isOpen) return;
-    isOpen = true;
-    boxWrapper.classList.add("open");
-    boxImage.src = "Images/box-open.png";
-    clickText.classList.add("hidden");
-    closeBtn.classList.add("visible");
-    scatterPhotos();
-  });
+    const modal      = document.getElementById("photoModal");
+    const modalImg   = document.getElementById("photoModalImage");
+    const modalCap   = document.getElementById("photoModalCaption");
+    const modalClose = document.getElementById("photoModalClose");
 
-  // closeBox fonksiyonunu BURADA kullanıyoruz
-  closeBtn.addEventListener("click", closeBox);
+    // state
+    let isOpen = false;
 
-  function scatterPhotos() {
-    const rect   = boxWrapper.getBoundingClientRect();
-    const startX = rect.left + rect.width / 2;
-    const startY = rect.top  + rect.height / 2;
+    // ---- PHOTO MODAL ----
+    photos.forEach(function (photo) {
+      photo.addEventListener("click", function () {
+        if (!isOpen) return; // only when box is open
 
-    const vw = window.innerWidth;
-    const vh = window.innerHeight;
+        const src = photo.getAttribute("src");
+        const alt = photo.getAttribute("alt") || "";
 
-    const edgeMargin = 120;
+        modalImg.src = src;
+        modalImg.alt = alt;
+        modalCap.textContent = alt;
 
-    const center = {
-      left:   rect.left  - 160,
-      right:  rect.right + 160,
-      top:    rect.top   - 220,
-      bottom: rect.bottom + 220
-    };
-
-    const zones = [];
-
-    // ÜST BANT
-    if (edgeMargin < center.top) {
-      zones.push({
-        xMin: edgeMargin,
-        xMax: vw - edgeMargin,
-        yMin: edgeMargin,
-        yMax: center.top
+        modal.classList.add("visible");
       });
+    });
+
+    function closePhotoModal() {
+      modal.classList.remove("visible");
     }
 
-    // ALT BANT
-    if (center.bottom < vh - edgeMargin) {
-      zones.push({
-        xMin: edgeMargin,
-        xMax: vw - edgeMargin,
-        yMin: center.bottom,
-        yMax: vh - edgeMargin
+    modalClose.addEventListener("click", closePhotoModal);
+
+    modal.addEventListener("click", function (e) {
+      if (e.target === modal) {
+        closePhotoModal();
+      }
+    });
+
+    document.addEventListener("keydown", function (e) {
+      if (e.key === "Escape") {
+        closePhotoModal();
+      }
+    });
+
+    // ---- BOX OPEN ----
+    boxWrapper.addEventListener("click", function () {
+      if (isOpen) return;
+
+      console.log("Box clicked"); // debug: you should see this in console
+
+      isOpen = true;
+      boxWrapper.classList.add("open");
+      boxImage.src = "Images/box-open.png";
+      clickText.classList.add("hidden");
+      closeBtn.classList.add("visible");
+      photosContainer.classList.add("active");
+
+      scatterPhotos();
+    });
+
+    // ---- BOX CLOSE ----
+    closeBtn.addEventListener("click", closeBox);
+
+    function closeBox() {
+      closeBtn.classList.remove("visible");
+
+      photos.forEach(function (photo) {
+        photo.style.transition = "opacity 0.4s ease";
+        photo.style.opacity = 0;
       });
+
+      setTimeout(function () {
+        isOpen = false;
+        boxWrapper.classList.remove("open");
+        boxImage.src = "Images/box-close.png";
+        clickText.classList.remove("hidden");
+        photosContainer.classList.remove("active");
+      }, 500);
     }
 
-    // SOL BANT
-    if (edgeMargin < center.left) {
-      zones.push({
-        xMin: edgeMargin,
-        xMax: center.left,
-        yMin: Math.max(edgeMargin, center.top),
-        yMax: Math.min(vh - edgeMargin, center.bottom)
-      });
-    }
+    // ---- SCATTER PHOTOS ----
+    function scatterPhotos() {
+      const rect = boxWrapper.getBoundingClientRect();
+      const centerX = rect.left + rect.width / 2;
+      const centerY = rect.top + rect.height / 2;
 
-    // SAĞ BANT
-    if (center.right < vw - edgeMargin) {
-      zones.push({
-        xMin: center.right,
-        xMax: vw - edgeMargin,
-        yMin: Math.max(edgeMargin, center.top),
-        yMax: Math.min(vh - edgeMargin, center.bottom)
-      });
-    }
+      const vw = window.innerWidth;
+      const vh = window.innerHeight;
 
-    if (zones.length === 0) {
-      zones.push({
-        xMin: edgeMargin,
-        xMax: vw - edgeMargin,
-        yMin: edgeMargin,
-        yMax: vh - edgeMargin
-      });
-    }
+      const margin = 80;
+      const minR = Math.max(rect.width, rect.height) * 0.9;
+      const maxR = Math.min(vw, vh) * 0.7;
 
-    photos.forEach((photo, index) => {
-      const zone = zones[Math.floor(Math.random() * zones.length)];
+      photos.forEach(function (photo, index) {
+        const baseT = index / photos.length;
+        const jitter = (Math.random() - 0.5) * (1 / photos.length);
+        const t = baseT + jitter;
+        const angle = t * Math.PI * 2;
 
-      const targetX = randomBetween(zone.xMin, zone.xMax);
-      const targetY = randomBetween(zone.yMin, zone.yMax);
-      const rotation = randomBetween(-25, 25);
-      const delay = index * 90;
+        const radius = randomBetween(minR, maxR);
 
-      photo.style.left = startX + "px";
-      photo.style.top  = startY + "px";
-      photo.style.transition = "none";
-      photo.style.opacity = 0;
-      photo.style.transform = "translate(-50%, -50%) scale(0.2)";
+        let targetX = centerX + radius * Math.cos(angle);
+        let targetY = centerY + radius * Math.sin(angle);
 
-      requestAnimationFrame(() => {
-        requestAnimationFrame(() => {
-          photo.style.transition = `
-            left 0.9s ease-out ${delay}ms,
-            top 0.9s ease-out ${delay}ms,
-            transform 0.9s ease-out ${delay}ms,
-            opacity 0.9s ease-out ${delay}ms
-          `;
-          photo.style.left = targetX + "px";
-          photo.style.top  = targetY + "px";
-          photo.style.opacity = 1;
-          photo.style.transform =
-            `translate(-50%, -50%) scale(1) rotate(${rotation}deg)`;
+        targetX = Math.min(vw - margin, Math.max(margin, targetX));
+        targetY = Math.min(vh - margin, Math.max(margin, targetY));
+
+        const rotation = randomBetween(-25, 25);
+        const delay = index * 90;
+
+        // start at box center
+        photo.style.left = centerX + "px";
+        photo.style.top  = centerY + "px";
+        photo.style.transition = "none";
+        photo.style.opacity = 0;
+        photo.style.transform = "translate(-50%, -50%) scale(0.2)";
+
+        requestAnimationFrame(function () {
+          requestAnimationFrame(function () {
+            photo.style.transition =
+              "left 0.9s ease-out " + delay + "ms, " +
+              "top 0.9s ease-out " + delay + "ms, " +
+              "transform 0.9s ease-out " + delay + "ms, " +
+              "opacity 0.9s ease-out " + delay + "ms";
+
+            photo.style.left = targetX + "px";
+            photo.style.top  = targetY + "px";
+            photo.style.opacity = 1;
+            photo.style.transform =
+              "translate(-50%, -50%) scale(1) rotate(" + rotation + "deg)";
+          });
         });
       });
-    });
-  }
+    }
 
-  // ✨ NEW: kutuyu kapatan fonksiyon
-  function closeBox() {
-    // butonu gizle
-    closeBtn.classList.remove("visible");
-
-    // fotoğrafları fade-out yap
-    photos.forEach((photo) => {
-      photo.style.transition = "opacity 0.4s ease";
-      photo.style.opacity = 0;
-    });
-
-    // biraz bekleyip kutuyu eski haline getir
-    setTimeout(() => {
-      isOpen = false;
-      boxWrapper.classList.remove("open");
-      boxImage.src = "Images/box-close.png"; // başlangıçtakiyle aynı dosya adı
-      clickText.classList.remove("hidden");
-    }, 500);
-  }
-
-  function randomBetween(min, max) {
-    return Math.random() * (max - min) + min;
-  }
+    function randomBetween(min, max) {
+      return Math.random() * (max - min) + min;
+    }
+  });
 </script>
+
 
 </body>
 </html>
