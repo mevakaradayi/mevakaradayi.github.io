@@ -307,3 +307,150 @@ a:active {
   opacity: 0.85;
 }
 
+/* ===== MOBILE RESPONSIVE ===== */
+@media (max-width: 768px) {
+  /* Headings */
+  h1 {
+    font-size: 36px;
+    padding: 5px;
+  }
+  h2 {
+    font-size: 24px;
+  }
+
+  /* Stack sidebar and content vertically */
+  .contents, .contentsmb {
+    position: relative;
+    top: auto;
+    left: auto;
+    transform: none;
+    width: 90%;
+    max-width: none;
+    min-width: unset;
+    margin: 20px auto;
+    padding: 25px;
+    font-size: 18px;
+  }
+
+  .explanation, .memorybox {
+    position: relative;
+    top: auto;
+    left: auto;
+    transform: none;
+    width: 92%;
+    margin: 20px auto;
+    padding: 25px;
+    font-size: 16px;
+  }
+
+  /* Images gallery */
+  .images {
+    width: 95vw;
+    margin: 20px auto;
+    padding: 20px;
+  }
+
+  .images h1 {
+    font-size: 28px;
+  }
+
+  .images h2 {
+    font-size: 20px;
+  }
+
+  .images img {
+    max-width: 90%;
+  }
+
+  .images figure {
+    margin: 0 0 25px 0;
+  }
+
+  .images figcaption {
+    font-size: 13px;
+  }
+
+  /* Intro button - keep on right side but adjust size for mobile */
+  .IntroButton {
+    position: fixed;
+    top: 84%;
+    right: 5%;
+    left: auto;
+    transform: translateY(-50%);
+    width: 40%;
+    max-width: 200px;
+    height: auto;
+  }
+
+  /* Scroll indicator */
+  .ScrollImage {
+    width: 40px;
+    min-width: 40px;
+  }
+
+  /* Introduction box */
+  .introduction {
+    width: 95vw;
+    padding: 20px;
+    font-size: 16px;
+  }
+
+  /* YouTube icon - bigger tap target */
+  .youtube-icon {
+    font-size: 44px;
+    padding: 10px;
+  }
+
+  /* Links - disable hover zoom on touch */
+  a:hover {
+    transform: none;
+  }
+
+  a:active {
+    transform: scale(1.1);
+  }
+}
+
+/* Even smaller phones */
+@media (max-width: 480px) {
+  h1 {
+    font-size: 28px;
+  }
+  h2 {
+    font-size: 20px;
+  }
+
+  .contents, .contentsmb {
+    padding: 18px;
+    font-size: 16px;
+  }
+
+  .explanation, .memorybox {
+    padding: 18px;
+    font-size: 14px;
+  }
+
+  .images {
+    padding: 15px;
+  }
+
+  .images h1 {
+    font-size: 22px;
+  }
+
+  .images h2 {
+    font-size: 16px;
+  }
+
+  .introduction {
+    padding: 15px;
+    font-size: 14px;
+  }
+
+  /* Bounce animation - smaller on mobile */
+  @keyframes bounce {
+    0%, 100% { transform: translate(-50%, 0); }
+    50% { transform: translate(-50%, -25px); }
+  }
+}
+
