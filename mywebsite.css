@@ -215,6 +215,14 @@ body.intro-page {
   word-wrap: break-word; /* break long words if necessary */
 }
 
+.explanation p {
+  margin-top: 0;
+  margin-bottom: 0.5em;
+}
+
+.explanation p:last-child {
+  margin-bottom: 0;
+}
 
 .memorybox{
   background-color: black;
