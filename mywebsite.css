@@ -300,6 +300,61 @@ body.intro-page.intro-collage-page {
   margin-bottom: 0;
 }
 
+/* Who am I: bio + compact social panel */
+body.intro-page .whoami-main {
+  position: absolute;
+  top: 50%;
+  left: 55%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  width: 50%;
+  max-width: min(90vw, 560px);
+}
+
+body.intro-page .whoami-main .explanation {
+  position: relative;
+  top: auto;
+  left: auto;
+  transform: none;
+  width: 100%;
+  margin: 0;
+}
+
+.social-box {
+  background-color: black;
+  border-radius: 18px;
+  font-size: clamp(16px, 2vw, 18px);
+  text-align: center;
+  opacity: 0.9;
+  color: white;
+  padding: 14px 22px;
+  box-sizing: border-box;
+  width: fit-content;
+  min-width: 200px;
+  max-width: 100%;
+}
+
+.social-box-label {
+  margin: 0 0 0.4em;
+  font-size: clamp(12px, 1.6vw, 14px);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  opacity: 0.85;
+}
+
+.social-box-links {
+  margin: 0;
+  font-size: clamp(17px, 2.1vw, 20px);
+}
+
+.social-box-sep {
+  margin: 0 0.35em;
+  opacity: 0.7;
+}
+
 .memorybox{
   background-color: black;
   border-radius: 25px;
@@ -425,6 +480,29 @@ a:active {
     margin: 20px auto;
     padding: 25px;
     font-size: 16px;
+  }
+
+  body.intro-page .whoami-main {
+    position: relative;
+    top: auto;
+    left: auto;
+    transform: none;
+    width: 92%;
+    max-width: none;
+    margin: 20px auto;
+    align-items: stretch;
+  }
+
+  body.intro-page .whoami-main .explanation {
+    width: 100%;
+    margin: 0 auto;
+  }
+
+  .social-box {
+    align-self: center;
+    width: auto;
+    max-width: 100%;
+    padding: 12px 18px;
   }
 
   /* Images gallery */
