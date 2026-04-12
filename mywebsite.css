@@ -27,46 +27,6 @@ body:not(.index) {
 
 
 
-.social-icons {
-  display: inline-flex;
-  align-items: center;
-  gap: 18px;
-  margin-top: 5px;
-}
-
-.youtube-icon,
-.substack-icon {
-  text-decoration: none;
-  display: inline-block;
-  transition: transform 0.2s ease, color 0.2s ease;
-}
-
-.youtube-icon {
-  color: red;
-  font-size: 36px;
-}
-
-.youtube-icon:hover {
-  color: #ff4b4b;
-  transform: scale(1.3);
-}
-
-.substack-icon {
-  color: #ff6719;
-}
-
-.substack-icon svg {
-  width: 36px;
-  height: 36px;
-  display: block;
-}
-
-.substack-icon:hover {
-  color: #ff8f4d;
-  transform: scale(1.3);
-}
-
-
 *,
 *::before,
 *::after {
@@ -141,6 +101,97 @@ body.intro-page {
   justify-content: center;
   flex-direction: column; /* ensures the content stays stacked vertically */
   text-align: center;
+}
+
+body.intro-page.intro-collage-page {
+  display: block;
+  text-align: left;
+  margin: 0;
+  background-image: url(BackgroundImage.jpg);
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+}
+
+.intro-collage {
+  position: relative;
+  min-height: 100vh;
+  width: 100%;
+  z-index: 1;
+}
+
+.intro-hotspot {
+  position: absolute;
+  z-index: 2;
+  transform: translate(-50%, -50%);
+  transform-origin: center center;
+  line-height: 0;
+  text-decoration: none;
+  transition: transform 0.2s ease;
+}
+
+.intro-hotspot img {
+  display: block;
+  width: 100%;
+  height: auto;
+  vertical-align: middle;
+}
+
+.intro-collage .intro-hotspot {
+  color: transparent;
+}
+
+.intro-collage .intro-hotspot:hover,
+.intro-collage .intro-hotspot:focus-visible {
+  transform: translate(-50%, -50%) scale(1.12);
+  color: transparent;
+  outline: none;
+}
+
+.intro-collage .intro-hotspot:focus-visible {
+  box-shadow: 0 0 0 3px rgba(255, 200, 80, 0.85);
+  border-radius: 4px;
+}
+
+.intro-collage .intro-hotspot:active {
+  transform: translate(-50%, -50%) scale(1.08);
+}
+
+.intro-hotspot--recommendations {
+  left: 25%;
+  top: 20%;
+  width: min(22vw, 280px);
+}
+
+.intro-hotspot--memorybox {
+  left: 85%;
+  top: 16%;
+  width: min(22vw, 280px);
+}
+
+.intro-hotspot--photos {
+  left: 55%;
+  top: 48%;
+  width: min(22vw, 280px);
+}
+
+.intro-hotspot--whoami {
+  left: 10%;
+  top: 56%;
+  width: min(18vw, 220px);
+}
+
+.intro-hotspot--projects {
+  left: 35%;
+  top: 81%;
+  width: min(20vw, 260px);
+}
+
+.intro-hotspot--media {
+  left: 85%;
+  top: 80%;
+  width: min(19vw, 240px);
 }
 
 .introduction {
@@ -428,19 +479,40 @@ a:active {
     font-size: 16px;
   }
 
-  /* Social icons - bigger tap target */
-  .youtube-icon {
-    font-size: 44px;
-    padding: 10px;
+  .intro-hotspot--recommendations {
+    width: min(40vw, 230px);
+    left: 28%;
+    top: 18%;
   }
 
-  .substack-icon {
-    padding: 10px;
+  .intro-hotspot--memorybox {
+    width: min(38vw, 200px);
+    left: 82%;
+    top: 14%;
   }
 
-  .substack-icon svg {
-    width: 44px;
-    height: 44px;
+  .intro-hotspot--photos {
+    width: min(38vw, 200px);
+    left: 55%;
+    top: 46%;
+  }
+
+  .intro-hotspot--whoami {
+    width: min(32vw, 170px);
+    left: 14%;
+    top: 56%;
+  }
+
+  .intro-hotspot--projects {
+    width: min(34vw, 180px);
+    left: 44%;
+    top: 79%;
+  }
+
+  .intro-hotspot--media {
+    width: min(34vw, 180px);
+    left: 82%;
+    top: 78%;
   }
 
   /* Links - disable hover zoom on touch */
