@@ -1,75 +1,31 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>The web site of mevakaradayi</title>
     <link href="/mywebsite.css" rel="stylesheet" type="text/css" media="all">
   </head>
-  <body>
-  <!-- 1) This MUST exist -->
-   <img src="Images/arrow.png" class="ScrollImage">
-  <div class="background"></div>
-
-  <!-- 2) Your existing content goes inside <main> -->
-    <main>
-      <a href="Introduction.html" class="IntroButton">
-        <img src="Images/EnterButton.png" alt="Enter" class="IntroImage">
+  <body class="intro-page intro-collage-page">
+    <div class="intro-collage" aria-label="Site sections">
+      <a class="intro-hotspot intro-hotspot--recommendations" href="Recommendations.html">
+        <img src="recommendations.PNG?v=2" alt="Recommendations" width="1309" height="1167" decoding="async">
       </a>
-
-    <!-- all your other boxes: .introduction, .contents, .images, etc -->
-    </main>
-
-    <script>
-      const bg = document.querySelector('.background');
-      const introButton = document.querySelector('.IntroButton');
-      const scrollImage = document.querySelector('.ScrollImage');
-
-      const maxScale = 1.3;  // zoomed in at top
-      const minScale = 1.0;  // zoomed out at bottom
-      const startPosY = 30;  // focus around top text
-      const endPosY = 80;    // scroll down to see bottom text
-
-      function updateBackgroundZoom() {
-        const doc = document.documentElement;
-        const scrollTop = window.scrollY;
-        const maxScroll = doc.scrollHeight - window.innerHeight;
-        const t = maxScroll > 0 ? Math.min(scrollTop / maxScroll, 1) : 0;
-
-        // zoom out
-        const scale = maxScale - (maxScale - minScale) * t;
-        bg.style.transform = `scale(${scale})`;
-
-        // pan background down
-        const currentPosY = startPosY + (endPosY - startPosY) * t;
-        bg.style.backgroundPosition = `center ${currentPosY}%`;
-
-        // show IntroButton only when user scrolls a bit
-        if (scrollTop > window.innerHeight * 0.2) {
-          introButton.style.opacity = 1;
-          introButton.style.pointerEvents = "auto";
-        } else {
-          introButton.style.opacity = 0;
-          introButton.style.pointerEvents = "none";
-        }
-        // hide the scroll arrow once user starts scrolling
-        if (scrollTop > window.innerHeight * 0.05) {
-          scrollImage.style.opacity = 0;
-          scrollImage.style.pointerEvents = "none";
-        } else {
-          scrollImage.style.opacity = 1;
-          scrollImage.style.pointerEvents = "auto";
-        }
-
-      }
-
-      window.addEventListener('scroll', updateBackgroundZoom);
-      window.addEventListener('load', updateBackgroundZoom);
-      window.addEventListener('resize', updateBackgroundZoom);
-    </script>
-
-
+      <a class="intro-hotspot intro-hotspot--memorybox" href="MemoryBox.html">
+        <img src="memorybox.png" alt="Memory Box" width="320" height="320" decoding="async">
+      </a>
+      <a class="intro-hotspot intro-hotspot--photos" href="Photos.html">
+        <img src="photos.PNG" alt="Photos" width="320" height="320" decoding="async">
+      </a>
+      <a class="intro-hotspot intro-hotspot--whoami" href="WhoAmI.html">
+        <img src="who_am_i.PNG" alt="Who am I?" width="280" height="280" decoding="async">
+      </a>
+      <a class="intro-hotspot intro-hotspot--projects" href="Projects.html">
+        <img src="projects.PNG" alt="Projects" width="300" height="300" decoding="async">
+      </a>
+      <a class="intro-hotspot intro-hotspot--media" href="Media.html">
+        <img src="media.PNG" alt="Media" width="280" height="280" decoding="async">
+      </a>
+    </div>
   </body>
-
 </html>
-
