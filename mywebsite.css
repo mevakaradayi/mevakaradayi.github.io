@@ -802,45 +802,26 @@ body.media-hub-page .contents {
   vertical-align: middle;
 }
 
-/* Three columns: side stacks flank the center, vertically centered (mockup layout) */
+/* Single row: Films, Books, Musics across the middle (mockup layout) */
 .media-page__stage {
   flex: 1;
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(10rem, 1.15fr) minmax(0, 1fr);
-  align-items: center;
-  column-gap: clamp(0.5rem, 2vw, 1.5rem);
-  padding-left: clamp(0.25rem, 2vw, 2rem);
-  padding-right: clamp(0.25rem, 2vw, 2rem);
-  min-height: 0;
-}
-
-.media-page__center {
-  min-height: min(52vh, 520px);
-  pointer-events: none;
-}
-
-.media-page__col {
   display: flex;
-  flex-direction: column;
-  gap: clamp(1rem, 3vh, 2rem);
-}
-
-.media-page__col--left {
-  justify-self: end;
-  align-items: flex-end;
-}
-
-.media-page__col--right {
-  justify-self: start;
-  align-items: flex-start;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  column-gap: clamp(2.25rem, 7vw, 6rem);
+  padding-left: clamp(0.5rem, 3vw, 2.5rem);
+  padding-right: clamp(0.5rem, 3vw, 2.5rem);
+  min-height: 0;
 }
 
 .media-page__btn {
   display: block;
   line-height: 0;
   text-decoration: none;
-  width: min(42vw, 280px);
+  width: min(28vw, 280px);
   transition: transform 0.2s ease;
+  flex: 0 0 auto;
 }
 
 .media-page__btn img {
@@ -866,20 +847,15 @@ body.media-hub-page .contents {
 
 @media (max-width: 520px) {
   .media-page__btn {
-    width: min(44vw, 200px);
+    width: min(30vw, 200px);
   }
 }
 
 @media (max-width: 480px) {
   .media-page__stage {
-    grid-template-columns: 1fr 1fr;
     column-gap: 0.5rem;
     padding-left: 0.25rem;
     padding-right: 0.25rem;
-  }
-
-  .media-page__center {
-    display: none;
   }
 }
 
