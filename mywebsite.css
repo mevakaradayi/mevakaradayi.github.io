@@ -764,3 +764,577 @@ a:active {
   }
 }
 
+/* Media hub (Media.html): same collage background as index, title + corner buttons */
+body.media-hub-page .contents {
+  top: 1rem;
+  left: 1rem;
+  transform: none;
+  padding: 18px 24px;
+  width: auto;
+  min-width: auto;
+  max-width: none;
+  z-index: 5; /* above main (z-index: 1) so Home link receives clicks */
+}
+
+.media-page {
+  position: relative;
+  z-index: 1;
+  min-height: 100vh;
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  padding: clamp(0.75rem, 2vw, 1.5rem);
+  padding-top: clamp(4.5rem, 9vh, 6rem);
+  padding-bottom: clamp(1rem, 3vh, 2rem);
+}
+
+.media-page__title {
+  text-align: center;
+  flex: 0 0 auto;
+  margin-bottom: clamp(0.5rem, 2vh, 1.25rem);
+}
+
+.media-page__title img {
+  display: inline-block;
+  max-width: min(92vw, 760px);
+  width: 100%;
+  height: auto;
+  vertical-align: middle;
+}
+
+/* Three columns: side stacks flank the center, vertically centered (mockup layout) */
+.media-page__stage {
+  flex: 1;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(10rem, 1.15fr) minmax(0, 1fr);
+  align-items: center;
+  column-gap: clamp(0.5rem, 2vw, 1.5rem);
+  padding-left: clamp(0.25rem, 2vw, 2rem);
+  padding-right: clamp(0.25rem, 2vw, 2rem);
+  min-height: 0;
+}
+
+.media-page__center {
+  min-height: min(52vh, 520px);
+  pointer-events: none;
+}
+
+.media-page__col {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(1rem, 3vh, 2rem);
+}
+
+.media-page__col--left {
+  justify-self: end;
+  align-items: flex-end;
+}
+
+.media-page__col--right {
+  justify-self: start;
+  align-items: flex-start;
+}
+
+.media-page__btn {
+  display: block;
+  line-height: 0;
+  text-decoration: none;
+  width: min(42vw, 280px);
+  transition: transform 0.2s ease;
+}
+
+.media-page__btn img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.media-page__btn:hover,
+.media-page__btn:focus-visible {
+  transform: scale(1.06);
+  outline: none;
+}
+
+.media-page__btn:focus-visible {
+  box-shadow: 0 0 0 3px rgba(255, 200, 80, 0.85);
+  border-radius: 4px;
+}
+
+.media-page__btn:active {
+  transform: scale(1.03);
+}
+
+@media (max-width: 520px) {
+  .media-page__btn {
+    width: min(44vw, 200px);
+  }
+}
+
+@media (max-width: 480px) {
+  .media-page__stage {
+    grid-template-columns: 1fr 1fr;
+    column-gap: 0.5rem;
+    padding-left: 0.25rem;
+    padding-right: 0.25rem;
+  }
+
+  .media-page__center {
+    display: none;
+  }
+}
+
+/* Films page: hub background + horizontal poster rail */
+body.intro-page.films-page {
+  background-image: url(films_images/background.jpg);
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  align-items: stretch;
+  justify-content: flex-start;
+  padding-top: clamp(3.5rem, 8vh, 5rem);
+  padding-bottom: 0;
+  box-sizing: border-box;
+  min-height: 100dvh;
+}
+
+/* Global `main { min-height: 250vh }` would strand content far below the posters */
+body.intro-page.films-page main.films-main {
+  min-height: 0;
+}
+
+.films-exit {
+  position: fixed;
+  top: 0;
+  left: max(1.75rem, env(safe-area-inset-left, 0px));
+  z-index: 20;
+  display: inline-flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 0;
+  text-decoration: none;
+  line-height: 0;
+  transition: transform 0.2s ease;
+}
+
+.films-exit img {
+  display: block;
+  width: clamp(106px, 32vw, 170px);
+  height: auto;
+  filter: drop-shadow(0 6px 14px rgba(0, 0, 0, 0.55));
+  transition: filter 0.2s ease;
+}
+
+.films-exit:hover img {
+  filter: drop-shadow(0 10px 20px rgba(0, 0, 0, 0.65));
+}
+
+.films-exit:hover {
+  transform: scale(1.05);
+}
+
+.films-exit:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(255, 200, 80, 0.85);
+}
+
+.films-main {
+  position: relative;
+  z-index: 1;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  width: 100%;
+  max-width: 100vw;
+  min-height: 0;
+}
+
+/* Fills viewport height; rail + hint are centered as a block so the hint sits under the scrollbar */
+.films-main__rail-stage {
+  flex: 1 1 auto;
+  min-height: 0;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0;
+}
+
+.films-main__hint {
+  flex-shrink: 0;
+  margin: 0;
+  width: 100%;
+  max-width: min(100vw, 1200px);
+  padding: 0.35rem 1rem max(1.25rem, calc(0.75rem + env(safe-area-inset-bottom, 0px)));
+  font-size: clamp(12px, 1.8vw, 14px);
+  opacity: 0.85;
+  text-align: center;
+}
+
+.films-rail {
+  --films-poster-w: min(42vw, 200px);
+  flex: 0 0 auto;
+  width: 100%;
+  max-width: min(100vw, 1200px);
+  overflow-x: auto;
+  overflow-y: hidden;
+  scroll-snap-type: x mandatory;
+  scroll-padding-inline: calc(50% - var(--films-poster-w) / 2);
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+  outline: none;
+  mask-image: linear-gradient(
+    to right,
+    transparent,
+    black 6%,
+    black 94%,
+    transparent
+  );
+}
+
+.films-rail:focus-visible {
+  box-shadow: 0 0 0 3px rgba(255, 200, 80, 0.85);
+  border-radius: 8px;
+}
+
+.films-rail__track {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: clamp(0.75rem, 2.5vw, 1.5rem);
+  padding-block: clamp(1rem, 3vh, 2rem);
+  padding-inline: calc(50% - var(--films-poster-w) / 2);
+  width: max-content;
+  min-height: min(52vh, 420px);
+}
+
+.films-card {
+  scroll-snap-align: center;
+  flex: 0 0 auto;
+  width: var(--films-poster-w);
+  margin: 0;
+  padding: 0;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  border-radius: 12px;
+  line-height: 0;
+  transition: transform 0.35s ease, opacity 0.35s ease;
+  transform: scale(0.88);
+  opacity: 0.82;
+}
+
+.films-card img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 12px;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.55);
+  pointer-events: none;
+}
+
+.films-card.films-card--focus {
+  transform: scale(1.08);
+  opacity: 1;
+  z-index: 1;
+}
+
+.films-card:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(255, 200, 80, 0.85);
+}
+
+@media (max-width: 768px) {
+  body.intro-page.films-page {
+    background-attachment: scroll;
+  }
+
+  .films-rail {
+    --films-poster-w: min(56vw, 220px);
+  }
+
+  .films-rail__track {
+    min-height: min(48vh, 380px);
+  }
+
+  body.intro-page.books-page {
+    background-attachment: scroll;
+  }
+
+  .books-rail {
+    --books-cover-w: min(56vw, 220px);
+  }
+
+  .books-rail__track {
+    min-height: min(50vh, 440px);
+    padding-block: clamp(1.5rem, 4vh, 2.5rem);
+  }
+}
+
+/* Books page */
+body.intro-page.books-page {
+  background-image: url(books_images/books_background.jpg);
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  align-items: stretch;
+  justify-content: flex-start;
+  padding-top: clamp(3.5rem, 8vh, 5rem);
+  padding-bottom: clamp(1rem, 3vh, 2rem);
+  box-sizing: border-box;
+  min-height: 100dvh;
+}
+
+body.intro-page.books-page main.books-main {
+  min-height: 0;
+}
+
+.books-main {
+  position: relative;
+  z-index: 1;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  max-width: 100vw;
+  min-height: min(72vh, 640px);
+  padding-inline: clamp(0.5rem, 2vw, 1rem);
+  box-sizing: border-box;
+}
+
+.books-main__stage {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  width: 100%;
+  max-width: min(100vw, 1100px);
+}
+
+.books-rail {
+  --books-cover-w: min(40vw, 240px);
+  flex: 0 0 auto;
+  width: 100%;
+  max-width: min(100vw, 1100px);
+  overflow-x: auto;
+  overflow-y: visible;
+  scroll-snap-type: x mandatory;
+  scroll-padding-inline: calc(50% - var(--books-cover-w) / 2);
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+  outline: none;
+  perspective: 1400px;
+  perspective-origin: 50% 42%;
+  transform-style: preserve-3d;
+  mask-image: linear-gradient(
+    to right,
+    transparent,
+    black 5%,
+    black 95%,
+    transparent
+  );
+}
+
+.books-rail:focus-visible {
+  box-shadow: 0 0 0 3px rgba(255, 200, 80, 0.85);
+  border-radius: 10px;
+}
+
+.books-rail__track {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  align-items: center;
+  justify-content: flex-start;
+  gap: clamp(1rem, 3vw, 2.25rem);
+  padding-block: clamp(2rem, 5vh, 3.5rem);
+  padding-inline: calc(50% - var(--books-cover-w) / 2);
+  width: max-content;
+  min-height: min(56vh, 480px);
+  transform-style: preserve-3d;
+}
+
+.books-card {
+  scroll-snap-align: center;
+  flex: 0 0 auto;
+  width: var(--books-cover-w);
+  margin: 0;
+  transform-style: preserve-3d;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  will-change: transform;
+}
+
+.books-card__inner {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 2 / 3;
+  border-radius: 4px 10px 10px 4px;
+  overflow: hidden;
+  background: #120f0c;
+  box-shadow:
+    -10px 16px 40px rgba(0, 0, 0, 0.55),
+    0 0 0 1px rgba(255, 255, 255, 0.06) inset;
+  transform: translateZ(0);
+}
+
+.books-card__inner img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  pointer-events: none;
+  user-select: none;
+}
+
+.books-card--focus .books-card__inner {
+  box-shadow:
+    -6px 22px 48px rgba(0, 0, 0, 0.62),
+    0 0 0 2px rgba(255, 220, 120, 0.35),
+    0 0 0 1px rgba(255, 255, 255, 0.1) inset;
+}
+
+.books-year,
+.films-year {
+  position: fixed;
+  top: 50%;
+  left: clamp(0.5rem, 1.5vw, 1.5rem);
+  transform: translateY(-50%);
+  width: clamp(90px, 12vw, 200px);
+  height: auto;
+  object-fit: contain;
+  pointer-events: none;
+  user-select: none;
+  z-index: 3;
+}
+
+@media (max-width: 700px) {
+  .books-year,
+  .films-year {
+    display: none;
+  }
+}
+
+.books-main__hint {
+  flex-shrink: 0;
+  margin: 0;
+  width: 100%;
+  padding: 0.25rem 1rem max(0.75rem, env(safe-area-inset-bottom, 0px));
+  font-size: clamp(12px, 1.8vw, 14px);
+  opacity: 0.88;
+  text-align: center;
+}
+
+/* Music page: custom background, radio (left), Spotify playlist (right) */
+body.intro-page.musics-page {
+  background-image: url(musics_images/musics_background.jpg);
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  align-items: stretch;
+  justify-content: flex-start;
+  padding-top: clamp(3.5rem, 8vh, 5rem);
+  padding-bottom: clamp(1rem, 3vh, 2rem);
+  box-sizing: border-box;
+}
+
+.musics-main {
+  position: relative;
+  z-index: 1;
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  max-width: 100vw;
+  min-height: 0;
+  padding-inline: clamp(0.75rem, 3vw, 2rem);
+  box-sizing: border-box;
+}
+
+.musics-stage {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(0.75rem, 3vw, 2.5rem);
+  width: min(100%, 1100px);
+  min-height: min(68vh, 600px);
+}
+
+.musics-radio {
+  flex: 0 0 auto;
+  width: min(42vw, 380px);
+  max-width: 380px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transform: translateX(clamp(-1rem, -4vw, -3rem));
+}
+
+.musics-radio img {
+  display: block;
+  width: 100%;
+  height: auto;
+  filter: drop-shadow(0 16px 36px rgba(0, 0, 0, 0.45));
+}
+
+.musics-playlist {
+  flex: 1 1 auto;
+  min-width: 0;
+  width: 100%;
+  max-width: min(52vw, 440px);
+  background-color: rgba(214, 194, 168, 0.94);
+  border: 1px solid rgba(120, 92, 68, 0.22);
+  border-radius: 18px;
+  padding: clamp(1rem, 2.5vw, 1.35rem);
+  box-sizing: border-box;
+  transform: translateX(clamp(0.75rem, 2.75vw, 2.35rem));
+}
+
+.musics-playlist__embed {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  height: min(52vh, 480px);
+  border: 0;
+  border-radius: 12px;
+  background: rgba(245, 238, 228, 0.95);
+}
+
+@media (max-width: 768px) {
+  body.intro-page.musics-page {
+    background-attachment: scroll;
+  }
+
+  .musics-stage {
+    min-height: min(58vh, 520px);
+    gap: clamp(0.5rem, 2vw, 1rem);
+    padding-inline: clamp(0.35rem, 1.5vw, 0.75rem);
+  }
+
+  .musics-radio {
+    width: min(38vw, 260px);
+    max-width: 260px;
+    transform: translateX(clamp(-0.65rem, -2.5vw, -2rem));
+  }
+
+  .musics-playlist {
+    max-width: none;
+    transform: translateX(clamp(0.5rem, 2vw, 1.75rem));
+  }
+
+  .musics-playlist__embed {
+    height: min(44vh, 380px);
+  }
+}
+

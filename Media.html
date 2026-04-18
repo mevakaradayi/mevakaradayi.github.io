@@ -2,17 +2,39 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <title>Media — mevakaradayi</title>
     <link href="/mywebsite.css" rel="stylesheet" type="text/css" media="all">
   </head>
-  <body class="intro-page">
+  <body class="intro-page intro-collage-page media-hub-page">
     <div class="contents">
       <a href="index.html">Home</a><br>
     </div>
 
-    <div class="explanation">
-      <p>This page will feature the books, films, and other media I’ve consumed.</p>
-    </div>
+    <main class="media-page" aria-label="Media sections">
+      <header class="media-page__title">
+        <img src="media_images/title_media.png" alt="Stuff I’ve read, watched, and listened to" width="800" height="200" decoding="async">
+      </header>
+
+      <div class="media-page__stage">
+        <nav class="media-page__col media-page__col--left" aria-label="Films and videos">
+          <a class="media-page__btn" href="Films.html">
+            <img src="media_images/films.png" alt="Films" width="400" height="120" decoding="async">
+          </a>
+          <a class="media-page__btn" href="Videos.html">
+            <img src="media_images/videos.png" alt="Videos" width="400" height="120" decoding="async">
+          </a>
+        </nav>
+        <div class="media-page__center" aria-hidden="true"></div>
+        <nav class="media-page__col media-page__col--right" aria-label="Books and music">
+          <a class="media-page__btn" href="Books.html">
+            <img src="media_images/books.png" alt="Books" width="400" height="120" decoding="async">
+          </a>
+          <a class="media-page__btn" href="Musics.html">
+            <img src="media_images/musics.png" alt="Music" width="400" height="120" decoding="async">
+          </a>
+        </nav>
+      </div>
+    </main>
   </body>
 </html>

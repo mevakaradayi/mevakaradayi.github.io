@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Films — mevakaradayi</title>
+    <link href="/mywebsite.css" rel="stylesheet" type="text/css" media="all">
+  </head>
+  <body class="intro-page films-page">
+    <a class="films-exit" href="Media.html" aria-label="Exit to Media"><img src="Images/exit.png" alt="" width="96" height="96"></a>
+
+    <img class="films-year" src="films_images/year.PNG" alt="" aria-hidden="true">
+
+    <main class="films-main">
+      <div class="films-main__rail-stage">
+        <div
+          class="films-rail"
+          id="films-rail"
+          tabindex="0"
+          role="region"
+          aria-label="Film posters"
+        >
+          <div class="films-rail__track" id="films-track">
+          <button type="button" class="films-card" data-title="The Drama">
+            <img src="films_images/the_drama.webp" width="400" height="600" alt="The Drama poster">
+          </button>
+          <button type="button" class="films-card" data-title="Project Hail Mary">
+            <img src="films_images/project_hailmary.jpeg" width="400" height="600" alt="Project Hail Mary poster">
+          </button>
+          <button type="button" class="films-card" data-title="Hoppers">
+            <img src="films_images/hoppers.webp" width="400" height="600" alt="Hoppers poster">
+          </button>
+          <button type="button" class="films-card" data-title="Goat">
+            <img src="films_images/goat.jpg" width="400" height="600" alt="Goat poster">
+          </button>
+          <button type="button" class="films-card" data-title="Marty Supreme">
+            <img src="films_images/marty_supreme.webp" width="400" height="600" alt="Marty Supreme poster">
+          </button>
+          <button type="button" class="films-card" data-title="Wuthering Heights">
+            <img src="films_images/wuthering_heights.webp" width="400" height="600" alt="Wuthering Heights poster">
+          </button>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <script>
+      (function () {
+        var rail = document.getElementById("films-rail");
+        var track = document.getElementById("films-track");
+        if (!rail || !track) return;
+
+        var cards = Array.prototype.slice.call(track.querySelectorAll(".films-card"));
+        if (!cards.length) return;
+
+        var active = 0;
+        var scrollScheduled = false;
+
+        function closestToCenter() {
+          var rect = rail.getBoundingClientRect();
+          var mid = rect.left + rect.width / 2;
+          var best = 0;
+          var bestDist = Infinity;
+          for (var i = 0; i < cards.length; i++) {
+            var r = cards[i].getBoundingClientRect();
+            var c = r.left + r.width / 2;
+            var d = Math.abs(c - mid);
+            if (d < bestDist) {
+              bestDist = d;
+              best = i;
+            }
+          }
+          return best;
+        }
+
+        function applyFocus(index) {
+          active = index;
+          for (var i = 0; i < cards.length; i++) {
+            cards[i].classList.toggle("films-card--focus", i === index);
+          }
+        }
+
+        function updateFromScroll() {
+          applyFocus(closestToCenter());
+          scrollScheduled = false;
+        }
+
+        function onScroll() {
+          if (!scrollScheduled) {
+            scrollScheduled = true;
+            requestAnimationFrame(updateFromScroll);
+          }
+        }
+
+        function go(delta) {
+          var next = Math.max(0, Math.min(cards.length - 1, active + delta));
+          cards[next].scrollIntoView({
+            inline: "center",
+            block: "nearest",
+            behavior: "smooth"
+          });
+          applyFocus(next);
+        }
+
+        rail.addEventListener("scroll", onScroll, { passive: true });
+
+        document.addEventListener("keydown", function (e) {
+          if (e.key !== "ArrowRight" && e.key !== "ArrowLeft") return;
+          if (e.metaKey || e.ctrlKey || e.altKey) return;
+          var ae = document.activeElement;
+          if (ae && (ae.tagName === "INPUT" || ae.tagName === "TEXTAREA" || ae.isContentEditable)) return;
+          if (ae && ae.closest && ae.closest(".films-exit")) return;
+          e.preventDefault();
+          go(e.key === "ArrowRight" ? 1 : -1);
+        });
+
+        window.addEventListener("resize", onScroll);
+
+        cards.forEach(function (card) {
+          card.addEventListener("click", function () {
+            var idx = cards.indexOf(card);
+            if (idx === -1) return;
+            card.scrollIntoView({ inline: "center", block: "nearest", behavior: "smooth" });
+            applyFocus(idx);
+          });
+        });
+
+        requestAnimationFrame(function () {
+          cards[0].scrollIntoView({ inline: "center", block: "nearest", behavior: "auto" });
+          onScroll();
+        });
+      })();
+    </script>
+  </body>
+</html>
