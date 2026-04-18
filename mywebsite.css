@@ -919,7 +919,7 @@ body.intro-page.films-page main.films-main {
 
 .films-exit img {
   display: block;
-  width: clamp(95px, 21vw, 159px);
+  width: clamp(48px, 11vw, 110px);
   height: auto;
   filter: drop-shadow(0 6px 14px rgba(0, 0, 0, 0.55));
   transition: filter 0.2s ease;
