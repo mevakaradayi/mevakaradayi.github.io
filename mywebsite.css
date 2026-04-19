@@ -1029,11 +1029,13 @@ body.intro-page.films-page main.films-main {
   }
 
   .films-rail {
-    --films-poster-w: min(56vw, 220px);
+    /* Narrower than desktop so the year graphic and posters both fit */
+    --films-poster-w: min(34vw, 128px);
   }
 
   .films-rail__track {
-    min-height: min(48vh, 380px);
+    min-height: min(36vh, 280px);
+    padding-block: clamp(0.75rem, 2vh, 1.25rem);
   }
 
   body.intro-page.books-page {
@@ -1041,12 +1043,18 @@ body.intro-page.films-page main.films-main {
   }
 
   .books-rail {
-    --books-cover-w: min(56vw, 220px);
+    --books-cover-w: min(34vw, 128px);
   }
 
   .books-rail__track {
-    min-height: min(50vh, 440px);
-    padding-block: clamp(1.5rem, 4vh, 2.5rem);
+    min-height: min(38vh, 300px);
+    padding-block: clamp(1rem, 3vh, 1.75rem);
+  }
+
+  .books-year,
+  .films-year {
+    width: clamp(48px, 13vw, 90px);
+    left: max(0.35rem, env(safe-area-inset-left, 0px));
   }
 }
 
@@ -1189,13 +1197,6 @@ body.intro-page.books-page main.books-main {
   pointer-events: none;
   user-select: none;
   z-index: 3;
-}
-
-@media (max-width: 700px) {
-  .books-year,
-  .films-year {
-    display: none;
-  }
 }
 
 .books-main__hint {
