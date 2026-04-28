@@ -2,17 +2,353 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <title>Projects — mevakaradayi</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,100..900;1,9..144,100..900&display=swap" rel="stylesheet">
     <link href="/mywebsite.css" rel="stylesheet" type="text/css" media="all">
+    <style>
+      body.intro-page.intro-collage-page.projects-pan-page {
+        display: block;
+        overflow: hidden;
+        height: 100vh;
+        height: 100dvh;
+        margin: 0;
+        text-align: center;
+      }
+
+      .projects-pan-viewport {
+        position: fixed;
+        inset: 0;
+        overflow: hidden;
+        touch-action: none;
+        cursor: grab;
+        z-index: 1;
+      }
+
+      .projects-pan-viewport.is-dragging {
+        cursor: grabbing;
+      }
+
+      .projects-pan-surface {
+        position: absolute;
+        left: 0;
+        top: 0;
+        transform-origin: 0 0;
+        will-change: transform;
+        padding: 2rem;
+        min-width: 12rem;
+        min-height: 8rem;
+        box-sizing: border-box;
+      }
+
+      .project-muscle-card {
+        position: relative;
+        display: inline-block;
+        text-align: left;
+        max-width: min(92vw, 22rem);
+        margin-top: 1.5rem;
+        font-family: "Fraunces", Georgia, "Times New Roman", serif;
+        font-size: clamp(0.95rem, 2.2vw, 1.05rem);
+        line-height: 1.45;
+        color: #fdecec;
+        -webkit-font-smoothing: antialiased;
+      }
+
+      .project-muscle-card__tab {
+        position: absolute;
+        left: 50%;
+        top: 0;
+        /* Half the tab sits above the panel top edge; content padding clears the lower half */
+        transform: translate(-50%, -50%);
+        z-index: 2;
+        background: #7a2828;
+        border: 2px solid #2d0a0a;
+        border-radius: 14px;
+        padding: 0.2rem 1.35rem 0.35rem;
+        box-shadow: 0 2px 0 rgba(0, 0, 0, 0.35);
+        white-space: nowrap;
+      }
+
+      .project-muscle-card__title {
+        margin: 0;
+        font-size: clamp(1.15rem, 3.5vw, 1.5rem);
+        font-weight: 700;
+        color: #fff5f3;
+        letter-spacing: 0.02em;
+        white-space: nowrap;
+        text-shadow: 0 1px 2px rgba(0, 0, 0, 0.35);
+      }
+
+      .project-muscle-card__panel {
+        background: #4a1515;
+        border: 3px solid #2d0a0a;
+        border-radius: 28px;
+        padding: 2rem 1.35rem 1.35rem;
+        /* Clear the tab + first heading (tab overlaps ~half its height into the panel) */
+        padding-top: clamp(3.15rem, 10vmin, 4.1rem);
+        box-shadow: inset 0 1px 0 rgba(255, 200, 200, 0.08);
+      }
+
+      .project-muscle-card__panel section:first-child h2 {
+        margin-top: 0.15rem;
+      }
+
+      .project-muscle-card__panel section + section {
+        margin-top: 1.25rem;
+      }
+
+      .project-muscle-card__panel h2 {
+        margin: 0 0 0.4rem;
+        font-size: clamp(1.05rem, 2.8vw, 1.15rem);
+        font-weight: 600;
+        color: #f0b8a8;
+        text-shadow: 0 1px 2px rgba(0, 0, 0, 0.45);
+      }
+
+      .project-muscle-card__panel ul {
+        margin: 0;
+        padding-left: 0;
+        list-style: none;
+      }
+
+      .project-muscle-card__panel section > ul > li {
+        position: relative;
+        padding-left: 1.05em;
+        margin-bottom: 0.35rem;
+      }
+
+      .project-muscle-card__panel section > ul > li::before {
+        content: "– ";
+        position: absolute;
+        left: 0;
+        color: rgba(253, 236, 236, 0.9);
+      }
+
+      .project-muscle-card__panel ul ul {
+        margin-top: 0.2rem;
+        margin-bottom: 0.25rem;
+        padding-left: 0;
+        list-style: none;
+      }
+
+      .project-muscle-card__panel ul ul li {
+        position: relative;
+        padding-left: 1.1em;
+        margin-bottom: 0.15rem;
+      }
+
+      .project-muscle-card__panel ul ul li::before {
+        content: "– ";
+        position: absolute;
+        left: 0;
+        color: rgba(253, 236, 236, 0.82);
+        font-size: 0.95em;
+      }
+    </style>
   </head>
-  <body class="intro-page">
-    <div class="contents">
-      <a href="index.html">Home</a><br>
+  <body class="intro-page intro-collage-page projects-pan-page">
+    <div class="projects-pan-viewport" id="panViewport" aria-label="Projects canvas — drag to pan, scroll to zoom">
+      <div class="projects-pan-surface" id="panSurface">
+        <article class="project-muscle-card" aria-labelledby="project-muscle-title">
+          <div class="project-muscle-card__tab">
+            <h1 class="project-muscle-card__title" id="project-muscle-title">Project Muscle</h1>
+          </div>
+          <div class="project-muscle-card__panel">
+            <section>
+              <h2>What I Want to Do:</h2>
+              <ul>
+                <li>Gain muscle</li>
+              </ul>
+            </section>
+            <section>
+              <h2>How I&rsquo;ll Achieve:</h2>
+              <ul>
+                <li>
+                  Be mindful about what I eat
+                  <ul>
+                    <li>prepare balanced meals</li>
+                  </ul>
+                </li>
+                <li>
+                  Be sure about daily water intake
+                  <ul>
+                    <li>carry water everywhere</li>
+                  </ul>
+                </li>
+                <li>
+                  Be sure about working out
+                  <ul>
+                    <li>2x pilates and 3x weight lifting each week</li>
+                  </ul>
+                </li>
+              </ul>
+            </section>
+            <section>
+              <h2>Check how it&rsquo;s going:</h2>
+            </section>
+          </div>
+        </article>
+      </div>
     </div>
 
-    <div class="explanation">
-      <p>This page will hold project write-ups and links. Content coming soon.</p>
-    </div>
+    <script>
+      (function () {
+        var viewport = document.getElementById("panViewport");
+        var surface = document.getElementById("panSurface");
+        if (!viewport || !surface) return;
+
+        var tx = 0;
+        var ty = 0;
+        var s = 1;
+        var minS = 0.35;
+        var maxS = 4;
+
+        function clampScale(v) {
+          return Math.min(maxS, Math.max(minS, v));
+        }
+
+        function apply() {
+          surface.style.transform =
+            "translate(" + tx + "px," + ty + "px) scale(" + s + ")";
+        }
+
+        function centerContent() {
+          var w = surface.offsetWidth;
+          var h = surface.offsetHeight;
+          tx = (window.innerWidth - w * s) / 2;
+          ty = (window.innerHeight - h * s) / 2;
+          apply();
+        }
+
+        function zoomAt(scx, scy, nextS) {
+          nextS = clampScale(nextS);
+          var sx = (scx - tx) / s;
+          var sy = (scy - ty) / s;
+          tx = scx - sx * nextS;
+          ty = scy - sy * nextS;
+          s = nextS;
+          apply();
+        }
+
+        function initPan() {
+          centerContent();
+        }
+        if (document.readyState === "loading") {
+          document.addEventListener("DOMContentLoaded", initPan);
+        } else {
+          initPan();
+        }
+        window.addEventListener("load", centerContent);
+        window.addEventListener("resize", centerContent);
+
+        viewport.addEventListener(
+          "wheel",
+          function (e) {
+            e.preventDefault();
+            var rect = viewport.getBoundingClientRect();
+            var scx = e.clientX - rect.left;
+            var scy = e.clientY - rect.top;
+            var factor = Math.exp(-e.deltaY * 0.001);
+            zoomAt(scx, scy, s * factor);
+          },
+          { passive: false }
+        );
+
+        var dragPointerId = null;
+        var lastX = 0;
+        var lastY = 0;
+
+        viewport.addEventListener("pointerdown", function (e) {
+          if (e.button !== 0) return;
+          dragPointerId = e.pointerId;
+          viewport.setPointerCapture(e.pointerId);
+          viewport.classList.add("is-dragging");
+          lastX = e.clientX;
+          lastY = e.clientY;
+        });
+
+        viewport.addEventListener("pointermove", function (e) {
+          if (dragPointerId !== e.pointerId) return;
+          tx += e.clientX - lastX;
+          ty += e.clientY - lastY;
+          lastX = e.clientX;
+          lastY = e.clientY;
+          apply();
+        });
+
+        function endDrag(e) {
+          if (dragPointerId !== e.pointerId) return;
+          dragPointerId = null;
+          try {
+            viewport.releasePointerCapture(e.pointerId);
+          } catch (err) {}
+          viewport.classList.remove("is-dragging");
+        }
+
+        viewport.addEventListener("pointerup", endDrag);
+        viewport.addEventListener("pointercancel", endDrag);
+
+        function touchDistance(t0, t1) {
+          var dx = t1.clientX - t0.clientX;
+          var dy = t1.clientY - t0.clientY;
+          return Math.hypot(dx, dy);
+        }
+
+        function touchMid(t0, t1, rect) {
+          return {
+            x: (t0.clientX + t1.clientX) / 2 - rect.left,
+            y: (t0.clientY + t1.clientY) / 2 - rect.top,
+          };
+        }
+
+        var pinch = null;
+
+        viewport.addEventListener(
+          "touchstart",
+          function (e) {
+            if (e.touches.length === 2) {
+              var rect = viewport.getBoundingClientRect();
+              pinch = {
+                d0: touchDistance(e.touches[0], e.touches[1]),
+                m0: touchMid(e.touches[0], e.touches[1], rect),
+                s0: s,
+                tx0: tx,
+                ty0: ty,
+              };
+            }
+          },
+          { passive: true }
+        );
+
+        viewport.addEventListener(
+          "touchmove",
+          function (e) {
+            if (!pinch || e.touches.length !== 2) return;
+            e.preventDefault();
+            var rect = viewport.getBoundingClientRect();
+            var d = touchDistance(e.touches[0], e.touches[1]);
+            if (pinch.d0 <= 0) return;
+            var m = touchMid(e.touches[0], e.touches[1], rect);
+            var newS = clampScale(pinch.s0 * (d / pinch.d0));
+            var wx = (pinch.m0.x - pinch.tx0) / pinch.s0;
+            var wy = (pinch.m0.y - pinch.ty0) / pinch.s0;
+            tx = m.x - wx * newS;
+            ty = m.y - wy * newS;
+            s = newS;
+            apply();
+          },
+          { passive: false }
+        );
+
+        viewport.addEventListener("touchend", function (e) {
+          if (e.touches.length < 2) pinch = null;
+        });
+        viewport.addEventListener("touchcancel", function (e) {
+          if (e.touches.length < 2) pinch = null;
+        });
+      })();
+    </script>
   </body>
 </html>
