@@ -103,10 +103,86 @@ body.intro-page {
   text-align: center;
 }
 
+/* Photos.html: explanation graphic centered in the viewport */
+body.intro-page .photos-explanation-center {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 1;
+  max-width: min(94vw, 1200px);
+}
+
+body.intro-page .photos-explanation-center img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* Photos.html + city gallery pages: nav column without .contents panel (no black box) */
+body.intro-page.photos-page .contents,
+body.photos-gallery-subpage .contents {
+  width: min(22vw, 140px);
+  max-width: 140px;
+  background: transparent;
+  background-color: transparent;
+  border-radius: 0;
+  padding: 0;
+  opacity: 1;
+}
+
+/* Photos.html + city galleries: stacked image nav in .contents */
+body.intro-page.photos-page .contents .photos-nav-link,
+body.photos-gallery-subpage .contents .photos-nav-link {
+  display: block;
+  line-height: 0;
+  margin-bottom: 12px;
+  text-decoration: none;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+body.intro-page.photos-page .contents .photos-nav-link:last-child,
+body.photos-gallery-subpage .contents .photos-nav-link:last-child {
+  margin-bottom: 0;
+}
+
+body.intro-page.photos-page .contents .photos-nav-link img,
+body.photos-gallery-subpage .contents .photos-nav-link img {
+  width: 100%;
+  height: auto;
+  display: block;
+  vertical-align: middle;
+  transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+body.intro-page.photos-page .contents .photos-nav-link:hover img,
+body.intro-page.photos-page .contents .photos-nav-link:focus-visible img,
+body.photos-gallery-subpage .contents .photos-nav-link:hover img,
+body.photos-gallery-subpage .contents .photos-nav-link:focus-visible img {
+  transform: scale(1.02);
+  opacity: 0.92;
+}
+
+body.intro-page.photos-page .contents .photos-nav-link:focus-visible,
+body.photos-gallery-subpage .contents .photos-nav-link:focus-visible {
+  outline: 3px solid rgba(255, 200, 80, 0.9);
+  outline-offset: 2px;
+}
+
 body.intro-page.intro-collage-page {
   display: block;
   text-align: left;
   margin: 0;
+  background-image: url(BackgroundImage.jpg);
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+}
+
+/* NYC, San Diego, İstanbul, Türkiye gallery subpages: same backdrop as index.html */
+body.photos-gallery-subpage {
   background-image: url(BackgroundImage.jpg);
   background-repeat: no-repeat;
   background-size: cover;
@@ -199,7 +275,7 @@ body.intro-page.intro-collage-page {
 }
 
 .introduction {
-  background-color: rgba(0, 0, 0, 0.9);
+  background-color: rgba(0, 0, 0, 0.46);
   border-radius: 25px;
   text-align: center;
   box-sizing: border-box;
@@ -218,11 +294,10 @@ body.intro-page.intro-collage-page {
 }
 
 .contents{
-  background-color: black;
+  background-color: rgba(0, 0, 0, 0.46);
   border-radius: 25px;
   font-size: clamp(20px, 2.3vw, 25px);
   text-align: center;
-  opacity: 0.90;
   color: white;
 
   display: inline-block;
@@ -247,11 +322,10 @@ body.intro-page.intro-collage-page {
 
 
 .contentsmb{
-  background-color: black;
+  background-color: rgba(0, 0, 0, 0.46);
   border-radius: 25px;
   font-size: clamp(20px, 2.3vw, 32px);
   text-align: center;
-  opacity: 0.90;
   color: white;
 
   display: inline-block;
@@ -274,11 +348,10 @@ body.intro-page.intro-collage-page {
 }
 
 .explanation {
-  background-color: black;
+  background-color: rgba(0, 0, 0, 0.46);
   border-radius: 25px;
   font-size: clamp(20px, 2.3vw, 20px);
   text-align: left;
-  opacity: 0.90;
   display: inline-block;
   width: 50%;
   padding: 40px;
@@ -308,45 +381,61 @@ body.intro-page.intro-collage-page {
 body.intro-page .whoami-main {
   position: absolute;
   top: 50%;
-  left: 55%;
+  left: 50%;
   transform: translate(-50%, -50%);
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 14px;
-  width: 50%;
-  max-width: min(90vw, 560px);
+  width: min(90vw, 800px);
 }
 
-body.intro-page .whoami-main .explanation {
+/* WhoAmI.html: graphic replaces text .explanation box; same column slot as before */
+body.intro-page .whoami-main .whoami-explanation-graphic {
   position: relative;
   top: auto;
   left: auto;
   transform: none;
   width: 100%;
   margin: 0;
+  line-height: 0;
+}
+
+body.intro-page .whoami-main .whoami-explanation-graphic img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 25px;
 }
 
 .social-box {
-  background-color: black;
-  border-radius: 18px;
+  box-sizing: border-box;
+  width: min(92vw, 320px);
+  max-width: 100%;
+  aspect-ratio: 1753 / 496;
+  padding: clamp(8px, 2.2vw, 18px) 10%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.35em;
+  background-color: transparent;
+  background-image: url(Images/icon_bage.PNG);
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+  border-radius: 0;
   font-size: clamp(16px, 2vw, 18px);
   text-align: center;
-  opacity: 0.9;
-  color: white;
-  padding: 14px 22px;
-  box-sizing: border-box;
-  width: fit-content;
-  min-width: 200px;
-  max-width: 100%;
+  color: #1f1408;
 }
 
 .social-box-label {
-  margin: 0 0 0.4em;
+  margin: 0;
   font-size: clamp(12px, 1.6vw, 14px);
   letter-spacing: 0.12em;
   text-transform: uppercase;
-  opacity: 0.85;
+  color: rgba(0, 0, 0, 0.78);
 }
 
 .social-box-links {
@@ -375,11 +464,10 @@ body.intro-page .whoami-main .explanation {
 }
 
 .memorybox{
-  background-color: black;
+  background-color: rgba(0, 0, 0, 0.46);
   border-radius: 25px;
   font-size: clamp(20px, 2.3vw, 20px);
   text-align: center;
-  opacity: 0.90;
   display: inline-block;
   width: 50%;
   padding: 40px;
@@ -415,19 +503,46 @@ a:active {
 
 
 .images{
-  background-color: black;
+  background-color: rgba(0, 0, 0, 0.46);
   border: 2px double;
   border-radius: 25px;
   box-sizing: border-box;
   padding: 40px;
 
   /* ✅ Responsive width & position */
-  width: 60vw;                       /* photos box is 60% of screen width */
-  margin: 100px 5vw 100px 28vw;      /* top, right, bottom, left */
+  width: 48vw;                       /* gallery panel width (was 60vw) */
+  margin: 100px 5vw 100px 32vw;      /* top, right, bottom, left */
 
   min-height: 0;                     /* let height grow with content */
 }
 
+/* Banner above black .images panel (gallery subpages: NYC, İstanbul, San Diego, Türkiye) */
+body.photos-gallery-subpage .images-column {
+  box-sizing: border-box;
+  width: 48vw;
+  margin: 100px 5vw 100px 32vw;
+  overflow: visible; /* allow NYC banner to extend slightly past column */
+}
+
+body.photos-gallery-subpage .images-column > .images {
+  width: 100%;
+  margin: 0;
+}
+
+body.photos-gallery-subpage .images-outside-banner {
+  line-height: 0;
+  border-radius: 10px;
+  overflow: hidden;
+  margin: 0 auto 20px;
+  /* Centered above the black panel; smaller than half the former 112% strip */
+  width: 36%;
+}
+
+body.photos-gallery-subpage .images-outside-banner img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
 
 .images h1 {
   font-size: 50px;  /* smaller title */
@@ -467,7 +582,8 @@ a:active {
 
 /* ===== MOBILE RESPONSIVE ===== */
 @media (max-width: 768px) {
-  body.intro-page.intro-collage-page {
+  body.intro-page.intro-collage-page,
+  body.photos-gallery-subpage {
     /* Fixed backgrounds often fight mobile URL bars / in-app browsers */
     background-attachment: scroll;
   }
@@ -515,6 +631,19 @@ a:active {
     font-size: 18px;
   }
 
+  body.intro-page.photos-page .contents,
+  body.photos-gallery-subpage .contents {
+    width: min(90vw, 140px);
+    max-width: 140px;
+    margin-left: auto;
+    margin-right: auto;
+    background: transparent;
+    background-color: transparent;
+    padding: 0;
+    border-radius: 0;
+    opacity: 1;
+  }
+
   .explanation, .memorybox {
     position: relative;
     top: auto;
@@ -531,22 +660,22 @@ a:active {
     top: auto;
     left: auto;
     transform: none;
-    width: 92%;
+    width: min(96vw, 1100px);
     max-width: none;
     margin: 20px auto;
     align-items: stretch;
   }
 
-  body.intro-page .whoami-main .explanation {
+  body.intro-page .whoami-main .whoami-explanation-graphic {
     width: 100%;
     margin: 0 auto;
   }
 
   .social-box {
     align-self: center;
-    width: auto;
+    width: min(96vw, 120px);
     max-width: 100%;
-    padding: 12px 18px;
+    padding: clamp(8px, 2.2vw, 14px) 9%;
   }
 
   /* Images gallery */
@@ -554,6 +683,11 @@ a:active {
     width: 95vw;
     margin: 20px auto;
     padding: 20px;
+  }
+
+  body.photos-gallery-subpage .images-column {
+    width: 95vw;
+    margin: 20px auto;
   }
 
   .images h1 {
@@ -663,6 +797,13 @@ a:active {
   .contents, .contentsmb {
     padding: 18px;
     font-size: 16px;
+  }
+
+  body.intro-page.photos-page .contents,
+  body.photos-gallery-subpage .contents {
+    padding: 0;
+    background: transparent;
+    background-color: transparent;
   }
 
   .explanation, .memorybox {

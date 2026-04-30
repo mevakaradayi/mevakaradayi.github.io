@@ -6,20 +6,22 @@
     <title>The web site of mevakaradayi</title>
     <link href="/mywebsite.css" rel="stylesheet" type="text/css" media="all">
   </head>
-  <body>
+  <body class="photos-gallery-subpage">
+    <a class="films-exit" href="Photos.html" aria-label="Exit to Photos"><img src="Images/exit.png" alt="" width="96" height="96"></a>
     <main>
        <div class="contents">
-        <a href="index.html">Home</a><br>
-        <a href="nyc.html">NYC</a> <br>
-        <a href="Istanbul.html">İstanbul</a> <br>
-        <a href ="Turkiye.html">Türkiye</a><br>
-        <!--<a href="corememories.html">Core Memories</a>-->
-      </div> 
+        <a href="nyc.html" class="photos-nav-link"><img src="Images/nyc.PNG" alt="NYC photos" width="1806" height="736" decoding="async"></a>
+        <a href="Istanbul.html" class="photos-nav-link"><img src="Images/istanbul.PNG" alt="İstanbul photos" width="1785" height="546" decoding="async"></a>
+        <a href="Turkiye.html" class="photos-nav-link"><img src="Images/turkey.PNG" alt="Türkiye photos" width="1807" height="645" decoding="async"></a>
+      </div>
 
 
-      <div class="images">
-        <h1>San Diego</h1>
-        
+      <div class="images-column">
+        <div class="images-outside-banner">
+          <img src="Images/sandiego.PNG" alt="San Diego photos" width="1790" height="735" decoding="async">
+        </div>
+        <div class="images">
+
         <figure>
           <img src="Images/Sunset_Over_Pacific_Ocean.jpg" alt ="sunset">
           <figcaption> La Jolla Shores DR - Biological Grade</figcaption>
@@ -48,6 +50,7 @@
           <figcaption>La Jolla Village Dr- Executive Dr</figcaption>
         </figure>
 
+      </div>
       </div>
     </main>
   </body>
