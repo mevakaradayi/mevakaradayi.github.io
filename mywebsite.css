@@ -503,9 +503,9 @@ a:active {
 
 
 .images{
-  background-color: rgba(0, 0, 0, 0.46);
-  border: 2px double;
-  border-radius: 25px;
+  background-color: transparent;
+  border: none;
+  border-radius: 0;
   box-sizing: border-box;
   padding: 40px;
 
@@ -516,7 +516,7 @@ a:active {
   min-height: 0;                     /* let height grow with content */
 }
 
-/* Banner above black .images panel (gallery subpages: NYC, İstanbul, San Diego, Türkiye) */
+/* Banner above gallery column (gallery subpages: NYC, İstanbul, San Diego, Türkiye) */
 body.photos-gallery-subpage .images-column {
   box-sizing: border-box;
   width: 48vw;
@@ -534,7 +534,7 @@ body.photos-gallery-subpage .images-outside-banner {
   border-radius: 10px;
   overflow: hidden;
   margin: 0 auto 20px;
-  /* Centered above the black panel; smaller than half the former 112% strip */
+  /* Centered above the gallery column; smaller than half the former 112% strip */
   width: 36%;
 }
 
@@ -558,6 +558,7 @@ body.photos-gallery-subpage .images-outside-banner img {
   width: 100%;
   margin-top: 0;
   margin-bottom: 20px;
+  color: #1a1a1a;
 }
 
 .images figure { 
@@ -576,8 +577,7 @@ body.photos-gallery-subpage .images-outside-banner img {
 .images figcaption{
   margin-top: 8px;
   font-size: 15px;
-  color: white;
-  opacity: 0.85;
+  color: #1a1a1a;
 }
 
 /* ===== MOBILE RESPONSIVE ===== */
