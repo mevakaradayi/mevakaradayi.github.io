@@ -251,8 +251,8 @@ body.photos-gallery-subpage {
 }
 
 .intro-hotspot--photos {
-  left: 55%;
-  top: 48%;
+  left: 85%;
+  top: 80%;
   width: min(22vw, 280px);
 }
 
@@ -269,8 +269,8 @@ body.photos-gallery-subpage {
 }
 
 .intro-hotspot--media {
-  left: 85%;
-  top: 80%;
+  left: 55%;
+  top: 48%;
   width: min(22vw, 280px);
 }
 
@@ -753,8 +753,8 @@ body.photos-gallery-subpage .images-outside-banner img {
 
   .intro-hotspot--photos {
     width: min(28vw, 34vmin, 27dvh, 168px);
-    left: 50%;
-    top: 46%;
+    left: 74%;
+    top: 78%;
   }
 
   .intro-hotspot--whoami {
@@ -771,8 +771,8 @@ body.photos-gallery-subpage .images-outside-banner img {
 
   .intro-hotspot--media {
     width: min(28vw, 34vmin, 27dvh, 168px);
-    left: 74%;
-    top: 78%;
+    left: 50%;
+    top: 46%;
   }
 
   /* Links - disable hover zoom on touch */
@@ -848,8 +848,8 @@ body.photos-gallery-subpage .images-outside-banner img {
 
   .intro-hotspot--photos {
     width: min(24vw, 30vmin, 24dvh, 142px);
-    left: 50%;
-    top: 47%;
+    left: 73%;
+    top: 77%;
   }
 
   .intro-hotspot--whoami {
@@ -866,8 +866,8 @@ body.photos-gallery-subpage .images-outside-banner img {
 
   .intro-hotspot--media {
     width: min(24vw, 30vmin, 24dvh, 142px);
-    left: 73%;
-    top: 77%;
+    left: 50%;
+    top: 47%;
   }
 }
 
@@ -886,7 +886,8 @@ body.photos-gallery-subpage .images-outside-banner img {
 
   .intro-hotspot--photos {
     width: min(21vw, 25vmin, 20dvh, 112px);
-    top: 44%;
+    left: 72%;
+    top: 74%;
   }
 
   .intro-hotspot--whoami {
@@ -902,8 +903,7 @@ body.photos-gallery-subpage .images-outside-banner img {
 
   .intro-hotspot--media {
     width: min(21vw, 25vmin, 20dvh, 112px);
-    left: 72%;
-    top: 74%;
+    top: 44%;
   }
 }
 
