@@ -1437,20 +1437,23 @@ body.intro-page.musics-page {
   }
 
   .musics-stage {
-    min-height: min(58vh, 520px);
-    gap: clamp(0.5rem, 2vw, 1rem);
+    flex-direction: column;
+    align-items: center;
+    min-height: auto;
+    gap: clamp(1rem, 4vw, 1.75rem);
     padding-inline: clamp(0.35rem, 1.5vw, 0.75rem);
   }
 
   .musics-radio {
-    width: min(38vw, 260px);
-    max-width: 260px;
-    transform: translateX(clamp(-0.65rem, -2.5vw, -2rem));
+    width: min(58vw, 280px);
+    max-width: 280px;
+    transform: none;
   }
 
   .musics-playlist {
-    max-width: none;
-    transform: translateX(clamp(0.5rem, 2vw, 1.75rem));
+    width: 100%;
+    max-width: min(100%, 420px);
+    transform: none;
   }
 
   .musics-playlist__embed {
