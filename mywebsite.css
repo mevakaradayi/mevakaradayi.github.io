@@ -1118,7 +1118,7 @@ body.intro-page.films-page main.films-main {
 }
 
 .films-rail {
-  --films-poster-w: min(42vw, 200px);
+  --films-poster-w: min(48vw, 280px);
   flex: 0 0 auto;
   width: 100%;
   max-width: min(100vw, 1200px);
@@ -1151,7 +1151,7 @@ body.intro-page.films-page main.films-main {
   padding-block: clamp(1rem, 3vh, 2rem);
   padding-inline: calc(50% - var(--films-poster-w) / 2);
   width: max-content;
-  min-height: min(52vh, 420px);
+  min-height: min(58vh, 560px);
 }
 
 .films-card {
@@ -1197,11 +1197,11 @@ body.intro-page.films-page main.films-main {
 
   .films-rail {
     /* Narrower than desktop so the year graphic and posters both fit */
-    --films-poster-w: min(34vw, 128px);
+    --films-poster-w: min(40vw, 180px);
   }
 
   .films-rail__track {
-    min-height: min(36vh, 280px);
+    min-height: min(42vh, 380px);
     padding-block: clamp(0.75rem, 2vh, 1.25rem);
   }
 
