@@ -269,15 +269,15 @@ body.photos-gallery-subpage {
 }
 
 .intro-hotspot--media {
-  left: 55%;
+  left: 58%;
   top: 44%;
   width: min(22vw, 280px);
 }
 
 .intro-hotspot--blog {
-  left: 46%;
+  left: 38%;
   top: 74%;
-  width: min(34vw, 320px);
+  width: min(22vw, 280px);
 }
 
 .introduction {
@@ -777,13 +777,13 @@ body.photos-gallery-subpage .images-outside-banner img {
 
   .intro-hotspot--media {
     width: min(28vw, 34vmin, 27dvh, 168px);
-    left: 50%;
+    left: 53%;
     top: 42%;
   }
 
   .intro-hotspot--blog {
-    width: min(44vw, 60vmin, 44dvh, 210px);
-    left: 46%;
+    width: min(28vw, 34vmin, 27dvh, 168px);
+    left: 38%;
     top: 72%;
   }
 
@@ -878,13 +878,13 @@ body.photos-gallery-subpage .images-outside-banner img {
 
   .intro-hotspot--media {
     width: min(24vw, 30vmin, 24dvh, 142px);
-    left: 50%;
+    left: 53%;
     top: 43%;
   }
 
   .intro-hotspot--blog {
-    width: min(40vw, 54vmin, 40dvh, 180px);
-    left: 46%;
+    width: min(24vw, 30vmin, 24dvh, 142px);
+    left: 38%;
     top: 71%;
   }
 }
@@ -921,12 +921,13 @@ body.photos-gallery-subpage .images-outside-banner img {
 
   .intro-hotspot--media {
     width: min(21vw, 25vmin, 20dvh, 112px);
+    left: 53%;
     top: 40%;
   }
 
   .intro-hotspot--blog {
-    width: min(38vw, 48vmin, 36dvh, 150px);
-    left: 46%;
+    width: min(21vw, 25vmin, 20dvh, 112px);
+    left: 38%;
     top: 70%;
   }
 }
