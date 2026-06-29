@@ -298,7 +298,7 @@ body.photos-gallery-subpage {
 
 .intro-hotspot--blog {
   left: 38%;
-  top: 70%;
+  top: 74%;
   width: min(22vw, 280px);
 }
 
@@ -805,7 +805,7 @@ body.photos-gallery-subpage .images-outside-banner img {
   .intro-hotspot--blog {
     width: min(28vw, 34vmin, 27dvh, 168px);
     left: 38%;
-    top: 68%;
+    top: 72%;
   }
 
   /* Links - disable hover zoom on touch */
@@ -906,7 +906,7 @@ body.photos-gallery-subpage .images-outside-banner img {
   .intro-hotspot--blog {
     width: min(24vw, 30vmin, 24dvh, 142px);
     left: 38%;
-    top: 67%;
+    top: 71%;
   }
 }
 
