@@ -1,1 +1,4 @@
 .DS_Store
+
+.venv-imgopt/
+_optimize_images.py
