@@ -1511,30 +1511,28 @@ body.intro-page.musics-page {
 body.intro-page.favorites-page {
   display: flex;
   flex-direction: column;
-  align-items: stretch;
-  justify-content: flex-start;
+  align-items: flex-start;
+  justify-content: center;
   text-align: left;
   height: 100dvh;
   max-height: 100dvh;
   min-height: 100dvh;
   overflow: hidden;
-  padding-top: clamp(3.5rem, 8vh, 5rem);
-  padding-bottom: clamp(0.75rem, 2vh, 1.25rem);
+  padding: clamp(0.75rem, 2vh, 1.25rem);
+  padding-left: clamp(1.25rem, 6vw, 4rem);
   box-sizing: border-box;
 }
 
 .favorites-fleur {
-  position: fixed;
-  top: max(0.75rem, env(safe-area-inset-top, 0px));
-  left: 50%;
-  transform: translateX(-50%);
-  z-index: 20;
-  width: clamp(160px, 38vw, 520px);
+  position: relative;
+  z-index: 1;
+  width: min(32vw, 400px);
   height: auto;
   object-fit: contain;
   pointer-events: none;
   user-select: none;
-  filter: drop-shadow(0 6px 14px rgba(0, 0, 0, 0.55));
+  filter: drop-shadow(0 10px 22px rgba(0, 0, 0, 0.38))
+    drop-shadow(0 3px 8px rgba(0, 0, 0, 0.28));
 }
 
 body.intro-page.favorites-page main,
