@@ -1526,7 +1526,7 @@ body.intro-page.favorites-page {
 .favorites-fleur {
   position: relative;
   z-index: 1;
-  width: min(32vw, 400px);
+  width: min(40vw, 500px);
   height: auto;
   object-fit: contain;
   pointer-events: none;
