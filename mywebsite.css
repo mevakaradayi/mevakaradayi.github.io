@@ -1509,6 +1509,7 @@ body.intro-page.musics-page {
 
 /* Favorites page */
 body.intro-page.favorites-page {
+  position: relative;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -1527,6 +1528,21 @@ body.intro-page.favorites-page {
   position: relative;
   z-index: 1;
   width: min(40vw, 500px);
+  height: auto;
+  object-fit: contain;
+  pointer-events: none;
+  user-select: none;
+  filter: drop-shadow(0 10px 22px rgba(0, 0, 0, 0.38))
+    drop-shadow(0 3px 8px rgba(0, 0, 0, 0.28));
+}
+
+.favorites-coffee {
+  position: absolute;
+  z-index: 1;
+  right: clamp(1.25rem, 8vw, 5rem);
+  top: 52%;
+  transform: translateY(-50%);
+  width: min(36vw, 440px);
   height: auto;
   object-fit: contain;
   pointer-events: none;
