@@ -1539,9 +1539,9 @@ body.intro-page.favorites-page {
 .favorites-coffee {
   position: absolute;
   z-index: 1;
-  right: clamp(1.25rem, 8vw, 5rem);
-  top: 52%;
-  transform: translateY(-50%);
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
   width: min(36vw, 440px);
   height: auto;
   object-fit: contain;
@@ -1549,6 +1549,32 @@ body.intro-page.favorites-page {
   user-select: none;
   filter: drop-shadow(0 10px 22px rgba(0, 0, 0, 0.38))
     drop-shadow(0 3px 8px rgba(0, 0, 0, 0.28));
+}
+
+.favorites-cookie {
+  position: absolute;
+  z-index: 2;
+  right: clamp(1.25rem, 8vw, 5rem);
+  top: 50%;
+  transform: translateY(-50%);
+  width: min(26vw, 340px);
+  height: auto;
+  object-fit: contain;
+  pointer-events: none;
+  user-select: none;
+  filter: drop-shadow(0 10px 22px rgba(0, 0, 0, 0.38))
+    drop-shadow(0 3px 8px rgba(0, 0, 0, 0.28));
+}
+
+@media (max-width: 768px) {
+  .favorites-coffee {
+    width: min(42vw, 280px);
+  }
+
+  .favorites-cookie {
+    right: clamp(0.75rem, 4vw, 1.5rem);
+    width: min(32vw, 200px);
+  }
 }
 
 body.intro-page.favorites-page main,
