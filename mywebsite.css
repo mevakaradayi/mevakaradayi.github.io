@@ -405,6 +405,31 @@ body.photos-gallery-subpage {
   margin-bottom: 0;
 }
 
+/* WhoAmI.html: about-me graphic fills the page; exit link stays on top */
+body.intro-page.whoami-page {
+  background-color: #fdf9f0;
+  background-image: url(Images/aboutme.jpg);
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+  background-attachment: fixed;
+  min-height: 100vh;
+  min-height: 100dvh;
+}
+
+body.intro-page.whoami-page .films-exit {
+  top: calc(1.35rem + env(safe-area-inset-top, 0px));
+}
+
+body.intro-page.whoami-page .films-exit img {
+  width: clamp(94px, 18vw, 148px);
+  filter: none;
+}
+
+body.intro-page.whoami-page .films-exit:hover img {
+  filter: none;
+}
+
 /* Who am I: bio + compact social panel */
 body.intro-page .whoami-main {
   position: absolute;
