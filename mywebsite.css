@@ -155,6 +155,9 @@ body.intro-page.photos-page .contents .photos-nav-link img,
 body.photos-gallery-subpage .contents .photos-nav-link img {
   width: 100%;
   height: auto;
+  aspect-ratio: 1759 / 506;
+  object-fit: cover;
+  object-position: center 40.4%;
   display: block;
   vertical-align: middle;
   transition: transform 0.2s ease, opacity 0.2s ease;
@@ -201,7 +204,7 @@ body.intro-page.intro-collage-page::before {
   pointer-events: none;
 }
 
-/* NYC, San Diego, İstanbul, Türkiye gallery subpages: same backdrop as index.html */
+/* NYC, San Diego, İstanbul, Türkiye, Tahoe gallery subpages: same backdrop as index.html */
 body.photos-gallery-subpage {
   background-image: url(BackgroundImage.jpg);
   background-repeat: no-repeat;
@@ -569,7 +572,7 @@ a:active {
   min-height: 0;                     /* let height grow with content */
 }
 
-/* Banner above gallery column (gallery subpages: NYC, İstanbul, San Diego, Türkiye) */
+/* Banner above gallery column (gallery subpages: NYC, İstanbul, San Diego, Türkiye, Tahoe) */
 body.photos-gallery-subpage .images-column {
   box-sizing: border-box;
   width: 48vw;
@@ -594,6 +597,9 @@ body.photos-gallery-subpage .images-outside-banner {
 body.photos-gallery-subpage .images-outside-banner img {
   width: 100%;
   height: auto;
+  aspect-ratio: 1759 / 506;
+  object-fit: cover;
+  object-position: center 40.4%;
   display: block;
 }
 
@@ -691,7 +697,7 @@ body.photos-gallery-subpage .images-outside-banner img {
     margin-right: auto;
     background: transparent;
     background-color: transparent;
-    padding: 0;
+    padding: 56px 0 0;
     border-radius: 0;
     opacity: 1;
   }
@@ -859,7 +865,7 @@ body.photos-gallery-subpage .images-outside-banner img {
 
   body.intro-page.photos-page .contents,
   body.photos-gallery-subpage .contents {
-    padding: 0;
+    padding: 52px 0 0;
     background: transparent;
     background-color: transparent;
   }
