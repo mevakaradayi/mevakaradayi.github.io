@@ -163,6 +163,30 @@
         outline: none;
       }
 
+      .photo-kicker {
+        position: fixed;
+        top: calc(max(26px, env(safe-area-inset-top)) + 22px);
+        left: 0;
+        right: 0;
+        z-index: 3;
+        margin: 0;
+        padding-left: 0.26em;
+        font-size: 12px;
+        font-weight: 500;
+        letter-spacing: 0.26em;
+        text-transform: uppercase;
+        text-align: center;
+        color: var(--home);
+        opacity: 0;
+        visibility: hidden;
+        pointer-events: none;
+      }
+
+      body.is-deck .photo-kicker {
+        opacity: 1;
+        visibility: visible;
+      }
+
       .photo-desc {
         position: absolute;
         left: 50%;
@@ -192,7 +216,9 @@
       }
 
       @media (max-width: 640px) {
-        .photo-home { font-size: 11px; }
+        .photo-home,
+        .photo-kicker { font-size: 11px; }
+        .photo-kicker { top: calc(max(22px, env(safe-area-inset-top)) + 20px); }
         .photo-card { border-radius: 14px; }
         .photo-desc { font-size: 12px; }
       }
@@ -201,6 +227,7 @@
   </head>
   <body>
     <a class="photo-home" href="index.html">Home</a>
+    <p class="photo-kicker" id="kicker">Photos</p>
     <div class="photo-stage" id="stage">
       <div class="photo-copy" id="copy">
         <p class="photo-desc" id="desc"></p>
@@ -360,6 +387,7 @@
       let enlarged = null;
       let activeOpen = null;
       let openAmount = 0;
+      let deckShift = 0;
       let hovered = null;
 
       function setSrc(img, src) {
@@ -579,7 +607,6 @@
         if (mode === "orbit") updateFocus(layouts);
 
         let poses;
-        const textY = restingLabelY();
         if (mode === "orbit") {
           poses = allCards.map((card) => {
             if (card.kind === "orbit") return layouts[card.city];
@@ -602,7 +629,11 @@
           }
         }
 
+        document.body.classList.toggle("is-deck", mode === "deck" || mode === "gather");
+
         if (mode === "deck") poses = fanOpen(poses);
+        else deckShift = 0;
+        const textY = restingLabelY() + (mode === "deck" ? deckShift * openAmount : 0);
         allCards.forEach((card, index) => {
           card.el.classList.toggle("is-picked", mode === "deck" && card === enlarged && poses[index].opacity > 0.5);
         });
@@ -610,7 +641,10 @@
         copy.style.transform = "translate(-50%, 0) translateY(" + textY + "px)";
         stage.classList.toggle("is-orbit", mode === "orbit");
         stage.classList.toggle("is-held", mode === "deck");
-        const note = mode === "deck" && hovered && hovered.caption && parseFloat(hovered.el.style.opacity) > 0.5 ? hovered.caption : "";
+        const pinned = enlarged || (openAmount > 0.001 ? activeOpen : null);
+        let note = "";
+        if (mode === "deck" && pinned) note = pinned.caption || "";
+        else if (mode === "deck" && hovered && hovered.caption && parseFloat(hovered.el.style.opacity) > 0.5) note = hovered.caption;
         if (note) desc.textContent = note;
         stage.classList.toggle("is-note", note !== "");
 
@@ -662,19 +696,41 @@
         };
       }
 
+      function captionClearY() {
+        const kicker = document.getElementById("kicker");
+        const bottom = kicker.getBoundingClientRect().bottom + 16;
+        return bottom - (metrics.h / 2 - 24);
+      }
+
       function fanOpen(poses) {
         if (!activeOpen || openAmount < 0.001) {
+          deckShift = 0;
           return poses.map((pose, index) => growPose(pose, allCards[index]));
         }
         const pickedIndex = allCards.indexOf(activeOpen);
         const origin = poses[pickedIndex];
         const label = restingLabelY();
-        const bigBottom = label - 52;
-        const topLimit = -metrics.h / 2 + 72;
+        const maxShift = Math.max(0, metrics.h / 2 - 40 - label);
         let bigH = Math.min(metrics.w * 0.52, metrics.h * 0.5, 560) * 1.22;
-        bigH = Math.min(bigH, metrics.h * 0.66, bigBottom - topLimit);
+        bigH = Math.min(bigH, metrics.h * 0.66);
+        const clearTop = captionClearY();
+        let shift = 0;
+        let photoBottom = label - 52;
+        let photoTop = photoBottom - bigH;
+        if (photoTop < clearTop) {
+          shift = Math.min(maxShift, clearTop - photoTop);
+          photoBottom += shift;
+          photoTop += shift;
+        }
+        if (photoTop < clearTop) {
+          photoTop = clearTop;
+          bigH = Math.max(140, photoBottom - photoTop);
+          photoTop = photoBottom - bigH;
+        }
         const fittedW = bigH / 1.22;
-        const bigY = bigBottom - bigH / 2;
+        const bigY = photoTop + bigH / 2 - shift;
+        deckShift = shift;
+        const drop = shift * openAmount;
         const gap = fittedW / 2 + 36;
         let leftDx = -80;
         let rightDx = 80;
@@ -693,7 +749,7 @@
           if (index === pickedIndex) {
             return {
               x: lerp(pose.x, 0, openAmount),
-              y: lerp(pose.y, bigY, openAmount),
+              y: lerp(pose.y, bigY, openAmount) + drop,
               rot: lerp(pose.rot, 0, openAmount),
               w: lerp(pose.w, fittedW, openAmount),
               h: lerp(pose.h, bigH, openAmount),
@@ -704,7 +760,7 @@
           const dx = pose.x < origin.x ? leftDx : rightDx;
           return {
             x: pose.x + dx * openAmount,
-            y: pose.y,
+            y: pose.y + drop,
             rot: pose.rot,
             w: pose.w,
             h: pose.h,
