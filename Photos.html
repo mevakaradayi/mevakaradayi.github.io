@@ -1,26 +1,838 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Photo page of the site of mevakaradayi</title>
-    <link href="/mywebsite.css" rel="stylesheet" type="text/css" media="all">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Photos — mevakaradayi</title>
+    <style>
+      :root {
+        --ink: #1c1c1c;
+        --muted: #8a8a8a;
+        --home: #9a9a9a;
+      }
+
+      * { box-sizing: border-box; }
+
+      html,
+      body {
+        height: 100%;
+        margin: 0;
+      }
+
+      body {
+        overflow: hidden;
+        background: #fff;
+        color: var(--ink);
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+        -webkit-font-smoothing: antialiased;
+      }
+
+      .photo-home {
+        position: fixed;
+        top: max(26px, env(safe-area-inset-top));
+        left: 0;
+        right: 0;
+        z-index: 2;
+        padding-left: 0.26em;
+        font-size: 12px;
+        font-weight: 500;
+        letter-spacing: 0.26em;
+        text-transform: uppercase;
+        text-align: center;
+        text-decoration: none;
+        color: var(--home);
+      }
+
+      .photo-home:hover,
+      .photo-home:focus-visible {
+        color: #4d4d4d;
+      }
+
+      .photo-stage {
+        position: absolute;
+        left: 50%;
+        top: calc(50% - 24px);
+        z-index: 1;
+        width: 0;
+        height: 0;
+      }
+
+      @media (prefers-reduced-motion: no-preference) {
+        .photo-stage.is-ready {
+          animation: photo-in 0.7s ease;
+        }
+      }
+
+      @keyframes photo-in {
+        from { opacity: 0; }
+        to { opacity: 1; }
+      }
+
+      .photo-card {
+        position: absolute;
+        top: 0;
+        left: 0;
+        overflow: hidden;
+        border-radius: 18px;
+        background: #ececec;
+        box-shadow: 0 16px 40px rgba(20, 20, 20, 0.12);
+        pointer-events: none;
+        will-change: transform;
+      }
+
+      .photo-card.is-picked {
+        box-shadow: 0 28px 70px rgba(20, 20, 20, 0.28);
+      }
+
+      .photo-close {
+        display: none;
+        position: absolute;
+        top: 14px;
+        right: 14px;
+        z-index: 3;
+        width: 36px;
+        height: 36px;
+        padding: 0;
+        border: 0;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.94);
+        color: #1c1c1c;
+        font: inherit;
+        font-size: 22px;
+        line-height: 1;
+        cursor: pointer;
+      }
+
+      .photo-card.is-picked .photo-close {
+        display: grid;
+        place-items: center;
+      }
+
+      .photo-stage.is-orbit .photo-card,
+      .photo-stage.is-held .photo-card {
+        pointer-events: auto;
+        cursor: pointer;
+      }
+
+      .photo-card img {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        user-select: none;
+        -webkit-user-drag: none;
+      }
+
+      .photo-card img + img {
+        opacity: 0;
+      }
+
+      .photo-copy {
+        position: absolute;
+        left: 0;
+        top: 0;
+        z-index: 10000;
+        width: min(460px, 88vw);
+        text-align: center;
+        pointer-events: none;
+      }
+
+      .photo-title {
+        display: inline-block;
+        margin: 0;
+        padding: 0;
+        border: 0;
+        background: none;
+        color: #2a2a2a;
+        font: inherit;
+        font-size: 18px;
+        font-weight: 500;
+        letter-spacing: -0.01em;
+        line-height: 1.2;
+        cursor: pointer;
+        pointer-events: auto;
+      }
+
+      .photo-title:hover,
+      .photo-title:focus-visible {
+        color: #555;
+      }
+
+      .photo-title:focus {
+        outline: none;
+      }
+
+      .photo-desc {
+        position: absolute;
+        left: 50%;
+        bottom: calc(100% + 8px);
+        width: min(420px, 86vw);
+        margin: 0;
+        transform: translateX(-50%);
+        color: #9a9a9a;
+        font-size: 13px;
+        line-height: 1.45;
+        opacity: 0;
+      }
+
+      .photo-stage.is-note .photo-desc {
+        opacity: 1;
+      }
+
+      .photo-note {
+        margin: 8px 0 0;
+        color: #9a9a9a;
+        font-size: 13px;
+        line-height: 1.45;
+      }
+
+      .photo-stage:not(.is-orbit) .photo-note {
+        display: none;
+      }
+
+      @media (max-width: 640px) {
+        .photo-home { font-size: 11px; }
+        .photo-card { border-radius: 14px; }
+        .photo-desc { font-size: 12px; }
+      }
+
+    </style>
   </head>
-  <body class="intro-page intro-collage-page photos-page">
-    <a class="films-exit" href="index.html" aria-label="Exit to Home"><img src="Images/exit.webp" alt="" width="96" height="96"></a>
-     <div class="contents">
-        <a href="nyc.html" class="photos-nav-link"><img src="Images/nyc.PNG" alt="NYC photos" width="1759" height="506" decoding="async"></a>
-        <a href="Istanbul.html" class="photos-nav-link"><img src="Images/istanbul.PNG" alt="İstanbul photos" width="1759" height="506" decoding="async"></a>
-        <a href="Turkiye.html" class="photos-nav-link"><img src="Images/turkey.PNG" alt="Türkiye photos" width="1759" height="506" decoding="async"></a>
-        <a href="SanDiego.html" class="photos-nav-link"><img src="Images/sandiego.PNG" alt="San Diego photos" width="1759" height="506" decoding="async"></a>
-        <a href="Tahoe.html" class="photos-nav-link"><img src="Images/tahoe.PNG" alt="Tahoe photos" width="1759" height="506" decoding="async"></a>
+  <body>
+    <a class="photo-home" href="index.html">Home</a>
+    <div class="photo-stage" id="stage">
+      <div class="photo-copy" id="copy">
+        <p class="photo-desc" id="desc"></p>
+        <button type="button" class="photo-title" id="title">NYC</button>
+        <p class="photo-note">I mostly shoot with my iPhone. I also use digital camera - olympus omd em10.</p>
       </div>
+    </div>
 
-      <div class="photos-explanation-center">
-        <img src="Images/explanation.PNG" alt="I mostly shoot with my iPhone. I also use digital camera - olympus omd em10." width="1798" height="640" decoding="async">
-      </div>
+    <script>
+      // Edit these. The first image of each city is the one on the arc.
+      const TIMING = {
+        gather: 1000,
+        disperse: 900
+      };
+      const ORBIT_DEGREES_PER_SEC = 9;
+      const LABEL_FADE = 240;
 
+      const CITIES = [
+        {
+          name: "NYC",
+          images: [
+            { src: "Images/CentralPark2025.jpg", caption: "October 23 - Dairy Visitor Center" },
+            { src: "Images/CP2025.jpg", caption: "October 23 - Somewhere between Cop Cot and Waterfalls Central Park" },
+            { src: "Images/2CentralPark2025.jpg", caption: "October 23 - North east part of The Pond" },
+            { src: "Images/West_Village.jpg", caption: "July 2024 - West 10th 5th Ave" },
+            { src: "Images/Union_Square.jpg", caption: "July 2024 - Union Sq E" },
+            { src: "Images/NYC_Subway.jpg", caption: "A subway station near to the Central Park" },
+            { src: "Images/PublicLibrary.jpg", caption: "the Rose Main Reading Room of Public Library" },
+            { src: "Images/Central_Park_NYC.jpg", caption: "Central Park" },
+            { src: "Images/ChinaTown_NYC.jpg", caption: "Chinatown" },
+            { src: "Images/central_park.JPG", caption: "Central Park" },
+            { src: "Images/NYC_CentralPark.jpg", caption: "Central Park" },
+            { src: "Images/NYC.jpg", caption: "Near Washington Square Park West Chess Tables" },
+            { src: "Images/Empire_State.jpg", caption: "151 W 34th St." },
+            { src: "Images/snowynyc.jpg", caption: "City Hall Park" }
+          ]
+        },
+        {
+          name: "İstanbul",
+          images: [
+            { src: "Images/P7100015.jpg", caption: "" },
+            { src: "Images/P7100106.jpg", caption: "" },
+            { src: "Images/P7100119.jpg", caption: "" },
+            { src: "Images/P7100121.jpg", caption: "" },
+            { src: "Images/Sarıyer_Sahil.jpg", caption: "2018 - Sarıyer Sahil" },
+            { src: "Images/4Levent.jpg", caption: "2024 - 4 Levent Metro Station" },
+            { src: "Images/Cihangir.JPG", caption: "2024 - Çukurcuma" },
+            { src: "Images/Haciosman.JPG", caption: "Hacıosman Bus Station" },
+            { src: "Images/IST.jpg", caption: "Beyoğlu" }
+          ]
+        },
+        {
+          name: "Türkiye",
+          images: [
+            { src: "Images/Iztuzu_Plaji.jpeg", caption: "İztuzu Plajı" },
+            { src: "Images/Kirkpinar.jpg", caption: "Sakarya - Kırkpınar" }
+          ]
+        },
+        {
+          name: "San Diego",
+          images: [
+            { src: "Images/Sunset_Over_Pacific_Ocean.jpg", caption: "La Jolla Shores DR - Biological Grade" },
+            { src: "Images/Lafayet_Hotel.jpg", caption: "23 August 2025 - Lafayette Hotel" },
+            { src: "Images/Palm_Trees.jpg", caption: "La Jolla Shores DR" },
+            { src: "Images/Office_Sunset.jpg", caption: "Near UTC Mall" },
+            { src: "Images/SanDiego_Sunset.jpg", caption: "Washington Street Station" },
+            { src: "Images/SanDiego.jpg", caption: "La Jolla Village Dr- Executive Dr" }
+          ]
+        },
+        {
+          name: "Tahoe",
+          images: [
+            { src: "Images/tahoe_images/IMG_2930.jpg", caption: "" },
+            { src: "Images/tahoe_images/IMG_2949.jpg", caption: "" },
+            { src: "Images/tahoe_images/IMG_3101.jpg", caption: "" },
+            { src: "Images/tahoe_images/IMG_3107.jpg", caption: "" },
+            { src: "Images/tahoe_images/IMG_3112.jpg", caption: "" },
+            { src: "Images/tahoe_images/IMG_3147.jpg", caption: "" },
+            { src: "Images/tahoe_images/IMG_3157.jpg", caption: "" },
+            { src: "Images/tahoe_images/IMG_3161.jpg", caption: "" },
+            { src: "Images/tahoe_images/IMG_3162.jpg", caption: "" },
+            { src: "Images/tahoe_images/IMG_3169.jpg", caption: "" },
+            { src: "Images/tahoe_images/IMG_3212.jpg", caption: "" },
+            { src: "Images/tahoe_images/IMG_3217.jpg", caption: "" },
+            { src: "Images/tahoe_images/IMG_3229.jpg", caption: "" },
+            { src: "Images/tahoe_images/IMG_3287.jpg", caption: "" }
+          ]
+        }
+      ];
+
+      const stage = document.getElementById("stage");
+      const copy = document.getElementById("copy");
+      const title = document.getElementById("title");
+      const desc = document.getElementById("desc");
+      const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      const maxImages = Math.max.apply(null, CITIES.map((city) => city.images.length));
+
+      function makeCard(kind, city) {
+        const el = document.createElement("div");
+        el.className = "photo-card";
+        const img = document.createElement("img");
+        img.alt = "";
+        img.draggable = false;
+        const close = document.createElement("button");
+        close.type = "button";
+        close.className = "photo-close";
+        close.setAttribute("aria-label", "Close photo");
+        close.textContent = "×";
+        close.addEventListener("click", (event) => {
+          event.stopPropagation();
+          enlarged = null;
+        });
+        el.append(img, close);
+        stage.insertBefore(el, copy);
+        const card = { el, img, kind, city, lift: 0 };
+        el.addEventListener("click", (event) => {
+          event.stopPropagation();
+          onCardClick(card);
+        });
+        el.addEventListener("pointerenter", () => {
+          hovered = card;
+        });
+        el.addEventListener("pointerleave", () => {
+          if (hovered === card) hovered = null;
+        });
+        return card;
+      }
+
+      const orbitCards = CITIES.map((city, index) => {
+        const card = makeCard("orbit", index);
+        card.el.setAttribute("role", "button");
+        card.el.tabIndex = 0;
+        card.el.setAttribute("aria-label", city.name);
+        card.el.addEventListener("keydown", (event) => {
+          if (event.key === "Enter" || event.key === " ") {
+            event.preventDefault();
+            onCardClick(card);
+          }
+        });
+        return card;
+      });
+      const extraCards = [];
+      for (let i = 0; i < maxImages - 1; i++) extraCards.push(makeCard("extra", -1));
+      const allCards = orbitCards.concat(extraCards);
+
+      let mode = "orbit";
+      let modeStart = 0;
+      let orbitTime = 0;
+      let lastNow = 0;
+      let selected = -1;
+      let focusCity = 0;
+      let labelCity = 0;
+      let labelPhase = "show";
+      let labelStart = 0;
+      let fromPoses = [];
+      let metrics = measure();
+      let enlarged = null;
+      let activeOpen = null;
+      let openAmount = 0;
+      let hovered = null;
+
+      function setSrc(img, src) {
+        if (img.getAttribute("src") !== src) img.setAttribute("src", src);
+      }
+
+      function usePhoto(card, photo) {
+        setSrc(card.img, photo.src);
+        card.caption = photo.caption || "";
+      }
+
+      function applyLabel(index) {
+        title.textContent = CITIES[index].name;
+      }
+
+      function measure() {
+        const w = window.innerWidth;
+        const h = window.innerHeight;
+        const span = w < 700 ? 168 : 158;
+        const half = span / 2;
+        const edgeCos = Math.cos((-90 + half) * Math.PI / 180);
+        const cardW = w < 700
+          ? Math.min(134, Math.max(108, w * 0.29))
+          : Math.min(240, Math.max(204, w * 0.16));
+        const cardH = cardW * 1.26;
+        const halfWidth = w / 2 + cardW * 0.22;
+        const radius = halfWidth / edgeCos;
+        let arcY = -Math.min(36, h * 0.04);
+        const centerTop = arcY - (cardH * 1.36) / 2;
+        const limit = -h / 2 + 84;
+        if (centerTop < limit) arcY += limit - centerTop;
+        return { w, h, span, radius, halfWidth, cardW, cardH, arcY };
+      }
+
+      function fitArc() {
+        const anchorSpan = metrics.w < 700 ? 76 : 54;
+        const anchorDrop = Math.tan((anchorSpan / 4) * Math.PI / 180) * metrics.halfWidth;
+        const edgeBottom = metrics.arcY + anchorDrop + (metrics.cardH * 0.78) / 2;
+        const labelDrop = metrics.w < 700 ? 16 : 22;
+        const limit = restingLabelY() - labelDrop - 28;
+        if (edgeBottom > limit) metrics.arcY -= edgeBottom - limit;
+        metrics.arcY += metrics.w < 700 ? 18 : 28;
+        const centerBottom = metrics.arcY + (metrics.cardH * 1.36) / 2;
+        const textClear = restingLabelY() - 36;
+        if (centerBottom > textClear) metrics.arcY -= centerBottom - textClear;
+        const centerTop = metrics.arcY - (metrics.cardH * 1.36) / 2;
+        const topLimit = -metrics.h / 2 + 84;
+        if (centerTop < topLimit) metrics.arcY += topLimit - centerTop;
+      }
+
+      function ease(t) {
+        const x = Math.min(1, Math.max(0, t));
+        return x < 0.5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2;
+      }
+
+      function lerp(a, b, t) {
+        return a + (b - a) * t;
+      }
+
+      function hiddenPose(at) {
+        return {
+          x: at ? at.x : 0,
+          y: at ? at.y : 0,
+          rot: at ? at.rot : 0,
+          w: at ? at.w : 40,
+          h: at ? at.h : 52,
+          opacity: 0,
+          z: 0
+        };
+      }
+
+      function orbitLayouts() {
+        const n = CITIES.length;
+        const span = metrics.span;
+        const shift = ((orbitTime / 1000) * ORBIT_DEGREES_PER_SEC) / span;
+        const layouts = [];
+        for (let i = 0; i < n; i++) {
+          let u = (i + 0.5) / n + shift;
+          u = ((u % 1) + 1) % 1;
+          const deg = -90 - span / 2 + u * span;
+          const rad = deg * Math.PI / 180;
+          const drop = (Math.sin(rad) + 1) * metrics.radius;
+          const dist = Math.abs(deg + 90) / (span / 2);
+          const emphasis = Math.pow(Math.max(0, 1 - dist), 2.4);
+          const scale = 0.78 + emphasis * 0.58;
+          const x = Math.cos(rad) * metrics.radius;
+          const width = metrics.cardW * scale;
+          const fromEdge = metrics.w / 2 - (Math.abs(x) + width / 2);
+          const startBand = metrics.w < 700 ? 24 : 48;
+          const gone = -width * 0.72;
+          const fade = Math.max(0, Math.min(1, (fromEdge - gone) / (startBand - gone)));
+          layouts.push({
+            x: x,
+            y: metrics.arcY + drop,
+            rot: (deg + 90) * 1.05,
+            w: width,
+            h: metrics.cardH * scale,
+            opacity: fade,
+            z: Math.round(20 + emphasis * 80),
+            emphasis
+          });
+        }
+        return layouts;
+      }
+
+      function updateFocus(layouts) {
+        let challenger = 0;
+        for (let i = 1; i < layouts.length; i++) {
+          if (layouts[i].emphasis > layouts[challenger].emphasis) challenger = i;
+        }
+        focusCity = challenger;
+      }
+
+      function deckMetrics(count) {
+        const maxTotal = Math.min(metrics.w - 40, 1080);
+        let cardW = Math.min(metrics.w < 700 ? 156 : 228, metrics.w * 0.22);
+        let peek = count <= 1 ? 0 : Math.min(cardW * 0.36, (maxTotal - cardW) / (count - 1));
+        peek = Math.max(16, Math.min(metrics.w < 700 ? 32 : 74, peek));
+        let total = cardW + Math.max(0, count - 1) * peek;
+        if (total > maxTotal && count > 1) {
+          peek = Math.max(12, (maxTotal - cardW) / (count - 1));
+          total = cardW + (count - 1) * peek;
+        }
+        if (total > maxTotal) {
+          cardW = Math.max(96, maxTotal - Math.max(0, count - 1) * peek);
+          total = cardW + Math.max(0, count - 1) * peek;
+        }
+        const cardH = cardW * 1.18;
+        let y = -8;
+        const bottom = y + cardH / 2 + 78;
+        if (bottom > metrics.h / 2 - 20) y -= bottom - (metrics.h / 2 - 20);
+        return { cardW, cardH, peek, total, y };
+      }
+
+      function deckPose(index, count, deck) {
+        const left = -deck.total / 2 + deck.cardW / 2;
+        return {
+          x: left + index * deck.peek,
+          y: deck.y,
+          rot: 0,
+          w: deck.cardW,
+          h: deck.cardH,
+          opacity: 1,
+          z: count - index
+        };
+      }
+
+      function outwardPose(pose) {
+        return {
+          x: pose.x * 1.28,
+          y: pose.y + 24,
+          rot: pose.rot * 1.15,
+          w: pose.w * 0.86,
+          h: pose.h * 0.86,
+          opacity: 0,
+          z: 1
+        };
+      }
+
+      function restingLabelY() {
+        const count = Math.max.apply(null, CITIES.map((city) => city.images.length));
+        const deck = deckMetrics(count);
+        return deck.y + deck.cardH / 2 + (metrics.w < 700 ? 74 : 80);
+      }
+
+      function lerpPose(a, b, t) {
+        return {
+          x: lerp(a.x, b.x, t),
+          y: lerp(a.y, b.y, t),
+          rot: lerp(a.rot, b.rot, t),
+          w: lerp(a.w, b.w, t),
+          h: lerp(a.h, b.h, t),
+          opacity: lerp(a.opacity, b.opacity, t),
+          z: t < 0.45 ? a.z : b.z
+        };
+      }
+
+      function deckTargets(city) {
+        const layouts = orbitLayouts();
+        const images = CITIES[city].images;
+        const deck = deckMetrics(images.length);
+        const origin = layouts[city];
+        return allCards.map((card, index) => {
+          if (card.kind === "orbit") {
+            if (card.city === city) return deckPose(0, images.length, deck);
+            return outwardPose(layouts[card.city]);
+          }
+          const imageIndex = index - orbitCards.length + 1;
+          if (imageIndex < images.length) return deckPose(imageIndex, images.length, deck);
+          return hiddenPose(origin);
+        });
+      }
+
+      function orbitTargets() {
+        const layouts = orbitLayouts();
+        return allCards.map((card) => {
+          if (card.kind === "orbit") return layouts[card.city];
+          return hiddenPose(layouts[selected >= 0 ? selected : focusCity]);
+        });
+      }
+
+      function applyPose(card, pose) {
+        const clickable = pose.opacity > 0.65 && (mode === "orbit" ? card.kind === "orbit" : mode === "deck");
+        card.el.style.width = pose.w + "px";
+        card.el.style.height = pose.h + "px";
+        card.el.style.opacity = String(pose.opacity);
+        card.el.style.zIndex = String(pose.z);
+        card.el.style.pointerEvents = clickable ? "auto" : "none";
+        card.el.style.transform =
+          "translate3d(" + (pose.x - pose.w / 2) + "px," + (pose.y - pose.h / 2) + "px,0) rotate(" + pose.rot + "deg)";
+      }
+
+      function render(now) {
+        metrics = measure();
+        fitArc();
+        const layouts = orbitLayouts();
+        if (mode === "orbit") updateFocus(layouts);
+
+        let poses;
+        const textY = restingLabelY();
+        if (mode === "orbit") {
+          poses = allCards.map((card) => {
+            if (card.kind === "orbit") return layouts[card.city];
+            return hiddenPose(layouts[focusCity]);
+          });
+        } else {
+          const t = ease((now - modeStart) / (mode === "gather" ? TIMING.gather : TIMING.disperse));
+          const target = mode === "disperse" ? orbitTargets() : deckTargets(selected);
+          if (mode === "deck") poses = target;
+          else poses = fromPoses.map((pose, index) => lerpPose(pose, target[index], t));
+          if ((mode === "gather" || mode === "disperse") && now - modeStart >= (mode === "gather" ? TIMING.gather : TIMING.disperse)) {
+            mode = mode === "gather" ? "deck" : "orbit";
+            if (mode === "orbit") {
+              selected = -1;
+              labelPhase = "show";
+              labelCity = focusCity;
+              applyLabel(focusCity);
+            }
+            poses = mode === "deck" ? deckTargets(selected) : orbitTargets();
+          }
+        }
+
+        if (mode === "deck") poses = fanOpen(poses);
+        allCards.forEach((card, index) => {
+          card.el.classList.toggle("is-picked", mode === "deck" && card === enlarged && poses[index].opacity > 0.5);
+        });
+        poses.forEach((pose, index) => applyPose(allCards[index], pose));
+        copy.style.transform = "translate(-50%, 0) translateY(" + textY + "px)";
+        stage.classList.toggle("is-orbit", mode === "orbit");
+        stage.classList.toggle("is-held", mode === "deck");
+        const note = mode === "deck" && hovered && hovered.caption && parseFloat(hovered.el.style.opacity) > 0.5 ? hovered.caption : "";
+        if (note) desc.textContent = note;
+        stage.classList.toggle("is-note", note !== "");
+
+        if (mode === "orbit") {
+          if (labelPhase === "show" && focusCity !== labelCity) {
+            labelPhase = "out";
+            labelStart = now;
+          }
+          let opacity = 1;
+          if (labelPhase === "out") {
+            opacity = 1 - (now - labelStart) / LABEL_FADE;
+            if (now - labelStart >= LABEL_FADE) {
+              labelCity = focusCity;
+              applyLabel(labelCity);
+              labelPhase = "in";
+              labelStart = now;
+              opacity = 0;
+            }
+          } else if (labelPhase === "in") {
+            opacity = (now - labelStart) / LABEL_FADE;
+            if (now - labelStart >= LABEL_FADE) labelPhase = "show";
+          }
+          title.style.opacity = String(Math.max(0, Math.min(1, opacity)));
+        } else {
+          title.style.opacity = "1";
+        }
+      }
+
+      function snapshot() {
+        const layouts = orbitLayouts();
+        return allCards.map((card) => {
+          if (card.kind === "orbit") return layouts[card.city];
+          return hiddenPose(layouts[selected >= 0 ? selected : focusCity]);
+        });
+      }
+
+      function growPose(pose, card) {
+        if (pose.opacity < 0.5 || openAmount > 0.02) return pose;
+        const scale = 1 + card.lift * 0.08;
+        if (scale === 1) return pose;
+        return {
+          x: pose.x,
+          y: pose.y - card.lift * 6,
+          rot: pose.rot,
+          w: pose.w * scale,
+          h: pose.h * scale,
+          opacity: pose.opacity,
+          z: pose.z + Math.round(card.lift * 20)
+        };
+      }
+
+      function fanOpen(poses) {
+        if (!activeOpen || openAmount < 0.001) {
+          return poses.map((pose, index) => growPose(pose, allCards[index]));
+        }
+        const pickedIndex = allCards.indexOf(activeOpen);
+        const origin = poses[pickedIndex];
+        const label = restingLabelY();
+        const bigBottom = label - 52;
+        const topLimit = -metrics.h / 2 + 72;
+        let bigH = Math.min(metrics.w * 0.52, metrics.h * 0.5, 560) * 1.22;
+        bigH = Math.min(bigH, metrics.h * 0.66, bigBottom - topLimit);
+        const fittedW = bigH / 1.22;
+        const bigY = bigBottom - bigH / 2;
+        const gap = fittedW / 2 + 36;
+        let leftDx = -80;
+        let rightDx = 80;
+        poses.forEach((pose, index) => {
+          if (pose.opacity < 0.5 || index === pickedIndex) return;
+          if (pose.x < origin.x) {
+            const rightEdge = pose.x + pose.w / 2;
+            leftDx = Math.min(leftDx, -gap - rightEdge);
+          } else {
+            const leftEdge = pose.x - pose.w / 2;
+            rightDx = Math.max(rightDx, gap - leftEdge);
+          }
+        });
+        return poses.map((pose, index) => {
+          if (pose.opacity < 0.5 || !origin) return pose;
+          if (index === pickedIndex) {
+            return {
+              x: lerp(pose.x, 0, openAmount),
+              y: lerp(pose.y, bigY, openAmount),
+              rot: lerp(pose.rot, 0, openAmount),
+              w: lerp(pose.w, fittedW, openAmount),
+              h: lerp(pose.h, bigH, openAmount),
+              opacity: 1,
+              z: 500
+            };
+          }
+          const dx = pose.x < origin.x ? leftDx : rightDx;
+          return {
+            x: pose.x + dx * openAmount,
+            y: pose.y,
+            rot: pose.rot,
+            w: pose.w,
+            h: pose.h,
+            opacity: pose.opacity,
+            z: pose.z
+          };
+        });
+      }
+
+      function openCity(city) {
+        if (mode !== "orbit") return;
+        selected = city;
+        enlarged = null;
+        hovered = null;
+        labelCity = city;
+        labelPhase = "show";
+        applyLabel(city);
+        const images = CITIES[city].images;
+        usePhoto(orbitCards[city], images[0]);
+        extraCards.forEach((card, index) => {
+          if (index + 1 < images.length) usePhoto(card, images[index + 1]);
+        });
+        const layouts = orbitLayouts();
+        fromPoses = allCards.map((card, index) => {
+          if (card.kind === "orbit") return layouts[card.city];
+          return hiddenPose(layouts[city]);
+        });
+        mode = "gather";
+        modeStart = performance.now();
+      }
+
+      function closeDeck() {
+        if (mode !== "deck") return;
+        fromPoses = fanOpen(deckTargets(selected));
+        enlarged = null;
+        activeOpen = null;
+        openAmount = 0;
+        hovered = null;
+        mode = "disperse";
+        modeStart = performance.now();
+      }
+
+      function onCardClick(card) {
+        if (mode === "orbit" && card.kind === "orbit") {
+          openCity(card.city);
+          return;
+        }
+        if (mode !== "deck" || parseFloat(card.el.style.opacity) < 0.5) return;
+        enlarged = card;
+      }
+
+      title.addEventListener("click", (event) => {
+        event.stopPropagation();
+        if (mode === "orbit") openCity(focusCity);
+      });
+
+      document.addEventListener("click", () => {
+        if (mode === "deck") closeDeck();
+      });
+
+      function tick(now) {
+        if (!lastNow) lastNow = now;
+        const dt = Math.min(40, now - lastNow);
+        lastNow = now;
+        if (mode === "orbit" && !reduceMotion) orbitTime += dt;
+        if (enlarged) activeOpen = enlarged;
+        const openGoal = mode === "deck" && enlarged ? 1 : 0;
+        openAmount += (openGoal - openAmount) * 0.16;
+        if (Math.abs(openGoal - openAmount) < 0.004) openAmount = openGoal;
+        if (!enlarged && openAmount === 0) activeOpen = null;
+        allCards.forEach((card) => {
+          const goal = mode === "deck" && !enlarged && card === hovered ? 0.34 : 0;
+          card.lift += (goal - card.lift) * 0.22;
+          if (Math.abs(goal - card.lift) < 0.004) card.lift = goal;
+        });
+        render(now);
+        requestAnimationFrame(tick);
+      }
+
+      function showDeck(city) {
+        metrics = measure();
+        fitArc();
+        selected = city;
+        mode = "deck";
+        applyLabel(city);
+        const images = CITIES[city].images;
+        usePhoto(orbitCards[city], images[0]);
+        extraCards.forEach((card, index) => {
+          if (index + 1 < images.length) usePhoto(card, images[index + 1]);
+        });
+        const poses = deckTargets(city);
+        poses.forEach((pose, index) => applyPose(allCards[index], pose));
+        copy.style.transform = "translate(-50%, 0) translateY(" + restingLabelY() + "px)";
+        copy.style.opacity = "1";
+        stage.classList.add("is-ready", "is-held");
+        lastNow = performance.now();
+        requestAnimationFrame(tick);
+      }
+
+      function start() {
+        orbitCards.forEach((card, index) => usePhoto(card, CITIES[index].images[0]));
+        applyLabel(0);
+        CITIES.forEach((city) => {
+          city.images.forEach((photo) => {
+            const img = new Image();
+            img.src = photo.src;
+          });
+        });
+        const first = orbitCards.map((card) => new Promise((resolve) => {
+          const img = new Image();
+          img.onload = img.onerror = resolve;
+          img.src = card.img.getAttribute("src");
+        }));
+        Promise.race([
+          Promise.all(first),
+          new Promise((resolve) => setTimeout(resolve, 900))
+        ]).then(() => {
+          metrics = measure();
+          fitArc();
+          modeStart = performance.now();
+          lastNow = modeStart;
+          stage.classList.add("is-ready");
+          requestAnimationFrame(tick);
+        });
+      }
+
+      if (reduceMotion) showDeck(0);
+      else start();
+    </script>
   </body>
-  
 </html>
-
