@@ -7,6 +7,86 @@
     <link href="/mywebsite.css" rel="stylesheet" type="text/css" media="all">
   </head>
   <body class="intro-page whoami-page">
-    <a class="films-exit" href="index.html" aria-label="Home"><img src="Images/home.png" alt="" width="528" height="284"></a>
+    <div class="whoami-stage">
+      <img src="Images/about_me.png" alt="Hi! I’m Meva, a law graduate from Turkey. I’m currently on a gap year and not sure when I’ll end it. I live in California. This website is part of my desire to learn and create." width="2160" height="1620" decoding="async">
+      <a class="whoami-home" href="index.html" aria-label="Home"></a>
+      <button class="whoami-connect" type="button" aria-label="Let’s connect" aria-haspopup="dialog" aria-controls="connectWindow"></button>
+    </div>
+
+    <div class="whoami-window" id="connectWindow" hidden>
+      <div class="whoami-window-card" role="dialog" aria-modal="true" aria-labelledby="connectTitle">
+        <header class="whoami-window-bar">
+          <span id="connectTitle">contact</span>
+          <button class="whoami-window-close" type="button" aria-label="Close">x</button>
+        </header>
+        <div class="whoami-window-body">
+          <nav class="whoami-contact-links" aria-label="Social links">
+            <a href="https://www.youtube.com/@mevakaradayi" target="_blank" rel="noopener noreferrer">youtube</a>
+            <a href="https://www.instagram.com/mevakaradayi/" target="_blank" rel="noopener noreferrer">instagram</a>
+          </nav>
+          <form class="whoami-form" id="contactForm">
+            <fieldset class="whoami-form-name">
+              <legend>Name <span>(required)</span></legend>
+              <div class="whoami-form-names">
+                <label>
+                  <span>First Name</span>
+                  <input name="first" type="text" required autocomplete="given-name">
+                </label>
+                <label>
+                  <span>Last Name</span>
+                  <input name="last" type="text" required autocomplete="family-name">
+                </label>
+              </div>
+            </fieldset>
+            <label class="whoami-form-field">
+              <span>Email <span>(required)</span></span>
+              <input name="email" type="email" required autocomplete="email">
+            </label>
+            <label class="whoami-form-field">
+              <span>Message</span>
+              <textarea name="message" rows="2"></textarea>
+            </label>
+            <button class="whoami-form-submit" type="submit">Submit</button>
+          </form>
+        </div>
+      </div>
+    </div>
+    <script>
+      (function () {
+        var openBtn = document.querySelector(".whoami-connect");
+        var dialog = document.getElementById("connectWindow");
+        var closeBtn = dialog.querySelector(".whoami-window-close");
+
+        function openWindow() {
+          dialog.hidden = false;
+        }
+
+        function closeWindow() {
+          dialog.hidden = true;
+        }
+
+        var form = document.getElementById("contactForm");
+
+        openBtn.addEventListener("click", openWindow);
+        closeBtn.addEventListener("click", closeWindow);
+        form.addEventListener("submit", function (event) {
+          event.preventDefault();
+          var data = new FormData(form);
+          var first = String(data.get("first") || "").trim();
+          var last = String(data.get("last") || "").trim();
+          var email = String(data.get("email") || "").trim();
+          var message = String(data.get("message") || "").trim();
+          var body = "Name: " + first + " " + last + "\nEmail: " + email;
+          if (message) body += "\n\n" + message;
+          window.location.href = "mailto:mevakaradayi@gmail.com?subject=" + encodeURIComponent("Hello from your website") + "&body=" + encodeURIComponent(body);
+        });
+        dialog.addEventListener("click", function (event) {
+          if (event.target === dialog) closeWindow();
+        });
+        document.addEventListener("keydown", function (event) {
+          if (event.key === "Escape" && !dialog.hidden) closeWindow();
+        });
+      })();
+    </script>
   </body>
 </html>

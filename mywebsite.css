@@ -408,29 +408,246 @@ body.photos-gallery-subpage {
   margin-bottom: 0;
 }
 
-/* WhoAmI.html: about-me graphic fills the page; exit link stays on top */
+/* WhoAmI.html: about-me graphic fills the page; HOME and let's connect are hit areas on the drawing */
 body.intro-page.whoami-page {
-  background-color: #fdf9f0;
-  background-image: url(Images/aboutme.jpg);
-  background-repeat: no-repeat;
-  background-position: center;
-  background-size: contain;
-  background-attachment: fixed;
+  background-color: #fcf9ef;
+  background-image: none;
+  height: 100vh;
+  height: 100dvh;
   min-height: 100vh;
   min-height: 100dvh;
+  overflow: hidden;
 }
 
-body.intro-page.whoami-page .films-exit {
-  top: calc(1.35rem + env(safe-area-inset-top, 0px));
+body.intro-page.whoami-page .whoami-stage {
+  position: relative;
+  flex: 0 0 auto;
+  min-width: 0;
+  width: min(100%, calc(100dvh * 4 / 3));
+  aspect-ratio: 4 / 3;
+  max-height: 100%;
+  max-height: 100dvh;
 }
 
-body.intro-page.whoami-page .films-exit img {
-  width: clamp(94px, 18vw, 148px);
-  filter: none;
+body.intro-page.whoami-page .whoami-stage > img {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
 }
 
-body.intro-page.whoami-page .films-exit:hover img {
-  filter: none;
+body.intro-page.whoami-page .whoami-home,
+body.intro-page.whoami-page .whoami-connect {
+  position: absolute;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+body.intro-page.whoami-page .whoami-home {
+  left: 4.2%;
+  top: 3.2%;
+  width: 10.6%;
+  height: 6%;
+}
+
+body.intro-page.whoami-page .whoami-connect {
+  left: 68.4%;
+  top: 10.2%;
+  width: 17.4%;
+  height: 7%;
+}
+
+body.intro-page.whoami-page a.whoami-home,
+body.intro-page.whoami-page a.whoami-home:hover,
+body.intro-page.whoami-page a.whoami-home:active {
+  color: transparent;
+  transform: none;
+}
+
+body.intro-page.whoami-page .whoami-home:focus-visible,
+body.intro-page.whoami-page .whoami-connect:focus-visible {
+  outline: 2px solid #5c2d82;
+  outline-offset: 2px;
+}
+
+body.intro-page.whoami-page .whoami-window {
+  position: fixed;
+  inset: 0;
+  z-index: 40;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  background: rgba(60, 48, 28, 0.08);
+}
+
+body.intro-page.whoami-page .whoami-window[hidden] {
+  display: none;
+}
+
+body.intro-page.whoami-page .whoami-window-card {
+  width: min(92vw, 480px);
+  max-height: min(88dvh, 720px);
+  display: flex;
+  flex-direction: column;
+  padding: 8px;
+  background: #e7e7e7;
+  border: 1px solid #d5d5d5;
+  border-radius: 16px;
+  box-shadow: 0 14px 32px rgba(40, 32, 16, 0.18);
+  font-family: "Avenir Next", "Segoe UI", sans-serif;
+  text-align: center;
+}
+
+body.intro-page.whoami-page .whoami-window-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 8px 14px 9px;
+  background: #3c3c3c;
+  color: #fff;
+  border-radius: 10px 10px 0 0;
+  font-size: 20px;
+  line-height: 1.2;
+}
+
+body.intro-page.whoami-page .whoami-window-close {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: #fff;
+  font: inherit;
+  cursor: pointer;
+}
+
+body.intro-page.whoami-page .whoami-window-close:hover {
+  opacity: 0.75;
+}
+
+body.intro-page.whoami-page .whoami-window-body {
+  padding: 22px 22px 20px;
+  background: #fff;
+  color: #1a1a1a;
+  border-radius: 0 0 10px 10px;
+  overflow: auto;
+}
+
+body.intro-page.whoami-page .whoami-contact-links {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.35rem;
+  margin: 0 0 1.15rem;
+}
+
+body.intro-page.whoami-page .whoami-contact-links a {
+  color: #e8881a;
+  font-size: 18px;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  transform: none;
+}
+
+body.intro-page.whoami-page .whoami-contact-links a:hover,
+body.intro-page.whoami-page .whoami-contact-links a:active {
+  color: #c56e08;
+  transform: none;
+}
+
+body.intro-page.whoami-page .whoami-form {
+  margin: 0;
+  text-align: left;
+  color: #1a1a1a;
+}
+
+body.intro-page.whoami-page .whoami-form-name {
+  margin: 0 0 18px;
+  padding: 0;
+  border: 0;
+}
+
+body.intro-page.whoami-page .whoami-form legend,
+body.intro-page.whoami-page .whoami-form-field > span {
+  display: block;
+  margin: 0 0 8px;
+  font-size: 15px;
+  font-weight: 700;
+  color: #1a1a1a;
+}
+
+body.intro-page.whoami-page .whoami-form legend {
+  font-weight: 400;
+}
+
+body.intro-page.whoami-page .whoami-form-names {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 22px;
+}
+
+body.intro-page.whoami-page .whoami-form-names span {
+  display: block;
+  margin-bottom: 4px;
+  font-size: 14px;
+  font-weight: 400;
+  color: #3a3a3a;
+}
+
+body.intro-page.whoami-page .whoami-form input,
+body.intro-page.whoami-page .whoami-form textarea {
+  display: block;
+  width: 100%;
+  margin: 0;
+  padding: 4px 0 6px;
+  border: 0;
+  border-bottom: 1px solid #1a1a1a;
+  border-radius: 0;
+  background: transparent;
+  color: #1a1a1a;
+  font: inherit;
+  font-size: 15px;
+  resize: vertical;
+}
+
+body.intro-page.whoami-page .whoami-form input:focus,
+body.intro-page.whoami-page .whoami-form textarea:focus {
+  outline: none;
+  border-bottom-width: 2px;
+}
+
+body.intro-page.whoami-page .whoami-form-field {
+  display: block;
+  margin: 0 0 18px;
+}
+
+body.intro-page.whoami-page .whoami-form-submit {
+  margin-top: 6px;
+  padding: 10px 22px;
+  border: 0;
+  border-radius: 999px;
+  background: #1a1a1a;
+  color: #fff;
+  font: inherit;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+body.intro-page.whoami-page .whoami-form-submit:hover {
+  background: #333;
+}
+
+body.intro-page.whoami-page .whoami-window-card a:focus-visible,
+body.intro-page.whoami-page .whoami-window-close:focus-visible {
+  outline: 2px solid #5c2d82;
+  outline-offset: 3px;
 }
 
 /* Who am I: bio + compact social panel */
