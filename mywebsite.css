@@ -567,37 +567,12 @@ body.intro-page.whoami-page .whoami-form {
   color: #1a1a1a;
 }
 
-body.intro-page.whoami-page .whoami-form-name {
-  margin: 0 0 18px;
-  padding: 0;
-  border: 0;
-}
-
-body.intro-page.whoami-page .whoami-form legend,
 body.intro-page.whoami-page .whoami-form-field > span {
   display: block;
   margin: 0 0 8px;
   font-size: 15px;
   font-weight: 700;
   color: #1a1a1a;
-}
-
-body.intro-page.whoami-page .whoami-form legend {
-  font-weight: 400;
-}
-
-body.intro-page.whoami-page .whoami-form-names {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 22px;
-}
-
-body.intro-page.whoami-page .whoami-form-names span {
-  display: block;
-  margin-bottom: 4px;
-  font-size: 14px;
-  font-weight: 400;
-  color: #3a3a3a;
 }
 
 body.intro-page.whoami-page .whoami-form input,
