@@ -9,14 +9,13 @@
   <body class="intro-page books-page">
     <a class="films-exit" href="Media.html" aria-label="Exit to Media"><img src="Images/exit.webp" alt="" width="96" height="96"></a>
 
-    <img class="books-year" src="books_images/year.png" alt="" aria-hidden="true">
+    <img class="books-year" src="films_images/2026.png" alt="2026" width="668" height="339">
 
     <main class="books-main">
       <div class="books-main__stage">
         <div
           class="books-rail"
           id="books-rail"
-          tabindex="0"
           role="region"
           aria-label="Book covers"
         >
@@ -299,116 +298,6 @@
         </div>
       </div>
     </main>
-
-    <script>
-      (function () {
-        var rail = document.getElementById("books-rail");
-        var track = document.getElementById("books-track");
-        if (!rail || !track) return;
-
-        var cards = Array.prototype.slice.call(track.querySelectorAll(".books-card"));
-        if (!cards.length) return;
-
-        var active = 0;
-        var scrollScheduled = false;
-        var reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-
-        function closestToCenter() {
-          var rect = rail.getBoundingClientRect();
-          var mid = rect.left + rect.width / 2;
-          var best = 0;
-          var bestDist = Infinity;
-          for (var i = 0; i < cards.length; i++) {
-            var r = cards[i].getBoundingClientRect();
-            var c = r.left + r.width / 2;
-            var d = Math.abs(c - mid);
-            if (d < bestDist) {
-              bestDist = d;
-              best = i;
-            }
-          }
-          return best;
-        }
-
-        function applyFocus(index) {
-          active = index;
-          for (var i = 0; i < cards.length; i++) {
-            cards[i].classList.toggle("books-card--focus", i === index);
-          }
-        }
-
-        function updatePerspective() {
-          var rect = rail.getBoundingClientRect();
-          var mid = rect.left + rect.width / 2;
-          var norm = Math.max(rect.width * 0.42, 220);
-          for (var i = 0; i < cards.length; i++) {
-            var r = cards[i].getBoundingClientRect();
-            var cx = r.left + r.width / 2;
-            var t = (mid - cx) / norm;
-            if (t > 1) t = 1;
-            if (t < -1) t = -1;
-            var maxDeg = reduceMotion ? 0 : 58;
-            var rotY = t * maxDeg;
-            var face = 1 - Math.abs(t);
-            var scale = 0.78 + face * 0.27;
-            var tz = face * 72;
-            cards[i].style.transform =
-              "translateZ(" + tz + "px) rotateY(" + rotY + "deg) scale(" + scale + ")";
-            cards[i].style.zIndex = String(Math.round(10 + face * 90));
-          }
-        }
-
-        function updateFromScroll() {
-          applyFocus(closestToCenter());
-          updatePerspective();
-          scrollScheduled = false;
-        }
-
-        function onScroll() {
-          if (!scrollScheduled) {
-            scrollScheduled = true;
-            requestAnimationFrame(updateFromScroll);
-          }
-        }
-
-        function go(delta) {
-          var next = Math.max(0, Math.min(cards.length - 1, active + delta));
-          cards[next].scrollIntoView({
-            inline: "center",
-            block: "nearest",
-            behavior: "smooth"
-          });
-          applyFocus(next);
-        }
-
-        rail.addEventListener("scroll", onScroll, { passive: true });
-
-        document.addEventListener("keydown", function (e) {
-          if (e.key !== "ArrowRight" && e.key !== "ArrowLeft") return;
-          if (e.metaKey || e.ctrlKey || e.altKey) return;
-          var ae = document.activeElement;
-          if (ae && (ae.tagName === "INPUT" || ae.tagName === "TEXTAREA" || ae.isContentEditable)) return;
-          if (ae && ae.closest && ae.closest(".films-exit")) return;
-          e.preventDefault();
-          go(e.key === "ArrowRight" ? 1 : -1);
-        });
-
-        window.addEventListener("resize", onScroll);
-
-        cards.forEach(function (card) {
-          card.addEventListener("click", function () {
-            var idx = cards.indexOf(card);
-            if (idx === -1) return;
-            card.scrollIntoView({ inline: "center", block: "nearest", behavior: "smooth" });
-            applyFocus(idx);
-          });
-        });
-
-        requestAnimationFrame(function () {
-          cards[0].scrollIntoView({ inline: "center", block: "nearest", behavior: "auto" });
-          onScroll();
-        });
-      })();
-    </script>
+    <script src="reviews.js"></script>
   </body>
 </html>
