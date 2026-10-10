@@ -1442,12 +1442,37 @@ body.intro-page.films-page main.films-main {
 @media (max-width: 768px) {
   body.intro-page.films-page,
   body.intro-page.books-page {
-    --year-left: max(0.35rem, env(safe-area-inset-left, 0px));
-    --year-w: clamp(72px, 20vw, 108px);
-    --grid-gap: 0.65rem;
-    --grid-pad: 0.4rem;
-    --poster-w-target: 160px;
+    --year-left: 0px;
+    --year-w: 0px;
+    --grid-gap: 0.7rem;
+    --grid-pad: max(0.65rem, env(safe-area-inset-left, 0px));
+    --poster-w-target: 220px;
+    --poster-h-cap: calc((100dvh - 12rem - var(--grid-gap)) / 2.15);
+    --avail-w: calc(100vw - 2 * var(--grid-pad) - 20px);
+    --poster-w-from-w: calc((var(--avail-w) - var(--grid-gap)) / 2);
     background-attachment: scroll;
+  }
+
+  .films-main,
+  .books-main {
+    justify-content: flex-start;
+    align-items: stretch;
+    height: auto;
+    flex: 1 1 auto;
+    padding-top: 0;
+    padding-left: max(var(--grid-pad), env(safe-area-inset-left, 0px));
+    padding-right: max(var(--grid-pad), env(safe-area-inset-right, 0px));
+  }
+
+  .films-main__rail-stage,
+  .books-main__stage {
+    flex: 1 1 0;
+    height: auto;
+  }
+
+  .films-rail__track,
+  .books-rail__track {
+    grid-template-columns: repeat(2, var(--poster-w));
   }
 }
 
@@ -1686,6 +1711,23 @@ body.intro-page.films-page main.films-main {
   pointer-events: none;
   user-select: none;
   z-index: 3;
+}
+
+/* After the base year rule so the phone layout wins on small screens. */
+@media (max-width: 768px) {
+  .books-year,
+  .films-year {
+    position: relative;
+    top: auto;
+    left: auto;
+    transform: none;
+    align-self: center;
+    width: min(42vw, 168px);
+    height: auto;
+    margin-top: max(0.55rem, env(safe-area-inset-top, 0px));
+    margin-bottom: clamp(3.25rem, 8vh, 4.5rem);
+    flex: 0 0 auto;
+  }
 }
 
 /* Music page: custom background, radio (left), Spotify playlist (right) */
