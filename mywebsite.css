@@ -1611,15 +1611,15 @@ body.intro-page.films-page main.films-main {
 
 .review-window {
   position: fixed;
-  top: max(4.5rem, 12vh);
-  left: max(22vw, 11rem);
+  top: max(4.5rem, 8vh);
+  left: clamp(0.75rem, 18vw, calc(100vw - min(720px, calc(100vw - 1.5rem)) - 1.5rem));
   z-index: 40;
-  width: min(460px, 88vw);
-  height: min(440px, 74vh);
+  width: min(720px, calc(100vw - 1.5rem));
+  height: min(78vh, 760px);
   min-width: 240px;
   min-height: 180px;
-  max-width: 92vw;
-  max-height: 88vh;
+  max-width: calc(100vw - 1.5rem);
+  max-height: calc(100dvh - 5.5rem);
   display: flex;
   flex-direction: column;
   resize: both;

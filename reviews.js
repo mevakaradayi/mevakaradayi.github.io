@@ -94,6 +94,8 @@
       paragraph.textContent = text;
       bodyEl.appendChild(paragraph);
     });
+    windowEl.style.left = "";
+    windowEl.style.top = "";
     windowEl.hidden = false;
   }
 
