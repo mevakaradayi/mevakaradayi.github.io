@@ -1,6 +1,8 @@
 (function () {
   var cards = document.querySelectorAll(".films-card, .books-card");
   var reviewed = [];
+  var openCard = null;
+  var copyEl = null;
 
   cards.forEach(function (card) {
     var source = card.querySelector(".review-source");
@@ -27,6 +29,7 @@
     button.className = "flip";
     var title = card.dataset.title || "Review";
     button.setAttribute("aria-label", title + ", open review");
+    button.setAttribute("aria-expanded", "false");
 
     var inner = document.createElement("span");
     inner.className = "flip__inner";
@@ -49,6 +52,7 @@
     card.appendChild(button);
 
     reviewed.push({
+      card: card,
       button: button,
       title: title,
       paragraphs: paragraphs,
@@ -57,92 +61,95 @@
 
   if (!reviewed.length) return;
 
-  var windowEl = document.createElement("div");
-  windowEl.className = "review-window";
-  windowEl.hidden = true;
-  windowEl.setAttribute("role", "dialog");
-  windowEl.setAttribute("aria-modal", "false");
-  windowEl.setAttribute("aria-labelledby", "review-window-title");
-
-  var bar = document.createElement("div");
-  bar.className = "review-window__bar";
-
-  var titleEl = document.createElement("span");
-  titleEl.className = "review-window__title";
-  titleEl.id = "review-window-title";
-
   var closeButton = document.createElement("button");
   closeButton.type = "button";
-  closeButton.className = "review-window__close";
+  closeButton.className = "review-close";
+  closeButton.hidden = true;
   closeButton.setAttribute("aria-label", "Close");
   closeButton.textContent = "\u00d7";
+  document.body.appendChild(closeButton);
 
-  var bodyEl = document.createElement("div");
-  bodyEl.className = "review-window__body";
+  function setExpanded(item, expanded) {
+    item.button.setAttribute("aria-expanded", expanded ? "true" : "false");
+    item.button.setAttribute(
+      "aria-label",
+      item.title + (expanded ? ", close review" : ", open review")
+    );
+  }
 
-  bar.appendChild(titleEl);
-  bar.appendChild(closeButton);
-  windowEl.appendChild(bar);
-  windowEl.appendChild(bodyEl);
-  document.body.appendChild(windowEl);
+  function closeReview() {
+    if (!openCard) return;
+    openCard.style.transition = "none";
+    openCard.style.transform = "";
+    openCard.classList.remove("is-open");
+    var current = openCard;
+    openCard = null;
+    reviewed.forEach(function (item) {
+      if (item.card === current) setExpanded(item, false);
+    });
+    if (copyEl) {
+      copyEl.remove();
+      copyEl = null;
+    }
+    closeButton.hidden = true;
+    document.body.classList.remove("review-open");
+  }
 
-  function openReview(title, paragraphs) {
-    titleEl.textContent = title;
-    bodyEl.replaceChildren();
-    paragraphs.forEach(function (text) {
+  function openReview(item) {
+    if (openCard === item.card) {
+      closeReview();
+      return;
+    }
+    if (openCard) closeReview();
+
+    var card = item.card;
+    var from = card.getBoundingClientRect();
+    var stage = card.closest(".films-main__rail-stage, .books-main__stage");
+
+    copyEl = document.createElement("div");
+    copyEl.className = "review-copy";
+    item.paragraphs.forEach(function (text) {
       var paragraph = document.createElement("p");
       paragraph.textContent = text;
-      bodyEl.appendChild(paragraph);
+      copyEl.appendChild(paragraph);
     });
-    windowEl.style.left = "";
-    windowEl.style.top = "";
-    windowEl.hidden = false;
+
+    document.body.classList.add("review-open");
+    card.classList.add("is-open");
+    setExpanded(item, true);
+    closeButton.hidden = false;
+    card.after(copyEl);
+    if (stage) stage.scrollTop = 0;
+    window.scrollTo(0, 0);
+    openCard = card;
+
+    var to = card.getBoundingClientRect();
+    var dx = from.left - to.left;
+    var dy = from.top - to.top;
+    var reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (!reduce && (Math.abs(dx) > 1 || Math.abs(dy) > 1)) {
+      card.style.transition = "none";
+      card.style.transform = "translate(" + dx + "px, " + dy + "px)";
+      void card.offsetWidth;
+      requestAnimationFrame(function () {
+        if (openCard !== card) return;
+        card.style.transition = "transform 0.45s ease";
+        card.style.transform = "translate(0, 0)";
+      });
+    }
   }
 
   reviewed.forEach(function (item) {
     item.button.addEventListener("click", function () {
-      openReview(item.title, item.paragraphs);
+      openReview(item);
     });
   });
 
   closeButton.addEventListener("click", function () {
-    windowEl.hidden = true;
+    closeReview();
   });
 
   document.addEventListener("keydown", function (event) {
-    if (event.key === "Escape") windowEl.hidden = true;
-  });
-
-  bar.addEventListener("pointerdown", function (event) {
-    if (event.target.closest("button")) return;
-
-    var rect = windowEl.getBoundingClientRect();
-    var offsetX = event.clientX - rect.left;
-    var offsetY = event.clientY - rect.top;
-    try {
-      bar.setPointerCapture(event.pointerId);
-    } catch (e) {}
-
-    function move(ev) {
-      var maxLeft = window.innerWidth - Math.min(rect.width, 120);
-      var maxTop = window.innerHeight - 48;
-      var left = Math.min(Math.max(0, ev.clientX - offsetX), Math.max(0, maxLeft));
-      var top = Math.min(Math.max(0, ev.clientY - offsetY), Math.max(0, maxTop));
-      windowEl.style.left = left + "px";
-      windowEl.style.top = top + "px";
-    }
-
-    function up(ev) {
-      if (bar.hasPointerCapture(ev.pointerId)) {
-        bar.releasePointerCapture(ev.pointerId);
-      }
-      bar.removeEventListener("pointermove", move);
-      bar.removeEventListener("pointerup", up);
-      bar.removeEventListener("pointercancel", up);
-    }
-
-    bar.addEventListener("pointermove", move);
-    bar.addEventListener("pointerup", up);
-    bar.addEventListener("pointercancel", up);
+    if (event.key === "Escape") closeReview();
   });
 })();

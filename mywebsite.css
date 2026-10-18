@@ -1609,94 +1609,151 @@ body.intro-page.films-page main.films-main {
   box-shadow: 0 0 0 3px rgba(255, 200, 80, 0.85);
 }
 
-.review-window {
-  position: fixed;
-  top: max(4.5rem, 8vh);
-  left: clamp(0.75rem, 18vw, calc(100vw - min(720px, calc(100vw - 1.5rem)) - 1.5rem));
-  z-index: 40;
-  width: min(720px, calc(100vw - 1.5rem));
-  height: min(78vh, 760px);
-  min-width: 240px;
-  min-height: 180px;
-  max-width: calc(100vw - 1.5rem);
-  max-height: calc(100dvh - 5.5rem);
-  display: flex;
-  flex-direction: column;
-  resize: both;
-  overflow: hidden;
-  background: #16130f;
-  color: #f4efe6;
-  border-radius: 10px;
-  box-shadow: 0 18px 50px rgba(0, 0, 0, 0.55);
-  font-family: monospace;
+body.review-open.intro-page.films-page,
+body.review-open.intro-page.books-page {
+  --review-poster-w: min(280px, 42vw);
+  --review-edge-left: 1.15rem;
+  --review-edge-right: 1.15rem;
+  --review-top: clamp(7.5rem, 14vh, 13.5rem);
+  height: auto;
+  min-height: 100dvh;
+  max-height: none;
+  overflow-x: hidden;
+  overflow-y: auto;
 }
 
-.review-window[hidden] {
+body.review-open .films-exit,
+body.review-open .films-year,
+body.review-open .books-year {
+  display: none;
+}
+
+body.review-open .films-main,
+body.review-open .books-main {
+  height: auto;
+  min-height: 0;
+  justify-content: flex-start;
+  padding-top: var(--review-top);
+  padding-bottom: 3.5rem;
+  padding-left: max(var(--review-edge-left), env(safe-area-inset-left, 0px));
+  padding-right: max(var(--review-edge-right), env(safe-area-inset-right, 0px));
+}
+
+@media (min-width: 700px) {
+  body.review-open.intro-page.films-page,
+  body.review-open.intro-page.books-page {
+    --review-edge-left: clamp(1.75rem, 5.5vw, 5rem);
+    --review-edge-right: clamp(1.75rem, 5.5vw, 5rem);
+  }
+}
+
+@media (min-width: 1100px) {
+  body.review-open.intro-page.films-page,
+  body.review-open.intro-page.books-page {
+    --review-edge-left: clamp(6.5rem, 15vw, 14rem);
+    --review-edge-right: clamp(6.5rem, 15vw, 14rem);
+    --review-top: clamp(9.5rem, 16vh, 15rem);
+  }
+}
+
+body.review-open .films-main__rail-stage,
+body.review-open .books-main__stage {
+  flex: none;
+  height: auto;
+  max-height: none;
+  overflow: visible;
+}
+
+body.review-open .films-rail,
+body.review-open .books-rail {
+  width: 100%;
+  max-width: 100%;
+  margin: 0;
+}
+
+body.review-open .films-rail__track,
+body.review-open .books-rail__track {
+  display: flow-root;
+  width: 100%;
+  max-width: none;
+}
+
+body.review-open .films-card:not(.is-open),
+body.review-open .books-card:not(.is-open) {
+  display: none;
+}
+
+body.review-open .films-card.is-open,
+body.review-open .books-card.is-open {
+  float: left;
+  position: relative;
+  z-index: 2;
+  width: var(--review-poster-w);
+  height: calc(var(--review-poster-w) * 3 / 2);
+  margin: 0 1.75rem 1rem 0;
+}
+
+body.review-open .has-review:hover .flip__inner,
+body.review-open .has-review:focus-within .flip__inner {
+  transform: none;
+}
+
+.review-close {
+  position: fixed;
+  top: calc(var(--review-top) - 3.5rem);
+  right: max(var(--review-edge-right), env(safe-area-inset-right, 0px));
+  z-index: 30;
+  width: 2.6rem;
+  height: 2.6rem;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: #1c1917;
+  font-family: monospace;
+  font-size: 2.4rem;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.review-close[hidden] {
   display: none !important;
 }
 
-.review-window__bar {
-  flex: 0 0 auto;
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  padding: 0.5rem 0.55rem 0.5rem 0.85rem;
-  cursor: grab;
-  background: rgba(255, 255, 255, 0.06);
-  user-select: none;
-  touch-action: none;
-}
-
-.review-window__bar:active {
-  cursor: grabbing;
-}
-
-.review-window__title {
-  flex: 1;
-  min-width: 0;
-  font-size: 0.92rem;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-.review-window__close {
-  flex: 0 0 auto;
-  width: 1.8rem;
-  height: 1.8rem;
-  border: 0;
-  border-radius: 6px;
-  background: transparent;
-  color: inherit;
-  cursor: pointer;
-  font: inherit;
-  font-size: 1.25rem;
-  line-height: 1;
-}
-
-.review-window__close:hover,
-.review-window__close:focus-visible {
-  background: rgba(255, 200, 80, 0.18);
+.review-close:hover,
+.review-close:focus-visible {
+  color: #000;
   outline: none;
 }
 
-.review-window__body {
-  flex: 1;
-  min-height: 0;
-  margin: 0;
-  padding: 0.95rem 1rem 1.25rem;
-  overflow: auto;
-  font-size: 0.84rem;
-  line-height: 1.5;
-  text-align: left;
+.review-copy {
+  color: #1c1917;
+  font-family: "Playfair Display", Georgia, "Times New Roman", serif;
+  font-weight: 400;
+  font-size: clamp(1.05rem, 1.25vw, 1.2rem);
+  line-height: 1.65;
+  text-align: justify;
+  hyphens: auto;
+  animation: review-copy-in 0.45s ease;
 }
 
-.review-window__body p {
-  margin: 0 0 0.95rem;
+.review-copy p {
+  margin: 0 0 1.05rem;
 }
 
-.review-window__body p:last-child {
+.review-copy p:last-child {
   margin-bottom: 0;
+}
+
+@keyframes review-copy-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .review-copy {
+    animation: none;
+  }
 }
 
 .books-year,
