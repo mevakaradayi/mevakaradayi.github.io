@@ -1745,6 +1745,12 @@ body.review-open .has-review:focus-within .flip__inner {
   margin-bottom: 0;
 }
 
+.review-copy a {
+  color: inherit;
+  text-decoration: underline;
+  text-underline-offset: 0.15em;
+}
+
 @keyframes review-copy-in {
   from { opacity: 0; }
   to { opacity: 1; }

@@ -10,9 +10,13 @@
 
     var paragraphs = Array.prototype.map
       .call(source.querySelectorAll("p"), function (paragraph) {
-        return paragraph.textContent.trim();
+        return paragraph.innerHTML.trim();
       })
-      .filter(Boolean);
+      .filter(function (html) {
+        var probe = document.createElement("div");
+        probe.innerHTML = html;
+        return probe.textContent.trim();
+      });
 
     if (!paragraphs.length) {
       var fallback = source.textContent.trim();
@@ -40,9 +44,9 @@
 
     var back = document.createElement("span");
     back.className = "flip__face flip__face--back";
-    paragraphs.forEach(function (text) {
+    paragraphs.forEach(function (html) {
       var preview = document.createElement("p");
-      preview.textContent = text;
+      preview.innerHTML = html;
       back.appendChild(preview);
     });
 
@@ -108,9 +112,9 @@
 
     copyEl = document.createElement("div");
     copyEl.className = "review-copy";
-    item.paragraphs.forEach(function (text) {
+    item.paragraphs.forEach(function (html) {
       var paragraph = document.createElement("p");
-      paragraph.textContent = text;
+      paragraph.innerHTML = html;
       copyEl.appendChild(paragraph);
     });
 
