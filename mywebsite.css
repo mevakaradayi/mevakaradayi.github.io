@@ -1756,6 +1756,12 @@ body.review-open .has-review:focus-within .flip__inner {
   to { opacity: 1; }
 }
 
+@media (min-width: 700px) {
+  .review-copy {
+    display: flow-root;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .review-copy {
     animation: none;
