@@ -1757,7 +1757,7 @@ body.review-open .has-review:focus-within .flip__inner {
 }
 
 @media (min-width: 700px) {
-  .review-copy {
+  .books-card[data-title="poemcrazy"].is-open + .review-copy {
     display: flow-root;
   }
 }
