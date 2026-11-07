@@ -1622,6 +1622,62 @@ body.review-open.intro-page.books-page {
   overflow-y: auto;
 }
 
+/* Phone reviews grow past the screen. A scrolling, non-repeating cover
+   only fills the first viewport, so the rest of the page is white.
+   Paint the wallpaper on the root and on a fixed layer so it stays
+   put for the whole review. background-attachment: fixed on body is
+   unreliable on mobile browsers, and overflow on body can trap it. */
+@media (max-width: 768px) {
+  html:has(body.review-open.intro-page.films-page),
+  html:has(body.review-open.intro-page.books-page) {
+    min-height: 100%;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+  }
+
+  html:has(body.review-open.intro-page.films-page) {
+    background-color: #d4d0c8;
+    background-image: url(films_images/films_bakcground.png);
+  }
+
+  html:has(body.review-open.intro-page.books-page) {
+    background-color: #e4cfc6;
+    background-image: url(books_images/books_background.png);
+  }
+
+  body.review-open.intro-page.films-page,
+  body.review-open.intro-page.books-page {
+    position: relative;
+    z-index: 0;
+    overflow: visible;
+    background-image: none;
+    background-color: transparent;
+  }
+
+  body.review-open.intro-page.films-page::before,
+  body.review-open.intro-page.books-page::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+  }
+
+  body.review-open.intro-page.films-page::before {
+    background-image: url(films_images/films_bakcground.png);
+    background-color: #d4d0c8;
+  }
+
+  body.review-open.intro-page.books-page::before {
+    background-image: url(books_images/books_background.png);
+    background-color: #e4cfc6;
+  }
+}
+
 body.review-open .films-exit,
 body.review-open .films-year,
 body.review-open .books-year {
@@ -1733,8 +1789,19 @@ body.review-open .has-review:focus-within .flip__inner {
   font-size: clamp(1.05rem, 1.25vw, 1.2rem);
   line-height: 1.65;
   text-align: justify;
-  hyphens: auto;
+  hyphens: none;
+  -webkit-hyphens: none;
+  word-break: normal;
+  overflow-wrap: normal;
   animation: review-copy-in 0.45s ease;
+}
+
+/* Beside the poster the line is short. Justified text then stretches
+   the gaps once words are kept whole, so keep the phone measure flush. */
+@media (max-width: 768px) {
+  .review-copy {
+    text-align: left;
+  }
 }
 
 .review-copy p {
