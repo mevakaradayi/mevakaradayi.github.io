@@ -1278,12 +1278,11 @@ body.intro-page.books-page {
   --year-w: clamp(150px, 18vw, 280px);
   --grid-gap: clamp(1rem, 1.7vw, 1.55rem);
   --grid-pad: clamp(0.45rem, 1vw, 0.85rem);
-  --poster-w-target: clamp(210px, 16vw, 245px);
   --poster-h-cap: calc((100dvh - 0.75rem - var(--grid-gap)) / 2.42);
   --poster-w-from-h: calc(var(--poster-h-cap) * 2 / 3);
   --avail-w: calc(100vw - var(--year-left) - var(--year-w) - var(--grid-pad) - 18px);
   --poster-w-from-w: calc((var(--avail-w) - 3 * var(--grid-gap)) / 4);
-  --poster-w: min(var(--poster-w-target), var(--poster-w-from-w), var(--poster-w-from-h));
+  --poster-w: min(var(--poster-w-from-w), var(--poster-w-from-h));
   --row-h: calc(var(--poster-w) * 3 / 2);
   align-items: stretch;
   justify-content: flex-start;
@@ -1351,14 +1350,14 @@ body.intro-page.films-page main.films-main {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  justify-content: flex-end;
+  justify-content: flex-start;
   width: 100%;
   max-width: 100vw;
   min-height: 0;
   height: 100%;
   margin: 0;
-  padding-top: 0;
-  padding-bottom: 0;
+  padding-top: clamp(0.75rem, 2.5vh, 1.75rem);
+  padding-bottom: 0.65rem;
   padding-left: calc(var(--year-left) + var(--year-w));
   padding-right: var(--grid-pad);
   box-sizing: border-box;
@@ -1366,12 +1365,12 @@ body.intro-page.films-page main.films-main {
 
 .films-main__rail-stage,
 .books-main__stage {
-  flex: 0 1 auto;
+  flex: 1 1 0;
   align-self: stretch;
   min-height: 0;
   width: 100%;
   max-width: 100%;
-  height: min(100%, calc(2 * var(--row-h) + var(--grid-gap) + var(--row-h) * 0.42));
+  height: auto;
   overflow-x: hidden;
   overflow-y: auto;
   overscroll-behavior: contain;
@@ -1446,8 +1445,11 @@ body.intro-page.films-page main.films-main {
     --year-w: 0px;
     --grid-gap: 0.7rem;
     --grid-pad: max(0.65rem, env(safe-area-inset-left, 0px));
-    --poster-w-target: 220px;
-    --poster-h-cap: calc((100dvh - 12rem - var(--grid-gap)) / 2.15);
+    --exit-h: calc(clamp(48px, 11vw, 110px) * 1.62);
+    --year-img-w: min(46vw, 190px);
+    --year-h: calc(var(--year-img-w) * 339 / 668);
+    --header-h: calc(max(var(--exit-h), var(--year-h)) + clamp(0.75rem, 2vh, 1.25rem));
+    --poster-h-cap: calc((100dvh - var(--header-h) - var(--grid-gap)) / 2.15);
     --avail-w: calc(100vw - 2 * var(--grid-pad) - 20px);
     --poster-w-from-w: calc((var(--avail-w) - var(--grid-gap)) / 2);
     background-attachment: scroll;
@@ -1459,7 +1461,7 @@ body.intro-page.films-page main.films-main {
     align-items: stretch;
     height: auto;
     flex: 1 1 auto;
-    padding-top: 0;
+    padding-top: var(--header-h);
     padding-left: max(var(--grid-pad), env(safe-area-inset-left, 0px));
     padding-right: max(var(--grid-pad), env(safe-area-inset-right, 0px));
   }
@@ -1622,59 +1624,45 @@ body.review-open.intro-page.books-page {
   overflow-y: auto;
 }
 
-/* Phone reviews grow past the screen. A scrolling, non-repeating cover
-   only fills the first viewport, so the rest of the page is white.
-   Paint the wallpaper on the root and on a fixed layer so it stays
-   put for the whole review. background-attachment: fixed on body is
-   unreliable on mobile browsers, and overflow on body can trap it. */
+/* Phone reviews are taller than the screen. A fixed layer does not stay
+   put there, and a cover painted only on the viewport leaves the rest
+   white. An opaque root color keeps the body image on the body itself,
+   which is as tall as the review, so the wallpaper covers the whole page. */
 @media (max-width: 768px) {
   html:has(body.review-open.intro-page.films-page),
   html:has(body.review-open.intro-page.books-page) {
+    height: auto;
     min-height: 100%;
-    background-repeat: no-repeat;
-    background-size: cover;
-    background-position: center;
+    background-image: none;
   }
 
   html:has(body.review-open.intro-page.films-page) {
     background-color: #d4d0c8;
-    background-image: url(films_images/films_bakcground.png);
   }
 
   html:has(body.review-open.intro-page.books-page) {
     background-color: #e4cfc6;
-    background-image: url(books_images/books_background.png);
   }
 
   body.review-open.intro-page.films-page,
   body.review-open.intro-page.books-page {
-    position: relative;
-    z-index: 0;
     overflow: visible;
-    background-image: none;
-    background-color: transparent;
-  }
-
-  body.review-open.intro-page.films-page::before,
-  body.review-open.intro-page.books-page::before {
-    content: "";
-    position: fixed;
-    inset: 0;
-    z-index: -1;
-    pointer-events: none;
+    height: auto;
+    min-height: 100dvh;
     background-repeat: no-repeat;
     background-size: cover;
     background-position: center;
+    background-attachment: scroll;
   }
 
-  body.review-open.intro-page.films-page::before {
-    background-image: url(films_images/films_bakcground.png);
+  body.review-open.intro-page.films-page {
     background-color: #d4d0c8;
+    background-image: url(films_images/films_bakcground.png);
   }
 
-  body.review-open.intro-page.books-page::before {
-    background-image: url(books_images/books_background.png);
+  body.review-open.intro-page.books-page {
     background-color: #e4cfc6;
+    background-image: url(books_images/books_background.png);
   }
 }
 
@@ -1849,20 +1837,18 @@ body.review-open .has-review:focus-within .flip__inner {
   z-index: 3;
 }
 
-/* After the base year rule so the phone layout wins on small screens. */
+/* Two per line: 2026 sits beside the exit, centered over the covers. */
 @media (max-width: 768px) {
   .books-year,
   .films-year {
-    position: relative;
-    top: auto;
-    left: auto;
+    --exit-right: calc(max(1.75rem, env(safe-area-inset-left, 0px)) + clamp(48px, 11vw, 110px) + 0.75rem);
+    position: fixed;
+    top: max(0px, calc((var(--exit-h) - var(--year-h)) / 2));
+    left: max(var(--exit-right), calc(50% - var(--year-img-w) / 2));
     transform: none;
-    align-self: center;
-    width: min(42vw, 168px);
+    width: var(--year-img-w);
     height: auto;
-    margin-top: max(0.55rem, env(safe-area-inset-top, 0px));
-    margin-bottom: clamp(3.25rem, 8vh, 4.5rem);
-    flex: 0 0 auto;
+    margin: 0;
   }
 }
 
@@ -2034,14 +2020,129 @@ body.intro-page.favorites-page {
     drop-shadow(0 3px 8px rgba(0, 0, 0, 0.28));
 }
 
+/* Phones and narrow windows: pin each cutout to its own part of the wall */
 @media (max-width: 768px) {
+  body.intro-page.favorites-page {
+    align-items: stretch;
+    justify-content: flex-start;
+    padding: 0;
+  }
+
+  .favorites-fleur,
+  .favorites-coffee,
+  .favorites-cookie {
+    position: absolute;
+    margin: 0;
+  }
+
+  .favorites-fleur {
+    left: max(0.65rem, 2vw);
+    top: max(5.75rem, 13dvh, calc(20vw + 0.75rem));
+    width: min(44vw, 30dvh, 260px);
+    z-index: 1;
+  }
+
   .favorites-coffee {
-    width: min(42vw, 280px);
+    left: max(0.75rem, 3vw);
+    right: auto;
+    top: auto;
+    bottom: max(0.85rem, 3dvh);
+    transform: none;
+    width: min(58vw, 34dvh, 320px);
+    z-index: 1;
   }
 
   .favorites-cookie {
-    right: clamp(0.75rem, 4vw, 1.5rem);
-    width: min(32vw, 200px);
+    right: max(0.4rem, 1.5vw);
+    top: max(8.25rem, 20dvh);
+    transform: none;
+    width: min(40vw, 26dvh, 230px);
+    z-index: 2;
+  }
+}
+
+/* Tablets and small laptops: same scatter, grown to fill the wider wall */
+@media (min-width: 769px) and (max-width: 1400px) {
+  body.intro-page.favorites-page {
+    align-items: stretch;
+    justify-content: flex-start;
+    padding: 0;
+  }
+
+  .favorites-fleur,
+  .favorites-coffee,
+  .favorites-cookie {
+    position: absolute;
+    margin: 0;
+  }
+
+  .favorites-fleur {
+    left: max(1rem, 2vw);
+    top: max(12.5rem, 18dvh);
+    width: min(36vw, 42dvh, 440px);
+    z-index: 1;
+  }
+
+  .favorites-coffee {
+    left: 38%;
+    right: auto;
+    top: auto;
+    bottom: max(1rem, 4dvh);
+    transform: none;
+    width: min(36vw, 34dvh, 480px);
+    z-index: 1;
+  }
+
+  .favorites-cookie {
+    right: max(1rem, 2vw);
+    top: max(4.5rem, 8dvh);
+    transform: none;
+    width: min(28vw, 32dvh, 360px);
+    z-index: 2;
+  }
+}
+
+/* Short landscape: spread left, center, and right instead of stacking */
+@media (max-height: 520px) and (min-width: 560px) {
+  body.intro-page.favorites-page {
+    padding: 0;
+  }
+
+  .favorites-fleur,
+  .favorites-coffee,
+  .favorites-cookie {
+    position: absolute;
+    margin: 0;
+  }
+
+  .favorites-fleur {
+    top: 58%;
+    left: 28%;
+    right: auto;
+    bottom: auto;
+    transform: translate(-50%, -50%);
+    width: min(20vw, 56dvh, 200px);
+    z-index: 1;
+  }
+
+  .favorites-coffee {
+    top: 56%;
+    left: 54%;
+    right: auto;
+    bottom: auto;
+    transform: translate(-50%, -50%);
+    width: min(24vw, 64dvh, 260px);
+    z-index: 1;
+  }
+
+  .favorites-cookie {
+    top: 46%;
+    left: 81%;
+    right: auto;
+    bottom: auto;
+    transform: translate(-50%, -50%);
+    width: min(18vw, 70dvh, 200px);
+    z-index: 2;
   }
 }
 
