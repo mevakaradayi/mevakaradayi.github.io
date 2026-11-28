@@ -408,7 +408,7 @@ body.photos-gallery-subpage {
   margin-bottom: 0;
 }
 
-/* WhoAmI.html: about-me graphic fills the page; HOME and let's connect are hit areas on the drawing */
+/* WhoAmI.html: background graphic fills the page; HOME and Connect are image buttons */
 body.intro-page.whoami-page {
   background-color: #fcf9ef;
   background-image: none;
@@ -429,7 +429,8 @@ body.intro-page.whoami-page .whoami-stage {
   max-height: 100dvh;
 }
 
-body.intro-page.whoami-page .whoami-stage > img {
+body.intro-page.whoami-page .whoami-bg,
+body.intro-page.whoami-page .whoami-bg img {
   position: absolute;
   inset: 0;
   display: block;
@@ -444,29 +445,64 @@ body.intro-page.whoami-page .whoami-connect {
   padding: 0;
   border: 0;
   background: transparent;
+  background-color: transparent;
+  appearance: none;
+  -webkit-appearance: none;
+  box-shadow: none;
   cursor: pointer;
-  border-radius: 4px;
+  z-index: 2;
+  line-height: 0;
+  transform-origin: center center;
+  transition: transform 0.28s cubic-bezier(0.2, 0.7, 0.2, 1), filter 0.28s ease;
+}
+
+body.intro-page.whoami-page .whoami-home img,
+body.intro-page.whoami-page .whoami-connect img {
+  display: block;
+  width: 100%;
+  height: auto;
+  pointer-events: none;
 }
 
 body.intro-page.whoami-page .whoami-home {
-  left: 4.2%;
-  top: 3.2%;
-  width: 10.6%;
-  height: 6%;
+  left: 6.34%;
+  top: 4.7%;
+  width: 12.04%;
 }
 
 body.intro-page.whoami-page .whoami-connect {
-  left: 68.4%;
-  top: 10.2%;
-  width: 17.4%;
-  height: 7%;
+  right: 6.38%;
+  top: 87.2%;
+  width: 13.29%;
 }
 
-body.intro-page.whoami-page a.whoami-home,
 body.intro-page.whoami-page a.whoami-home:hover,
-body.intro-page.whoami-page a.whoami-home:active {
-  color: transparent;
-  transform: none;
+body.intro-page.whoami-page a.whoami-home:focus-visible,
+body.intro-page.whoami-page .whoami-connect:hover,
+body.intro-page.whoami-page .whoami-connect:focus-visible {
+  z-index: 4;
+  transform: perspective(480px) translateZ(8px) rotateX(8deg) scale(1.12);
+  box-shadow: none;
+  filter: drop-shadow(0 14px 10px rgba(55, 32, 78, 0.28));
+}
+
+@media (max-width: 768px) {
+  body.intro-page.whoami-page .whoami-stage {
+    width: min(100%, calc(100dvh * 3 / 4));
+    aspect-ratio: 3 / 4;
+  }
+
+  body.intro-page.whoami-page .whoami-home {
+    left: 8.58%;
+    top: 4.03%;
+    width: 16.17%;
+  }
+
+  body.intro-page.whoami-page .whoami-connect {
+    right: 4.51%;
+    top: 85.56%;
+    width: 23.15%;
+  }
 }
 
 body.intro-page.whoami-page .whoami-home:focus-visible,
@@ -1271,27 +1307,25 @@ body.media-hub-page .contents {
   }
 }
 
-/* Films + books: 2026 graphic on the left, 4×2 covers centered in the space beside it */
+/* Films + books: title and year above a scrolling poster board */
+html:has(body.intro-page.films-page),
+html:has(body.intro-page.books-page) {
+  height: auto;
+  min-height: 100%;
+}
+
 body.intro-page.films-page,
 body.intro-page.books-page {
-  --year-left: clamp(0.5rem, 1.5vw, 1.5rem);
-  --year-w: clamp(150px, 18vw, 280px);
-  --grid-gap: clamp(1rem, 1.7vw, 1.55rem);
-  --grid-pad: clamp(0.45rem, 1vw, 0.85rem);
-  --poster-h-cap: calc((100dvh - 0.75rem - var(--grid-gap)) / 2.42);
-  --poster-w-from-h: calc(var(--poster-h-cap) * 2 / 3);
-  --avail-w: calc(100vw - var(--year-left) - var(--year-w) - var(--grid-pad) - 18px);
-  --poster-w-from-w: calc((var(--avail-w) - 3 * var(--grid-gap)) / 4);
-  --poster-w: min(var(--poster-w-from-w), var(--poster-w-from-h));
-  --row-h: calc(var(--poster-w) * 3 / 2);
+  --grid-gap: clamp(0.7rem, 1.35vw, 1.15rem);
   align-items: stretch;
   justify-content: flex-start;
   padding: 0;
   box-sizing: border-box;
-  height: 100dvh;
-  min-height: 100dvh;
-  max-height: 100dvh;
-  overflow: hidden;
+  height: auto;
+  min-height: 100%;
+  max-height: none;
+  overflow-x: hidden;
+  overflow-y: auto;
   background-attachment: fixed;
 }
 
@@ -1305,6 +1339,17 @@ body.intro-page.films-page {
 /* Global `main { min-height: 250vh }` would strand content far below the posters */
 body.intro-page.films-page main.films-main {
   min-height: 0;
+}
+
+body.intro-page.films-page .films-exit,
+body.intro-page.books-page .films-exit,
+body.media-hub-page .films-exit {
+  top: 1.05rem;
+}
+
+body.intro-page.films-page .films-exit img,
+body.intro-page.books-page .films-exit img {
+  width: clamp(78px, 10.5vw, 120px);
 }
 
 .films-exit {
@@ -1323,7 +1368,7 @@ body.intro-page.films-page main.films-main {
 
 .films-exit img {
   display: block;
-  width: clamp(48px, 11vw, 110px);
+  width: clamp(58px, 13vw, 130px);
   height: auto;
   filter: drop-shadow(0 6px 14px rgba(0, 0, 0, 0.55));
   transition: filter 0.2s ease;
@@ -1349,45 +1394,59 @@ body.intro-page.films-page main.films-main {
   flex: 1 1 auto;
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
+  align-items: center;
   justify-content: flex-start;
   width: 100%;
   max-width: 100vw;
   min-height: 0;
-  height: 100%;
+  height: auto;
   margin: 0;
-  padding-top: clamp(0.75rem, 2.5vh, 1.75rem);
-  padding-bottom: 0.65rem;
-  padding-left: calc(var(--year-left) + var(--year-w));
-  padding-right: var(--grid-pad);
+  padding: calc(1.05rem + clamp(78px, 10.5vw, 120px) * 724 / 2172 + 1.7rem) clamp(0.85rem, 2.5vw, 1.75rem) 2.75rem;
   box-sizing: border-box;
+}
+
+.shelf-banner {
+  width: min(360px, 92%);
+  margin: 1.6rem auto 0.1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.shelf-banner__title {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+body.intro-page.films-page .shelf-banner__title {
+  margin-top: -8.4%;
+  margin-bottom: -6.2%;
+}
+
+body.intro-page.books-page .shelf-banner__title {
+  margin-top: -1%;
+  margin-bottom: -1.4%;
 }
 
 .films-main__rail-stage,
 .books-main__stage {
-  flex: 1 1 0;
-  align-self: stretch;
-  min-height: 0;
-  width: 100%;
+  flex: none;
+  align-self: center;
+  width: min(1480px, 100%);
   max-width: 100%;
   height: auto;
-  overflow-x: hidden;
-  overflow-y: auto;
-  overscroll-behavior: contain;
-  -webkit-overflow-scrolling: touch;
-  scrollbar-gutter: stable;
-  scrollbar-width: thin;
-  scrollbar-color: rgba(255, 255, 255, 0.45) transparent;
+  margin-top: 0.85rem;
+  overflow: visible;
   box-sizing: border-box;
 }
 
 .films-rail,
 .books-rail {
-  width: max-content;
+  width: 100%;
   max-width: 100%;
   height: auto;
-  margin-left: auto;
-  margin-right: auto;
+  margin: 0;
   overflow: visible;
 }
 
@@ -1400,25 +1459,25 @@ body.intro-page.films-page main.films-main {
 .films-rail__track,
 .books-rail__track {
   display: grid;
-  grid-template-columns: repeat(4, var(--poster-w));
-  grid-auto-rows: var(--row-h);
+  grid-template-columns: repeat(5, minmax(0, 1fr));
   grid-auto-flow: row;
-  justify-content: start;
+  justify-content: stretch;
   align-content: start;
   gap: var(--grid-gap);
-  width: max-content;
+  width: 100%;
   margin: 0;
   padding: 0;
 }
 
 .films-card {
-  width: var(--poster-w);
-  height: var(--row-h);
+  width: 100%;
+  height: auto;
+  aspect-ratio: 2 / 3;
   margin: 0;
   padding: 0;
   border: none;
   background: transparent;
-  border-radius: 8px;
+  border-radius: 2px;
   line-height: 0;
   overflow: hidden;
 }
@@ -1428,8 +1487,8 @@ body.intro-page.films-page main.films-main {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  border-radius: 8px;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+  border-radius: 2px;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.22);
   pointer-events: none;
 }
 
@@ -1438,48 +1497,48 @@ body.intro-page.films-page main.films-main {
   box-shadow: 0 0 0 3px rgba(255, 200, 80, 0.85);
 }
 
+@media (min-width: 1180px) {
+  .films-main,
+  .books-main {
+    padding-top: 0.75rem;
+  }
+
+  .shelf-banner {
+    width: min(370px, calc((100vw - 28rem) / 2));
+    margin-top: 2rem;
+  }
+}
+
+@media (max-width: 980px) {
+  .films-rail__track,
+  .books-rail__track {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
 @media (max-width: 768px) {
   body.intro-page.films-page,
   body.intro-page.books-page {
-    --year-left: 0px;
-    --year-w: 0px;
-    --grid-gap: 0.7rem;
-    --grid-pad: max(0.65rem, env(safe-area-inset-left, 0px));
-    --exit-h: calc(clamp(48px, 11vw, 110px) * 1.62);
-    --year-img-w: min(46vw, 190px);
-    --year-h: calc(var(--year-img-w) * 339 / 668);
-    --header-h: calc(max(var(--exit-h), var(--year-h)) + clamp(0.75rem, 2vh, 1.25rem));
-    --poster-h-cap: calc((100dvh - var(--header-h) - var(--grid-gap)) / 2.15);
-    --avail-w: calc(100vw - 2 * var(--grid-pad) - 20px);
-    --poster-w-from-w: calc((var(--avail-w) - var(--grid-gap)) / 2);
+    --grid-gap: 0.65rem;
     background-attachment: scroll;
   }
 
   .films-main,
   .books-main {
-    justify-content: flex-start;
-    align-items: stretch;
-    height: auto;
-    flex: 1 1 auto;
-    padding-top: var(--header-h);
-    padding-left: max(var(--grid-pad), env(safe-area-inset-left, 0px));
-    padding-right: max(var(--grid-pad), env(safe-area-inset-right, 0px));
+    align-items: center;
+    padding-top: max(1.15rem, calc(env(safe-area-inset-top, 0px) + 0.85rem));
+    padding-left: max(0.7rem, env(safe-area-inset-left, 0px));
+    padding-right: max(0.7rem, env(safe-area-inset-right, 0px));
   }
 
-  .films-main__rail-stage,
-  .books-main__stage {
-    flex: 1 1 0;
-    height: auto;
-  }
-
-  .films-rail__track,
-  .books-rail__track {
-    grid-template-columns: repeat(2, var(--poster-w));
+  body.intro-page.films-page .films-exit,
+  body.intro-page.books-page .films-exit {
+    display: none;
   }
 }
 
 body.intro-page.books-page {
-  background-image: url(books_images/books_background.png);
+  background-image: url(films_images/films_bakcground.png);
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center;
@@ -1491,8 +1550,9 @@ body.intro-page.films-page main.films-main {
 }
 
 .books-card {
-  width: var(--poster-w);
-  height: var(--row-h);
+  width: 100%;
+  height: auto;
+  aspect-ratio: 2 / 3;
   margin: 0;
 }
 
@@ -1667,8 +1727,7 @@ body.review-open.intro-page.books-page {
 }
 
 body.review-open .films-exit,
-body.review-open .films-year,
-body.review-open .books-year {
+body.review-open .shelf-banner {
   display: none;
 }
 
@@ -1820,35 +1879,6 @@ body.review-open .has-review:focus-within .flip__inner {
 @media (prefers-reduced-motion: reduce) {
   .review-copy {
     animation: none;
-  }
-}
-
-.books-year,
-.films-year {
-  position: fixed;
-  top: 50%;
-  left: var(--year-left);
-  transform: translateY(-50%);
-  width: var(--year-w);
-  height: auto;
-  object-fit: contain;
-  pointer-events: none;
-  user-select: none;
-  z-index: 3;
-}
-
-/* Two per line: 2026 sits beside the exit, centered over the covers. */
-@media (max-width: 768px) {
-  .books-year,
-  .films-year {
-    --exit-right: calc(max(1.75rem, env(safe-area-inset-left, 0px)) + clamp(48px, 11vw, 110px) + 0.75rem);
-    position: fixed;
-    top: max(0px, calc((var(--exit-h) - var(--year-h)) / 2));
-    left: max(var(--exit-right), calc(50% - var(--year-img-w) / 2));
-    transform: none;
-    width: var(--year-img-w);
-    height: auto;
-    margin: 0;
   }
 }
 

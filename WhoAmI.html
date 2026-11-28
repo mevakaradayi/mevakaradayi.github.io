@@ -8,9 +8,16 @@
   </head>
   <body class="intro-page whoami-page">
     <div class="whoami-stage">
-      <img src="Images/about_me.png" alt="Hi! I’m Meva, a law graduate from Turkey. I’m currently on a gap year and not sure when I’ll end it. I live in California. This website is part of my desire to learn and create." width="2160" height="1620" decoding="async">
-      <a class="whoami-home" href="index.html" aria-label="Home"></a>
-      <button class="whoami-connect" type="button" aria-label="Let’s connect" aria-haspopup="dialog" aria-controls="connectWindow"></button>
+      <picture class="whoami-bg">
+        <source media="(min-width: 769px)" srcset="Images/background_desktop.png" width="2160" height="1620">
+        <img src="Images/background_small.png" alt="Hi! I’m Meva, law graduate from Turkey. I’m currently on a gap year and not sure when I’ll end it. I live in California. This website is part of my desire to learn and create." width="1620" height="2160" decoding="async">
+      </picture>
+      <a class="whoami-home" href="index.html" aria-label="Home">
+        <img src="Images/home_button.png" alt="" width="272" height="106" decoding="async">
+      </a>
+      <button class="whoami-connect" type="button" aria-label="Let’s connect" aria-haspopup="dialog" aria-controls="connectWindow">
+        <img src="Images/connect_button.png" alt="" width="297" height="91" decoding="async">
+      </button>
     </div>
 
     <div class="whoami-window" id="connectWindow" hidden>
