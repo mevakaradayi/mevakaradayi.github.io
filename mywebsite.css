@@ -1530,10 +1530,19 @@ body.intro-page.books-page .shelf-banner__title {
     padding-left: max(0.7rem, env(safe-area-inset-left, 0px));
     padding-right: max(0.7rem, env(safe-area-inset-right, 0px));
   }
+}
 
-  body.intro-page.films-page .films-exit,
-  body.intro-page.books-page .films-exit {
+/* Phones and tablets have no exit control. Any desktop width keeps it.
+   Large touch tablets (landscape iPad) stay in the tablet group. */
+@media (max-width: 1199px),
+       (max-width: 1400px) and (hover: none) and (pointer: coarse) {
+  .films-exit {
     display: none;
+  }
+
+  .films-main,
+  .books-main {
+    padding-top: max(1.15rem, calc(env(safe-area-inset-top, 0px) + 0.85rem));
   }
 }
 
